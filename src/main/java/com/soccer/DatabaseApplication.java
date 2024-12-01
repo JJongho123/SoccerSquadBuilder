@@ -1,4 +1,4 @@
-package com.example.database;
+package com.soccer;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
@@ -19,7 +19,6 @@ public class DatabaseApplication implements CommandLineRunner {
 
     @Override
     public void run(String... args) throws Exception {
-        System.out.println("Testing database connection...");
         System.out.println("DataSource: " + dataSource);
         try {
             dataSource.getConnection().isValid(5);

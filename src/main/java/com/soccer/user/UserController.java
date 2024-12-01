@@ -1,4 +1,4 @@
-package com.example.user;
+package com.soccer.user;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
