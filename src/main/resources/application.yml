@@ -1,16 +1,27 @@
 spring:
+  mybatis:
+    mapper-locations: classpath:mapper/*.xml
+    type-aliases-package: com.soccer.user.models
   datasource:
-    url: jdbc:mysql://127.0.0.1:3306/test?allowPublicKeyRetrieval=true&useSSL=false&serverTimezone=Asia/Seoul
+    url: jdbc:mysql://localhost:3306/test
     username: root
     password:
     driver-class-name: com.mysql.cj.jdbc.Driver
-  jpa:
-    hibernate:
-      ddl-auto: update
-    show-sql: true
-    properties:
-      hibernate:
-        dialect: org.hibernate.dialect.MySQLDialect
+#    config-location: classpath:/mybatis-config.xml  # 필요 시 활성화
+
+#      config-location: classpath:/mybatis-config.xml
+#  datasource:
+#    url: jdbc:mysql://test.c9use6ysuc71.ap-southeast-2.rds.amazonaws.com:3306/test?allowPublicKeyRetrieval=true&useSSL=false&serverTimezone=Asia/Seoul
+#    username: root
+#    password: dmsdb6908@@
+#    driver-class-name: com.mysql.cj.jdbc.Driver
+#  jpa:
+#    hibernate:
+#      ddl-auto: update
+#    show-sql: true
+#    properties:
+#      hibernate:
+#        dialect: org.hibernate.dialect.MySQLDialect
 server:
   port: 8080
 logging:

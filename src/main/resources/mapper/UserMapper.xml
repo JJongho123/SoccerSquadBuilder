@@ -1,0 +1,13 @@
+<mapper namespace="com.soccer.user.mappers.UserMapper">
+
+    <!-- 모든 사용자 조회 -->
+    <select id="findAllUsers" resultType="com.soccer.user.models.User">
+        SELECT * FROM user;
+    </select>
+
+    <!-- id로 사용자 조회 -->
+    <select id="findById" resultType="com.soccer.user.models.User">
+        SELECT * FROM user WHERE id = #{id};
+    </select>
+
+</mapper>
