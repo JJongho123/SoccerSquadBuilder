@@ -1,3 +1,4 @@
+
 <mapper namespace="com.soccer.user.mappers.UserMapper">
 
     <!-- 모든 사용자 조회 -->
@@ -11,3 +12,4 @@
     </select>
 
 </mapper>
+
