@@ -1,0 +1,11 @@
+<mapper namespace="com.soccer.user.mapper.UserMapper">
+
+    <select id="findAllUsers" resultType="com.soccer.user.entity.User">
+        SELECT id, name, email FROM user
+    </select>
+
+    <select id="findById" parameterType="int" resultType="com.soccer.user.entity.User">
+        SELECT id, name, email FROM user WHERE id = #{id}
+    </select>
+
+</mapper>
