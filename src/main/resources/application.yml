@@ -1,7 +1,7 @@
 spring:
-  mybatis:
-    mapper-locations: classpath:mapper/*.xml
-    type-aliases-package: com.soccer.user.models
+#  mybatis:
+#    mapper-locations: classpath:/mapper/*.xml
+#    type-aliases-package: com.soccer.user.models
   datasource:
     url: jdbc:mysql://localhost:3306/test
     username: root

@@ -4,9 +4,6 @@
   <component name="FrameworkDetectionExcludesConfiguration">
     <file type="web" url="file://$PROJECT_DIR$" />
   </component>
-<<<<<<< HEAD
-  <component name="ProjectRootManager" version="2" languageLevel="JDK_17" default="true" project-jdk-name="ms-17" project-jdk-type="JavaSDK">
-=======
   <component name="PDMPlugin">
     <option name="customRuleSets">
       <list>
@@ -17,7 +14,6 @@
     <option name="skipTestSources" value="false" />
   </component>
   <component name="ProjectRootManager" version="2" languageLevel="JDK_17" default="true" project-jdk-name="17" project-jdk-type="JavaSDK">
->>>>>>> 6bd8dfa7894294f3680787bfc6ed718411ef5681
     <output url="file://$PROJECT_DIR$/out" />
   </component>
 </project>
