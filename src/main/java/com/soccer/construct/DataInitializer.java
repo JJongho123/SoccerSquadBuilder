@@ -3,16 +3,17 @@ package com.soccer.construct;
 import com.soccer.user.mappers.PasswdPolicyMapper;
 import com.soccer.user.models.PasswdPolicy;
 import jakarta.annotation.PostConstruct;
+import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import java.util.List;
 
 @Component
+@RequiredArgsConstructor
 public class DataInitializer {
 
-    @Autowired
-    private PasswdPolicyMapper passwdPolciy;
+    private final PasswdPolicyMapper passwdPolciy;
 
     @PostConstruct
     public void loadData() {
