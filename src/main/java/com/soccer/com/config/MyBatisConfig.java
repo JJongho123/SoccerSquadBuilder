@@ -1,4 +1,4 @@
-package com.soccer.config;
+package com.soccer.com.config;
 
 import org.apache.ibatis.session.SqlSessionFactory;
 import org.mybatis.spring.SqlSessionFactoryBean;

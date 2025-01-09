@@ -1,4 +1,4 @@
-package com.soccer.construct;
+package com.soccer.com.construct;
 
 import com.soccer.user.mapper.PasswdPolicyMapper;
 import com.soccer.user.model.PasswdPolicy;

@@ -131,4 +131,15 @@ public class RedisService {
         values.delete(key, hashKey);
     }
 
+    /**
+     * Redis에서 키 존재 여부 확인
+     *
+     * @param	key (type = String)
+     * @return	boolean 키 존재 여부 (true: 키 있음 , false: 키 없음)
+     */
+    public boolean exists(String key) {
+        Boolean result = redisTemplate.hasKey(key);
+        return result != null && result;
+    }
+
 }
