@@ -1,5 +1,6 @@
 package com.soccer.session.service;
 
+import com.soccer.com.constant.CommonConstant;
 import com.soccer.redis.service.RedisService;
 import com.soccer.session.model.SessionData;
 import lombok.RequiredArgsConstructor;
@@ -8,6 +9,7 @@ import org.springframework.stereotype.Service;
 import java.time.Duration;
 import java.util.Map;
 import java.util.UUID;
+
 
 @Service
 @RequiredArgsConstructor
@@ -19,7 +21,7 @@ public class SessionService {
 
         String sessionId = UUID.randomUUID().toString();
         Map<Object, Object> sessionData = request.getSessionMapData();
-        redisService.setHashOps(sessionId, sessionData, Duration.ofMinutes(2));
+        redisService.setHashOps(sessionId, sessionData, Duration.ofSeconds(CommonConstant.EXPIRY_DURATION_SECONDS));
 
         return SessionData.builder()
                 .sessionId(sessionId)
@@ -42,6 +44,10 @@ public class SessionService {
 
     public boolean deleteSession(String sessionId) {
         return redisService.deleteKey(sessionId);
+    }
+
+    public boolean isSessionValid(String sessionId) {
+        return redisService.exists(sessionId);
     }
 
 }
