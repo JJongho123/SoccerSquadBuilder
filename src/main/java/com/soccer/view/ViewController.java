@@ -11,7 +11,7 @@ public class ViewController {
         return new ModelAndView("forward:/login.html");
     }
 
-    @GetMapping("/")
+    @GetMapping("/soccer")
     public ModelAndView showIndexPage() {
         return new ModelAndView("forward:/soccer.html");
     }

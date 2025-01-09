@@ -6,8 +6,6 @@ import com.soccer.session.service.SessionService;
 import jakarta.servlet.http.Cookie;
 import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
-import org.springframework.http.HttpHeaders;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -21,7 +19,7 @@ public class SessionController {
     @PostMapping
     public ResponseEntity<SessionData> createSession(@RequestBody SessionData request, HttpServletResponse response) {
         SessionData session = sessionService.createSession(request);
-        Cookie sessionCookie = new Cookie("SESSIONID", session.getSessionId());
+        Cookie sessionCookie = new Cookie("sessionId", session.getSessionId());
         sessionCookie.setHttpOnly(true);
         sessionCookie.setPath("/");
         sessionCookie.setMaxAge(CommonConstant.EXPIRY_DURATION_SECONDS);
@@ -31,20 +29,15 @@ public class SessionController {
     }
 
     @GetMapping
-    public ResponseEntity<SessionData> getSession(@RequestHeader("session-id") String sessionId) {
-        // 2-1. 세션 ID가 없으면 401 응답
-        if (sessionId == null || sessionId.isEmpty()) {
-            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
-        }
-
-        // 2-2. 세션 ID가 잘못된 경우 401 응답
-        if (!sessionService.isSessionValid(sessionId)) {
-            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
-        }
-
-        // 2-3. 세션 ID가 유효하면 제대로 응답
+    public ResponseEntity<SessionData> getSession(@RequestHeader("sessionId") String sessionId) {
         SessionData sessionData = sessionService.getSession(sessionId);
         return ResponseEntity.ok(sessionData);
+    }
+
+    @DeleteMapping
+    public ResponseEntity<Boolean> deleteSession(@RequestHeader("sessionId") String sessionId) {
+        boolean result = sessionService.deleteSession(sessionId);
+        return ResponseEntity.ok(result);
     }
 
 //    @GetMapping("/check")
@@ -64,9 +57,5 @@ public class SessionController {
 //        return ResponseEntity.ok("세션 데이터 있음!");
 //    }
 
-        @DeleteMapping
-    public ResponseEntity<Boolean> deleteSession(@RequestHeader("session-id") String sessionId) {
-        boolean result = sessionService.deleteSession(sessionId);
-        return ResponseEntity.ok(result);
-    }
+
 }
