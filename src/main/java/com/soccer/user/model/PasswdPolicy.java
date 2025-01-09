@@ -1,4 +1,4 @@
-package com.soccer.user.models;
+package com.soccer.user.model;
 
 import lombok.Getter;
 import lombok.Setter;

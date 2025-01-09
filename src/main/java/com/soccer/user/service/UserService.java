@@ -1,9 +1,8 @@
-package com.soccer.user.services;
+package com.soccer.user.service;
 
-import com.soccer.user.mappers.UserMapper;
-import com.soccer.user.models.User;
+import com.soccer.user.mapper.UserMapper;
+import com.soccer.user.model.User;
 import lombok.RequiredArgsConstructor;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;

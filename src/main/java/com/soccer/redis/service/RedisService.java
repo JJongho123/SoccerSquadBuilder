@@ -1,4 +1,4 @@
-package com.soccer.redis.services;
+package com.soccer.redis.service;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.redis.core.HashOperations;

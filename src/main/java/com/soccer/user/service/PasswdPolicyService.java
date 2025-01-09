@@ -1,4 +1,4 @@
-package com.soccer.user.services;
+package com.soccer.user.service;
 
 import org.springframework.stereotype.Service;
 
