@@ -1,10 +1,9 @@
 package com.soccer.construct;
 
-import com.soccer.user.mappers.PasswdPolicyMapper;
-import com.soccer.user.models.PasswdPolicy;
+import com.soccer.user.mapper.PasswdPolicyMapper;
+import com.soccer.user.model.PasswdPolicy;
 import jakarta.annotation.PostConstruct;
 import lombok.RequiredArgsConstructor;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import java.util.List;

@@ -11,7 +11,7 @@ import org.springframework.core.io.support.PathMatchingResourcePatternResolver;
 import javax.sql.DataSource;
 
 @Configuration
-@MapperScan(basePackages = "com.soccer.user.mappers")
+@MapperScan(basePackages = "com.soccer.user.mapper")
 public class MyBatisConfig {
 
     @Bean

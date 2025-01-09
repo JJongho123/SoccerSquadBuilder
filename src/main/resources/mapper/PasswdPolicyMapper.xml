@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="com.soccer.user.mappers.PasswdPolicyMapper">
+<mapper namespace="com.soccer.user.mapper.PasswdPolicyMapper">
 
     <!-- 모든 사용자 조회 -->
-    <select id="findAllDatas" resultType="com.soccer.user.models.PasswdPolicy">
+    <select id="findAllDatas" resultType="com.soccer.user.model.PasswdPolicy">
         SELECT * FROM passwd_policy;
     </select>
 

@@ -1,6 +1,6 @@
-package com.soccer.user.mappers;
+package com.soccer.user.mapper;
 
-import com.soccer.user.models.User;
+import com.soccer.user.model.User;
 
 import java.util.List;
 

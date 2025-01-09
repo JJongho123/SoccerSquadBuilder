@@ -1,6 +1,6 @@
 package com.soccer.session.service;
 
-import com.soccer.redis.services.RedisService;
+import com.soccer.redis.service.RedisService;
 import com.soccer.session.model.SessionData;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
