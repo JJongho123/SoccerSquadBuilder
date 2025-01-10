@@ -15,7 +15,7 @@ public class CommonIntercerptor implements HandlerInterceptor {
 
     @Override
     public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) throws Exception {
-        String sessionId = request.getHeader("SESSIONID");
+        String sessionId = request.getHeader("sessionId");
 
         // 2-1. 세션 ID가 없으면 401 응답
         if (sessionId == null || sessionId.isEmpty()) {
