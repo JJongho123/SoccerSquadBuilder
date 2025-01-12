@@ -1,15 +1,20 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="com.soccer.user.mapper.UserMapper">
+<mapper namespace="ssb.soccer.user.mapper.UserMapper">
 
     <!-- 모든 사용자 조회 -->
-    <select id="findAllUsers" resultType="com.soccer.user.model.User">
+    <select id="findAllUsers" resultType="ssb.soccer.user.model.User">
         SELECT * FROM users;
     </select>
 
     <!-- ID로 사용자 조회 -->
-    <select id="findById" parameterType="int" resultType="com.soccer.user.model.User">
+    <select id="findById" parameterType="int" resultType="ssb.soccer.user.model.User">
         SELECT * FROM users WHERE id = #{id};
     </select>
+
+    <insert id="createUser" parameterType="User">
+        INSERT INTO user (userId, name, email, passwd)
+        VALUES (#{userId}, #{name}, #{email}, #{passwd})
+    </insert>
 
 </mapper>
