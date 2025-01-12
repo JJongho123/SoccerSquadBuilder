@@ -12,4 +12,9 @@
         SELECT * FROM users WHERE id = #{id};
     </select>
 
+    <insert id="createUser" parameterType="User">
+        INSERT INTO user (userId, name, email, passwd)
+        VALUES (#{userId}, #{name}, #{email}, #{passwd})
+    </insert>
+
 </mapper>

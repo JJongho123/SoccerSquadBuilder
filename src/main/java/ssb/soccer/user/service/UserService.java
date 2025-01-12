@@ -15,8 +15,12 @@ public class UserService {
 
     // 모든 사용자 조회
     public List<User> getAllUsers() {
-        List<User> users = userMapper.findAllUsers();
-        return users;
+        return userMapper.findAllUsers();
+    }
+
+    // 사용자 저장
+    public void createUser(User user) {
+        userMapper.createUser(user);
     }
 
     // id로 사용자 조회

@@ -1,17 +1,24 @@
-package ssb.soccer.identity.login.controller;
-
-import lombok.RequiredArgsConstructor;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
-import ssb.soccer.identity.session.service.SessionService;
-
-@RestController
-@RequiredArgsConstructor
-@RequestMapping("/api/login")
-public class LoginController {
-
-    private final SessionService sessionService;
-
+//package ssb.soccer.identity.login.controller;
+//
+//import jakarta.servlet.http.HttpServletResponse;
+//import lombok.RequiredArgsConstructor;
+//import org.springframework.http.ResponseEntity;
+//import org.springframework.web.bind.annotation.PostMapping;
+//import org.springframework.web.bind.annotation.RequestBody;
+//import org.springframework.web.bind.annotation.RequestMapping;
+//import org.springframework.web.bind.annotation.RestController;
+//import ssb.soccer.com.constant.CommonConstant;
+//import ssb.soccer.identity.login.dto.LoginRequestDTO;
+//import ssb.soccer.identity.session.model.SessionData;
+//import ssb.soccer.identity.session.service.SessionService;
+//
+//@RestController
+//@RequiredArgsConstructor
+//@RequestMapping("/api/login")
+//public class LoginController {
+//
+//    private final SessionService sessionService;
+//
 //    @PostMapping
 //    public ResponseEntity<SessionData> createSession(@RequestBody LoginRequestDTO request, HttpServletResponse response) {
 //        if(sessionService.isSessionValid(request.getUserId())){
@@ -32,5 +39,5 @@ public class LoginController {
 //
 //        return ResponseEntity.ok(session);
 //    }
-
-}
+//
+//}
