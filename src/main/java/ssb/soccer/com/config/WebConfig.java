@@ -15,6 +15,6 @@ public class WebConfig implements WebMvcConfigurer {
 //    public void addInterceptors(InterceptorRegistry registry) {
 //        registry.addInterceptor(commonInterceptor)
 //                .addPathPatterns("/**")                      // 모든 요청에 대해 Interceptor 적용
-//                .excludePathPatterns("/login", "/api/login/**"); // 제외할 URL 패턴
+//                .excludePathPatterns("/login", "/login/**", "/api/auth/login/**"); // 제외할 URL 패턴
 //    }
 }

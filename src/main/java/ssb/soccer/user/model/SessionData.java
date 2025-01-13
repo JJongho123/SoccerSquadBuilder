@@ -1,4 +1,4 @@
-package ssb.soccer.identity.session.model;
+package ssb.soccer.user.model;
 
 import lombok.Builder;
 import lombok.Getter;

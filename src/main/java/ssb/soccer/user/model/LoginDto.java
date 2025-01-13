@@ -1,11 +1,16 @@
-package ssb.soccer.identity.login.dto;
+package ssb.soccer.user.model;
 
+import lombok.Builder;
 import lombok.Getter;
 import lombok.Setter;
 
+
 @Getter
 @Setter
-public class LoginRequestDTO {
+@Builder
+public class LoginDto {
+
     private String userId;
     private String passwd;
+
 }

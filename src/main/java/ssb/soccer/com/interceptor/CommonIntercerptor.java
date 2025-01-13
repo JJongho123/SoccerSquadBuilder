@@ -1,6 +1,6 @@
 package ssb.soccer.com.interceptor;
 
-import ssb.soccer.identity.session.service.SessionService;
+import ssb.soccer.user.auth.SessionService;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;

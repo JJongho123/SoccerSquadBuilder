@@ -4,12 +4,18 @@
 
     <!-- 모든 사용자 조회 -->
     <select id="findAllUsers" resultType="ssb.soccer.user.model.User">
-        SELECT * FROM users;
+        SELECT * FROM user;
+    </select>
+
+    <select id="findByIdAndPassword" parameterType="ssb.soccer.user.model.LoginDto" resultType="ssb.soccer.user.model.User">
+        SELECT *
+        FROM user
+        WHERE userId = #{userId} AND passwd = #{passwd};
     </select>
 
     <!-- ID로 사용자 조회 -->
-    <select id="findById" parameterType="int" resultType="ssb.soccer.user.model.User">
-        SELECT * FROM users WHERE id = #{id};
+    <select id="findById" parameterType="String" resultType="ssb.soccer.user.model.User">
+        SELECT * FROM user WHERE id = #{id};
     </select>
 
     <insert id="createUser" parameterType="User">

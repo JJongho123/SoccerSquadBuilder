@@ -1,6 +1,7 @@
 package ssb.soccer.user.service;
 
 import ssb.soccer.user.mapper.UserMapper;
+import ssb.soccer.user.model.LoginDto;
 import ssb.soccer.user.model.User;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -23,8 +24,7 @@ public class UserService {
         userMapper.createUser(user);
     }
 
-    // id로 사용자 조회
-    public User getUserById(int id) {
-        return userMapper.findById(id);
+    public boolean findByIdAndPassword(LoginDto loginDto) {
+        return userMapper.findByIdAndPassword(loginDto) != null;
     }
 }

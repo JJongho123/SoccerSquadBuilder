@@ -1,7 +1,6 @@
-package ssb.soccer.identity.register.controller;
+package ssb.soccer.user.controller;
 
 import lombok.RequiredArgsConstructor;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -14,8 +13,7 @@ import ssb.soccer.user.service.UserService;
 @RequestMapping("/api/register")
 public class RegisterController {
 
-    @Autowired
-    UserService userService;
+    private final UserService userService;
 
     @PostMapping
     public void createUser(@RequestBody User user) {
