@@ -1,8 +1,8 @@
-package ssb.soccer.identity.session.service;
+package ssb.soccer.user.auth;
 
 import ssb.soccer.com.constant.CommonConstant;
 import ssb.soccer.redis.service.RedisService;
-import ssb.soccer.identity.session.model.SessionData;
+import ssb.soccer.user.model.SessionData;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 

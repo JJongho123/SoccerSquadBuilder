@@ -1,4 +1,4 @@
-package ssb.soccer.identity.register.service;
+package ssb.soccer.user.auth;
 
 import org.springframework.stereotype.Service;
 

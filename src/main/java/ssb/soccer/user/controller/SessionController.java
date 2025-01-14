@@ -1,8 +1,8 @@
-package ssb.soccer.identity.session.controller;
+package ssb.soccer.user.controller;
 
 import ssb.soccer.com.constant.CommonConstant;
-import ssb.soccer.identity.session.model.SessionData;
-import ssb.soccer.identity.session.service.SessionService;
+import ssb.soccer.user.model.SessionData;
+import ssb.soccer.user.auth.SessionService;
 import jakarta.servlet.http.Cookie;
 import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
@@ -39,23 +39,5 @@ public class SessionController {
         boolean result = sessionService.deleteSession(sessionId);
         return ResponseEntity.ok(result);
     }
-
-//    @GetMapping("/check")
-//    public ResponseEntity<String> respondWithSessionCheck(@RequestHeader(value = "session-id", required = false) String sessionId) {
-//
-//        // 세션 ID가 없으면 401 응답
-//        if (sessionId == null || sessionId.isEmpty()) {
-//            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("세션 ID 없음!");
-//        }
-//
-//        // 세션 ID가 잘못된 경우 401 응답
-//        if (!sessionService.isSessionValid(sessionId)) {
-//            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("세션 ID 잘못되었음!");
-//        }
-//
-//        // 세션 ID가 유효하면 제대로 응답
-//        return ResponseEntity.ok("세션 데이터 있음!");
-//    }
-
 
 }
