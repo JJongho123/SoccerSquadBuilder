@@ -19,6 +19,12 @@ logging:
 
 server:
   port: 8080
+  error:
+    include-message: always
+#    include-binding-errors: always # 바인딩 오류 포함
+    include-stacktrace: never
+    #include-stacktrace: on_trace_param # 요청에 따라 스택트레이스 포함
+
 
 #    config-location: classpath:/mybatis-config.xml  # 필요 시 활성화
 
