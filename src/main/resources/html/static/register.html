@@ -130,9 +130,9 @@
     $.ajax({
         url: "/api/validation/password-policies",
         method: "GET",
-        success: function (data) {
-            console.log(data)
-            const policies = data.policies;
+        success: function (ajaxData) {
+            console.log(ajaxData.data)
+            const policies = ajaxData.data.policies;
             const policyList = $('#policyList');
             policies.forEach(policy => {
                 policyList.append(`<li>${policy}</li>`);

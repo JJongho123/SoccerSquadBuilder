@@ -4,6 +4,8 @@ import lombok.Getter;
 import lombok.ToString;
 import org.springframework.http.HttpStatus;
 
+import java.util.Arrays;
+
 @Getter
 @ToString
 public enum ExceptionEnum {
@@ -31,6 +33,13 @@ public enum ExceptionEnum {
         this.status = status;
         this.code = code;
         this.message = message;
+    }
+
+    public static ExceptionEnum fromHttpStatus(HttpStatus status) {
+        return Arrays.stream(values())
+                .filter(e -> e.getStatus() == status)
+                .findFirst()
+                .orElse(INTERNAL_SERVER_ERROR);
     }
 
 }

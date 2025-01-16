@@ -4,9 +4,7 @@ import jakarta.servlet.http.HttpServletRequest;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
-import org.springframework.web.servlet.NoHandlerFoundException;
-import org.springframework.web.servlet.resource.NoResourceFoundException;
-import ssb.soccer.com.exception.ApiException;
+import ssb.soccer.com.exception.CustomApiException;
 import ssb.soccer.com.exception.ExceptionEnum;
 
 import java.util.NoSuchElementException;
@@ -45,6 +43,6 @@ public class TestController {
 
     @RequestMapping("/custom")
     public void testErrorCustom(HttpServletRequest request) {
-        throw new ApiException(ExceptionEnum.SECURITY);
+        throw new CustomApiException(ExceptionEnum.SECURITY);
     }
 }
