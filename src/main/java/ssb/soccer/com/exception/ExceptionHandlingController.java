@@ -18,7 +18,8 @@ public class ExceptionHandlingController {
 
     @ExceptionHandler(Exception.class)
     public ResponseEntity<ApiResponse<Object>> exceptionError(HttpServletRequest req, Exception ex) {
-        log.error("Request: " + req.getRequestURL() + "| Exception: " + ex);
+        log.error("Request: {} | Exception: {}", req.getRequestURL(), ex);
+
 
         HttpStatus status = getHttpStatus(ex);
         ExceptionEnum exceptionEnum = ExceptionEnum.fromHttpStatus(status);
@@ -36,7 +37,7 @@ public class ExceptionHandlingController {
 
     @ExceptionHandler(NoResourceFoundException.class)
     public ResponseEntity<ApiResponse<?>> noResourceFoundExceptionError(HttpServletRequest req, NoResourceFoundException ex) {
-        log.error("Request: " + req.getRequestURL() + "| NoResourceFoundException: " + ex);
+        log.error("Request: {} | NoResourceFoundException: {}", req.getRequestURL(), ex);
 
         ApiExceptionDto exceptionDto = ApiExceptionDto.builder()
                 .errorCode(ExceptionEnum.NO_RESOURCE_FOUND_EXCEPTION.getCode())

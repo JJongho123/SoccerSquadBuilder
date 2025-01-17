@@ -5,7 +5,7 @@ import lombok.Getter;
 @Getter
 public class CustomApiException extends RuntimeException {
 
-    private ExceptionEnum error;
+    private final ExceptionEnum error;
 
     public CustomApiException(ExceptionEnum e) {
         super(e.getMessage());
