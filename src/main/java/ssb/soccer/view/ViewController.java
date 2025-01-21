@@ -23,4 +23,19 @@ public class ViewController {
     public ModelAndView showRegisterPage() {
         return new ModelAndView("forward:/register.html");
     }
+
+    @GetMapping("/error400")
+    public ModelAndView show400ErrorPage() {
+        return new ModelAndView("forward:/error/error400.html");
+    }
+
+    @GetMapping("/error404")
+    public ModelAndView show404ErrorPage() {
+        return new ModelAndView("forward:/error/error404.html");
+    }
+
+    @GetMapping("/error500")
+    public ModelAndView show500ErrorPage() {
+        return new ModelAndView("forward:/error/error500.html");
+    }
 }

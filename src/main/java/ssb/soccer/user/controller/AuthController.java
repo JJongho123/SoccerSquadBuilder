@@ -8,6 +8,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
+import ssb.soccer.com.api.dto.ApiResponse;
 import ssb.soccer.com.constant.CommonConstant;
 import ssb.soccer.user.model.LoginDto;
 import ssb.soccer.user.auth.AuthService;
@@ -20,14 +21,14 @@ public class AuthController {
     private final AuthService authService;
 
     @PostMapping("/login")
-    public ResponseEntity<Boolean> login(@RequestBody LoginDto loginDto, HttpServletResponse response) {
+    public ResponseEntity<ApiResponse<?>> login(@RequestBody LoginDto loginDto, HttpServletResponse response) {
 
         Boolean result = authService.login(loginDto);
         if(result){
             response.addCookie(setCookie(loginDto.getUserId()));
         }
 
-        return ResponseEntity.ok(result);
+        return ResponseEntity.ok(ApiResponse.successResponse(result));
     }
 
     private Cookie setCookie(String sessionId){
