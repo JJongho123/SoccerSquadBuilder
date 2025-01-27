@@ -5,7 +5,7 @@
     <!-- 모든 사용자 조회 -->
     <select id="findAllDatas" resultType="ssb.soccer.user.model.PasswdPolicy">
         SELECT * FROM passwd_policy
-        WHERE isActive = 1;
+        WHERE is_active = 1;
     </select>
 
 

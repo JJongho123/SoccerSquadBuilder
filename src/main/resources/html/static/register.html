@@ -89,8 +89,8 @@
     <h1>회원가입</h1>
     <form id="registForm">
         <div class="form-group">
-            <label for="userId">아이디</label>
-            <input type="text" id="userId" required>
+            <label for="user_id">아이디</label>
+            <input type="text" id="user_id" required>
             <div id="userIdError" class="error-message"></div>
         </div>
 
@@ -149,7 +149,7 @@
     $('#registForm').on('submit', function(e) {
 
         const email = $("#email").val();
-        const userId = $("#userId").val();
+        const user_id = $("#user_id").val();
         const name = $("#username").val();
         const passwd = $("#passwd").val();
 
@@ -161,7 +161,7 @@
             contentType: "application/json",
             data: JSON.stringify({
                 email: email,
-                userId: userId,
+                user_id: user_id,
                 name: name,
                 passwd: passwd
             }),

@@ -30,7 +30,7 @@ public class PasswdVaildationService {
 
         for (PasswdPolicy passwdPolicy : data) {
 
-            String regex = passwdPolicy.getRegexPattern();
+            String regex = passwdPolicy.getRegex_pattern();
             regexParttern.add(regex);
 
             // 특수문자 공백 조건
