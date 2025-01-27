@@ -10,6 +10,8 @@ public class User {
     private String name;
     private String email;
     private String passwd;
-    private String userId;
+    private String user_id;
+    private String team_name;
+    private String team_permission;
 
 }

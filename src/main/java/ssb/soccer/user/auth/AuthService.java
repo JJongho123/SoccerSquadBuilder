@@ -15,7 +15,7 @@ public class AuthService {
 
     public Boolean login(LoginDto loginDto) {
         Boolean result = false;
-        String userId = loginDto.getUserId();
+        String userId = loginDto.getUser_id();
         if(redisService.exists(userId)){
             return true;
         }
