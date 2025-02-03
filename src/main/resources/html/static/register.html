@@ -128,7 +128,6 @@
 
 <script>
 
-    let regexPattern;
 
     $.ajax({
         url: "/api/validation/password-policies",
@@ -139,7 +138,6 @@
             policies.forEach(policy => {
                 policyList.append(`<li>${policy}</li>`);
             });
-            regexPattern = ajaxData.data.regexParttern
         },
         error: function (error) {
             console.error("데이터를 가져오는 데 실패했습니다:", error);
@@ -164,10 +162,9 @@
 
         e.preventDefault();
 
-        passwdValiadtion(passwd)
 
         $.ajax({
-            url: "/api/register",
+            url: "/api/user",
             method: "POST",
             contentType: "application/json",
             data: JSON.stringify(params),
@@ -182,10 +179,6 @@
         });
     });
 
-
-    function passwdValiadtion(passwd){
-        regexPattern
-    }
 
 
 </script>

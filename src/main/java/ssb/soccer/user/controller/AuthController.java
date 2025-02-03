@@ -27,8 +27,8 @@ public class AuthController {
         if(result){
             response.addCookie(setCookie(loginDto.getUser_id()));
         }
-
         return ResponseEntity.ok(ApiResponse.successResponse(result));
+
     }
 
     private Cookie setCookie(String sessionId){

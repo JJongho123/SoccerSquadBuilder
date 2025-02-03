@@ -7,7 +7,7 @@ import java.util.List;
 
 public interface UserMapper {
     List<User> findAllUsers();
-    void createUser(User user);
+    boolean createUser(User user);
     User findById(String id);
 
     User findByIdAndPassword(LoginDto loginDto);
