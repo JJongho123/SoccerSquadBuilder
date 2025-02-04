@@ -173,8 +173,8 @@
                 // 추가적으로 성공 후 처리 (페이지 이동 등)
             },
             error: function (error) {
-                console.error("회원가입 실패:", error);
-                alert("회원가입 중 문제가 발생했습니다. 다시 시도해주세요.");
+                console.error(error.responseJSON);
+                alert(error.responseJSON.data.errorMsg);
             }
         });
     });

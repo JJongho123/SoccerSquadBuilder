@@ -7,8 +7,6 @@ import ssb.soccer.com.api.dto.ApiResponse;
 import ssb.soccer.user.model.User;
 import ssb.soccer.user.service.UserService;
 
-import java.util.List;
-
 @RestController
 @RequiredArgsConstructor
 @RequestMapping("/api/user")
@@ -17,8 +15,8 @@ public class UserController {
     private final UserService userService;
 
     @GetMapping("/")
-    public List<User> getAllUsers() {
-        return userService.getAllUsers();
+    public ResponseEntity<ApiResponse<?>> getAllUsers() {
+        return ResponseEntity.ok(ApiResponse.successResponse(userService.getAllUsers()));
     }
 
     @PostMapping

@@ -16,15 +16,28 @@ public class PasswdVaildationService {
 
     private final PasswdPolicyMapper passwdPolciy;
     private Pattern compiledPattern;
-    HashMap<String, Object> resultMap = null;
+    private HashMap<String, Object> resultMap = null;
 
-    // 비밀번호 정책 데이터 생성
+    /**
+     * 비밀번호 정책 초기화 메서드
+     *
+     * 이 메서드는 데이터베이스에서 비밀번호 정책 정보를 조회하여
+     * 정규식 패턴과 정책 설명 리스트를 생성하고 캐시합니다.
+     *
+     * 초기화된 데이터가 있을 경우, 재처리 없이 캐시된 데이터( resultMap )를 반환합니다.
+     *
+     * @return 비밀번호 정책 정보가 담긴 HashMap 객체를 반환합니다.
+     *         - `policies`: 활성화된 비밀번호 정책 설명 목록
+     *         - `regexPattern`: 모든 정책을 결합한 정규식 패턴
+     */
     public HashMap<String, Object> initPasswdPolicyDatas() {
-        StringBuilder generateregexPattern = new StringBuilder("^");
 
+        // 초기화된 데이터가 있을 경우, 재처리 없이 캐시된 데이터를 반환
         if(resultMap != null){
             return resultMap;
         }
+
+        StringBuilder generateregexPattern = new StringBuilder("^");
 
         resultMap = new HashMap<>();
         List<PasswdPolicy> data = passwdPolciy.findAllDatas();
@@ -49,7 +62,6 @@ public class PasswdVaildationService {
         return resultMap;
     }
 
-    // 비밀번호 정책 만족여부 확인
     public boolean isPolicySatisfaction(String password) {
         if (password == null || compiledPattern == null) {
             return false;

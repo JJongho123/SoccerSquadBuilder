@@ -2,6 +2,8 @@ package ssb.soccer.user.service;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+import ssb.soccer.com.exception.CustomApiException;
+import ssb.soccer.com.exception.ExceptionEnum;
 import ssb.soccer.user.auth.PasswdVaildationService;
 import ssb.soccer.user.mapper.UserMapper;
 import ssb.soccer.user.model.LoginDto;
@@ -29,7 +31,7 @@ public class UserService {
         if (result)
             result = userMapper.createUser(user);
         else
-            throw new IllegalArgumentException("비밀번호가 정책을 만족하지 않습니다.");
+            throw new CustomApiException(ExceptionEnum.PASSWD_POLICY_ERROR);
 
         return result;
     }
