@@ -116,22 +116,23 @@
             <div id="passwordError" class="error-message"></div>
         </div>
 
-<!--        <div class="form-group">-->
-<!--            <label for="confirmPassword">비밀번호 확인</label>-->
-<!--            <input type="password" id="confirmPassword" required>-->
-<!--            <div id="confirmPasswordError" class="error-message"></div>-->
-<!--        </div>-->
+        <!--        <div class="form-group">-->
+        <!--            <label for="confirmPassword">비밀번호 확인</label>-->
+        <!--            <input type="password" id="confirmPassword" required>-->
+        <!--            <div id="confirmPasswordError" class="error-message"></div>-->
+        <!--        </div>-->
 
         <button type="submit">가입하기</button>
     </form>
 </div>
 
 <script>
+
+
     $.ajax({
         url: "/api/validation/password-policies",
         method: "GET",
         success: function (ajaxData) {
-            console.log(ajaxData.data)
             const policies = ajaxData.data.policies;
             const policyList = $('#policyList');
             policies.forEach(policy => {
@@ -145,36 +146,39 @@
     });
 
 
-
-    $('#registForm').on('submit', function(e) {
+    $('#registForm').on('submit', function (e) {
 
         const email = $("#email").val();
         const user_id = $("#user_id").val();
         const name = $("#username").val();
         const passwd = $("#passwd").val();
 
+        const params = {
+            email: email,
+            user_id: user_id,
+            name: name,
+            passwd: passwd
+        }
+
         e.preventDefault();
 
+
         $.ajax({
-            url: "/api/register",
+            url: "/api/user",
             method: "POST",
             contentType: "application/json",
-            data: JSON.stringify({
-                email: email,
-                user_id: user_id,
-                name: name,
-                passwd: passwd
-            }),
+            data: JSON.stringify(params),
             success: function (data) {
                 alert("회원가입 성공!");
                 // 추가적으로 성공 후 처리 (페이지 이동 등)
             },
             error: function (error) {
-                console.error("회원가입 실패:", error);
-                alert("회원가입 중 문제가 발생했습니다. 다시 시도해주세요.");
+                console.error(error.responseJSON);
+                alert(error.responseJSON.data.errorMsg);
             }
         });
     });
+
 
 
 </script>

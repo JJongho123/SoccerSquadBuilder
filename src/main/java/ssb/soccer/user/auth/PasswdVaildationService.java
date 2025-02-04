@@ -8,7 +8,6 @@ import ssb.soccer.user.model.PasswdPolicy;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
-import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 @Service
@@ -16,48 +15,58 @@ import java.util.regex.Pattern;
 public class PasswdVaildationService {
 
     private final PasswdPolicyMapper passwdPolciy;
+    private Pattern compiledPattern;
+    private HashMap<String, Object> resultMap = null;
 
+    /**
+     * 비밀번호 정책 초기화 메서드
+     *
+     * 이 메서드는 데이터베이스에서 비밀번호 정책 정보를 조회하여
+     * 정규식 패턴과 정책 설명 리스트를 생성하고 캐시합니다.
+     *
+     * 초기화된 데이터가 있을 경우, 재처리 없이 캐시된 데이터( resultMap )를 반환합니다.
+     *
+     * @return 비밀번호 정책 정보가 담긴 HashMap 객체를 반환합니다.
+     *         - `policies`: 활성화된 비밀번호 정책 설명 목록
+     *         - `regexPattern`: 모든 정책을 결합한 정규식 패턴
+     */
     public HashMap<String, Object> initPasswdPolicyDatas() {
 
-        HashMap<String, Object> resultMap = new HashMap<>();
+        // 초기화된 데이터가 있을 경우, 재처리 없이 캐시된 데이터를 반환
+        if(resultMap != null){
+            return resultMap;
+        }
 
+        StringBuilder generateregexPattern = new StringBuilder("^");
+
+        resultMap = new HashMap<>();
         List<PasswdPolicy> data = passwdPolciy.findAllDatas();
-
         List<String> policies = new ArrayList<>();
-        List<String> regexParttern = new ArrayList<>();
 
-        String policyDescription;
+        for (PasswdPolicy policy : data) {
+            String regex = policy.getRegexPattern();
+            generateregexPattern.append(regex);
 
-        for (PasswdPolicy passwdPolicy : data) {
-
-            String regex = passwdPolicy.getRegex_pattern();
-            regexParttern.add(regex);
-
-            // 특수문자 공백 조건
-            Pattern specialCharPattern = Pattern.compile("\\[([^]]+)]"); // 특수문자 그룹 찾기
-            Matcher specialCharMatcher = specialCharPattern.matcher(regex);
-            if (specialCharMatcher.find()) {
-                String specialChars = specialCharMatcher.group(1);
-                policies.add("\n비밀번호에는 다음 특수문자 중 하나 이상이 포함되어야 합니다: " + specialChars);
-                policies.add("\n비밀번호에는 공백이 포함될 수 없습니다.");
-            }
-
-            // 길이 제한 조건
-            Pattern lengthPattern = Pattern.compile("\\{(\\d+),(\\d+)}"); // {min,max} 찾기
-            Matcher lengthMatcher = lengthPattern.matcher(regex);
-            if (lengthMatcher.find()) {
-                int minLength = Integer.parseInt(lengthMatcher.group(1));
-                int maxLength = Integer.parseInt(lengthMatcher.group(2));
-                policies.add("\n비밀번호는 " + minLength + "자 이상 " + maxLength + "자 이하여야 합니다.");
+            if (policy.isActive()) {
+                policies.add(policy.getDescription());
             }
         }
 
-        policyDescription = "비밀번호 정책: " + String.join("\n", policies);
-        System.out.println(policyDescription);
+        generateregexPattern.append("$");
+        String regexPattern = generateregexPattern.toString();
+
+        compiledPattern = Pattern.compile(regexPattern);
 
         resultMap.put("policies", policies);
-        resultMap.put("regexParttern", regexParttern);
-
+        resultMap.put("regexPattern", regexPattern);
         return resultMap;
     }
+
+    public boolean isPolicySatisfaction(String password) {
+        if (password == null || compiledPattern == null) {
+            return false;
+        }
+        return compiledPattern.matcher(password).matches();
+    }
 }
+

@@ -16,8 +16,20 @@ import java.util.NoSuchElementException;
 @RestControllerAdvice
 public class ExceptionHandlingController {
 
+    /**
+     * 전역 예외 처리 메서드
+     *
+     * 이 메서드는 모든 예외(Exception.class)를 처리하며,
+     * 클라이언트에게 일관된 API 에러 응답을 반환합니다.
+     *
+     * @param req 예외가 발생한 HTTP 요청 정보 HttpServletRequest 객체
+     * @param ex  처리 중 발생한 예외 정보
+     * @return API 에러 응답을 표준 형식 ApiResponse 으로 감싸서 반환합니다.
+     *         응답에는 HTTP 상태 코드와 에러 메시지가 포함됩니다.
+     *
+     */
     @ExceptionHandler(Exception.class)
-    public ResponseEntity<ApiResponse<Object>> exceptionError(HttpServletRequest req, Exception ex) {
+    public ResponseEntity<ApiResponse<?>> exceptionError(HttpServletRequest req, Exception ex) {
         log.error("Request: {} | Exception: {}", req.getRequestURL(), ex);
 
 
@@ -35,6 +47,17 @@ public class ExceptionHandlingController {
     }
 
 
+    /**
+     * 리소스 예외 처리 메서드
+     *
+     * 이 메서드는 NoResourceFoundException 를 처리합니다.
+     *
+     * @param req 예외가 발생한 HTTP 요청 정보 HttpServletRequest 객체
+     * @param ex  처리 중 발생한 NoResourceFoundException 예외 정보
+     * @return API 에러 응답을 표준 형식 ApiResponse 으로 감싸서 반환합니다.
+     *         응답에는 HttpStatus.NOT_FOUND 404 코드와 에러 메시지가 포함됩니다.
+     *
+     */
     @ExceptionHandler(NoResourceFoundException.class)
     public ResponseEntity<ApiResponse<?>> noResourceFoundExceptionError(HttpServletRequest req, NoResourceFoundException ex) {
         log.error("Request: {} | NoResourceFoundException: {}", req.getRequestURL(), ex);
@@ -49,6 +72,17 @@ public class ExceptionHandlingController {
                 .body(ApiResponse.errorResponse(exceptionDto, "NoResourceFoundException 발생"));
     }
 
+    /**
+     * 사용자 커스텀 예외 처리 메서드
+     *
+     * 이 메서드는 CustomApiException 를 처리합니다.
+     *
+     * @param req 예외가 발생한 HTTP 요청 정보 HttpServletRequest 객체
+     * @param ex  처리 중 발생한 CustomApiException 예외 정보
+     * @return API 에러 응답을 표준 형식 ApiResponse 으로 감싸서 반환합니다.
+     *         응답에는 사용자 커스텀 에러 코드와 사용자 커스텀 에러 메시지가 포함됩니다.
+     *
+     */
     @ExceptionHandler(CustomApiException.class)
     public ResponseEntity<ApiResponse<?>> customExceptionHandler(HttpServletRequest req, final CustomApiException ex) {
 

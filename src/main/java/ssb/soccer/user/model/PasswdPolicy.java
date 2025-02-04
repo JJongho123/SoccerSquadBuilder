@@ -7,9 +7,10 @@ import lombok.Setter;
 @Setter
 public class PasswdPolicy {
 
-    private String pattern_name;
-    private String regex_pattern;
-    private Boolean is_active;
+    private int id;
+    private String regexPattern;
+    private boolean isActive;
+    private String patternName;
     private String description;
 
 }
