@@ -7,9 +7,9 @@ import java.util.Date;
 @Getter
 @Setter
 public class MatchBoard {
-    public int id;
-    public int user_fk;
-    public String title;
-    public String content;
-    public Date created_at;
+    private int id;
+    private int user_fk;
+    private String title;
+    private String content;
+    private Date created_at;
 }

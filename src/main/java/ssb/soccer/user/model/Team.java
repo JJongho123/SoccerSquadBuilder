@@ -6,9 +6,9 @@ import lombok.Setter;
 @Getter
 @Setter
 public class Team {
-    public int id;
-    public String team_name;
-    public int team_member_max_count;
-    public String team_level;
-    public String team_activity_area;
+    private int id;
+    private String team_name;
+    private int team_member_max_count;
+    private String team_level;
+    private String team_activity_area;
 }

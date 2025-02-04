@@ -7,10 +7,10 @@ import java.util.Date;
 @Getter
 @Setter
 public class ChatMessage {
-    public int id;
-    public int chat_room_id;
-    public int user_fk;
-    public boolean read_or_not;
-    public String message;
-    public Date created_at;
+    private int id;
+    private int chat_room_id;
+    private int user_fk;
+    private boolean read_or_not;
+    private String message;
+    private Date created_at;
 }

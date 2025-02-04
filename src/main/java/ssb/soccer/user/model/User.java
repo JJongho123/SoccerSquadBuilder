@@ -6,12 +6,12 @@ import lombok.Setter;
 @Getter
 @Setter
 public class User {
-    public int id;
-    public String user_id;
-    public String passwd;
-    public String name;
-    public String email;
-    public String position;
-    public int height;
-    public int stamina;
+    private int id;
+    private String user_id;
+    private String passwd;
+    private String name;
+    private String email;
+    private String position;
+    private int height;
+    private int stamina;
 }

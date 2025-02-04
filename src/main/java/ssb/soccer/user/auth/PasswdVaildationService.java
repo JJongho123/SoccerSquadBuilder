@@ -34,7 +34,7 @@ public class PasswdVaildationService {
             String regex = policy.getRegex_pattern();
             generateregexPattern.append(regex);
 
-            if (policy.is_active) {
+            if (policy.is_active()) {
                 policies.add(policy.getDescription());
             }
         }

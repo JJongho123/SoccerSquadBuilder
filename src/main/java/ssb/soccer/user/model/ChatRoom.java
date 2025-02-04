@@ -7,8 +7,8 @@ import java.util.Date;
 @Getter
 @Setter
 public class ChatRoom {
-    public int id;
-    public int notice_id;
-    public int user_fk;
-    public Date created_at;
+    private int id;
+    private int notice_id;
+    private int user_fk;
+    private Date created_at;
 }
