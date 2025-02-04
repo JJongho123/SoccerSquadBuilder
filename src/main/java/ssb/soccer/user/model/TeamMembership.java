@@ -7,7 +7,7 @@ import lombok.Setter;
 @Setter
 public class TeamMembership {
     private int id;
-    private int team_id;
-    private int user_fk;
+    private int teamId;
+    private int userFk;
     private String role;
 }

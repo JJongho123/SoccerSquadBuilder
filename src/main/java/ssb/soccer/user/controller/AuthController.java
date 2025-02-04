@@ -25,7 +25,7 @@ public class AuthController {
 
         Boolean result = authService.login(loginDto);
         if(result){
-            response.addCookie(setCookie(loginDto.getUser_id()));
+            response.addCookie(setCookie(loginDto.getUserId()));
         }
         return ResponseEntity.ok(ApiResponse.successResponse(result));
 

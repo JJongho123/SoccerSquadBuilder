@@ -8,9 +8,9 @@ import java.util.Date;
 @Setter
 public class ChatMessage {
     private int id;
-    private int chat_room_id;
-    private int user_fk;
-    private boolean read_or_not;
+    private int chatRoomId;
+    private int userFk;
+    private boolean readOrNot;
     private String message;
-    private Date created_at;
+    private Date createdAt;
 }

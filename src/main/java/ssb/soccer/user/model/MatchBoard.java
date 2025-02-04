@@ -8,8 +8,8 @@ import java.util.Date;
 @Setter
 public class MatchBoard {
     private int id;
-    private int user_fk;
+    private int userFk;
     private String title;
     private String content;
-    private Date created_at;
+    private Date createdAt;
 }

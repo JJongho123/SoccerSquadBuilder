@@ -31,10 +31,10 @@ public class PasswdVaildationService {
         List<String> policies = new ArrayList<>();
 
         for (PasswdPolicy policy : data) {
-            String regex = policy.getRegex_pattern();
+            String regex = policy.getRegexPattern();
             generateregexPattern.append(regex);
 
-            if (policy.is_active()) {
+            if (policy.isActive()) {
                 policies.add(policy.getDescription());
             }
         }

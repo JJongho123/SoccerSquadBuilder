@@ -7,8 +7,8 @@ import lombok.Setter;
 @Setter
 public class Team {
     private int id;
-    private String team_name;
-    private int team_member_max_count;
-    private String team_level;
-    private String team_activity_area;
+    private String teamName;
+    private int teamMemberMaxCount;
+    private String teamLevel;
+    private String teamActivityArea;
 }
