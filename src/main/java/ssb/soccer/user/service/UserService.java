@@ -2,6 +2,7 @@ package ssb.soccer.user.service;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+import ssb.soccer.com.encrypt.EncryptionService;
 import ssb.soccer.com.exception.CustomApiException;
 import ssb.soccer.com.exception.ExceptionEnum;
 import ssb.soccer.user.auth.PasswdVaildationService;
@@ -9,15 +10,19 @@ import ssb.soccer.user.mapper.UserMapper;
 import ssb.soccer.user.model.LoginDto;
 import ssb.soccer.user.model.User;
 
+import java.util.HashMap;
 import java.util.List;
 
 @Service
 @RequiredArgsConstructor
 public class UserService {
 
+
     private final UserMapper userMapper;
 
     private final PasswdVaildationService passwdVaildationService;
+
+    private final EncryptionService encryptionService;
 
     // 모든 사용자 조회
     public List<User> getAllUsers() {
@@ -28,8 +33,22 @@ public class UserService {
     public boolean createUser(User user) {
 
         boolean result = passwdVaildationService.isPolicySatisfaction(user.getPasswd());
-        if (result)
+
+        if (result){
+
+            String test = user.getPasswd();
+
+            HashMap<String, String > map = encryptionService.generateHashPassWordAndSalt(user.getPasswd());
+            user.setSalt(map.get("salt"));
+            user.setPasswd(map.get("password"));
             result = userMapper.createUser(user);
+
+
+            System.out.println(encryptionService.verifyPassword(test, map.get("password"), map.get("salt")));
+            System.out.println(map.get("password"));
+            System.out.println(map.get("salt"));
+
+        }
         else
             throw new CustomApiException(ExceptionEnum.PASSWD_POLICY_ERROR);
 
