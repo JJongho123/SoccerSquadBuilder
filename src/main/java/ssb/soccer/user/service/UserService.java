@@ -58,4 +58,8 @@ public class UserService {
     public boolean findByIdAndPassword(LoginDto loginDto) {
         return userMapper.findByIdAndPassword(loginDto) != null;
     }
+
+    public boolean findById(LoginDto loginDto) {
+        return userMapper.findById(loginDto.getUserId()) != null;
+    }
 }

@@ -15,7 +15,9 @@
 
     <!-- ID로 사용자 조회 -->
     <select id="findById" parameterType="String" resultType="ssb.soccer.user.model.User">
-        SELECT * FROM user WHERE id = #{id};
+        SELECT *
+        FROM user
+        WHERE userId = #{userId};
     </select>
 
     <insert id="createUser" parameterType="User">

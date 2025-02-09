@@ -19,7 +19,8 @@ public class AuthService {
         if(redisService.exists(userId)){
             return true;
         }
-        else if(userService.findByIdAndPassword(loginDto)){
+        else1{
+            userService.findByIdAndPassword(loginDto)
             return true;
         }
         return result;
