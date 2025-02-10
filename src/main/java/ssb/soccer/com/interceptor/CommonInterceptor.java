@@ -1,13 +1,14 @@
 package ssb.soccer.com.interceptor;
 
-import ssb.soccer.com.exception.CustomApiException;
-import ssb.soccer.com.exception.ExceptionEnum;
-import ssb.soccer.user.auth.SessionService;
+import jakarta.servlet.http.Cookie;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 import org.springframework.web.servlet.HandlerInterceptor;
+import ssb.soccer.com.exception.CustomApiException;
+import ssb.soccer.com.exception.ExceptionEnum;
+import ssb.soccer.user.service.SessionService;
 
 @Component
 @RequiredArgsConstructor
@@ -17,7 +18,19 @@ public class CommonInterceptor implements HandlerInterceptor {
 
     @Override
     public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) throws Exception {
-        String sessionId = request.getHeader("sessionId");
+        String sessionId = null;
+        String key = "user";
+
+        // 쿠키에서 SESSION ID 가져오기
+        Cookie[] cookies = request.getCookies();
+        if (cookies != null) {
+            for (Cookie cookie : cookies) {
+                if ("sessionId".equals(cookie.getName())) {
+                    sessionId = cookie.getValue();
+                    break;
+                }
+            }
+        }
 
         // 세션 ID가 없는 경우 401 응답
         if (sessionId == null || sessionId.isEmpty()) {
@@ -25,7 +38,7 @@ public class CommonInterceptor implements HandlerInterceptor {
         }
 
         // 세션 ID가 잘못된 경우 401 응답
-        if (!sessionService.isSessionValid(sessionId)) {
+        if (!sessionService.isSessionValid(key, sessionId)) {
             throw new CustomApiException(ExceptionEnum.UNAUTHORIZED_EXCEPTION, "잘못된 Session ID입니다.");
         }
 

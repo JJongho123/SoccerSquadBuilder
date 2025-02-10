@@ -27,7 +27,10 @@ public class WebConfig implements WebMvcConfigurer {
                         "/static/**",
                         "/css/**",
                         "/js/**",
-                        "/images/**"
+                        "/images/**",
+                        "/api/validation/password-policies",
+                        "/favicon.ico",
+                        "/api/user"
                 );
     }
 

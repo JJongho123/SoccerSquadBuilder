@@ -2,7 +2,7 @@ package ssb.soccer.user.controller;
 
 import ssb.soccer.com.constant.CommonConstant;
 import ssb.soccer.user.model.SessionData;
-import ssb.soccer.user.auth.SessionService;
+import ssb.soccer.user.service.SessionService;
 import jakarta.servlet.http.Cookie;
 import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
@@ -28,11 +28,11 @@ public class SessionController {
         return ResponseEntity.ok(session);
     }
 
-    @GetMapping
-    public ResponseEntity<SessionData> getSession(@RequestHeader("sessionId") String sessionId) {
-        SessionData sessionData = sessionService.getSession(sessionId);
-        return ResponseEntity.ok(sessionData);
-    }
+//    @GetMapping
+//    public ResponseEntity<SessionData> getSession(@RequestHeader("sessionId") String sessionId) {
+//        SessionData sessionData = sessionService.getSession(sessionId);
+//        return ResponseEntity.ok(sessionData);
+//    }
 
     @DeleteMapping
     public ResponseEntity<Boolean> deleteSession(@RequestHeader("sessionId") String sessionId) {

@@ -41,7 +41,7 @@ $('#registForm').on('submit', function (e) {
         success: function (ajaxData) {
             if(ajaxData.data === true){
                 alert("회원가입 성공");
-                window.location.href = '/soccer';
+                window.location.href = '/login';
             }
             else
                 alert("회원가입 실패");

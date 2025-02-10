@@ -1,4 +1,4 @@
-package ssb.soccer.user.auth;
+package ssb.soccer.user.service;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;

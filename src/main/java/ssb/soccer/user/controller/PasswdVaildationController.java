@@ -6,7 +6,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import ssb.soccer.com.api.dto.ApiResponse;
-import ssb.soccer.user.auth.PasswdVaildationService;
+import ssb.soccer.user.service.PasswdVaildationService;
 
 import java.util.HashMap;
 
