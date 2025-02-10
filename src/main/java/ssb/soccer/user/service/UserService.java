@@ -36,17 +36,10 @@ public class UserService {
 
         if (result){
 
-            String test = user.getPasswd();
-
             HashMap<String, String > map = encryptionService.generateHashPassWordAndSalt(user.getPasswd());
             user.setSalt(map.get("salt"));
             user.setPasswd(map.get("password"));
             result = userMapper.createUser(user);
-
-
-            System.out.println(encryptionService.verifyPassword(test, map.get("password"), map.get("salt")));
-            System.out.println(map.get("password"));
-            System.out.println(map.get("salt"));
 
         }
         else
@@ -59,7 +52,7 @@ public class UserService {
         return userMapper.findByIdAndPassword(loginDto) != null;
     }
 
-    public boolean findById(LoginDto loginDto) {
-        return userMapper.findById(loginDto.getUserId()) != null;
+    public User findById(String userId) {
+        return userMapper.findById(userId);
     }
 }

@@ -1,6 +1,7 @@
 package ssb.soccer.view;
 
 import lombok.RequiredArgsConstructor;
+import org.springframework.context.annotation.Configuration;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.servlet.ModelAndView;
@@ -11,17 +12,17 @@ public class ViewController {
 
     @GetMapping("/login")
     public ModelAndView showLoginPage() {
-        return new ModelAndView("forward:/login.html");
+        return new ModelAndView("forward:/html/login.html");
     }
 
     @GetMapping("/soccer")
     public ModelAndView showSoccerPage() {
-        return new ModelAndView("forward:/soccer.html");
+        return new ModelAndView("forward:/html/soccer.html");
     }
 
     @GetMapping("/register")
     public ModelAndView showRegisterPage() {
-        return new ModelAndView("forward:/register.html");
+        return new ModelAndView("forward:/html/register.html");
     }
 
     @GetMapping("/error400")

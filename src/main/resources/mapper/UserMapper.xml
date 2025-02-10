@@ -17,7 +17,7 @@
     <select id="findById" parameterType="String" resultType="ssb.soccer.user.model.User">
         SELECT *
         FROM user
-        WHERE userId = #{userId};
+        WHERE user_id = #{userId};
     </select>
 
     <insert id="createUser" parameterType="User">

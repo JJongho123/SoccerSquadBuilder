@@ -2,8 +2,10 @@ package ssb.soccer.user.auth;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+import ssb.soccer.com.encrypt.EncryptionService;
 import ssb.soccer.redis.service.RedisService;
 import ssb.soccer.user.model.LoginDto;
+import ssb.soccer.user.model.User;
 import ssb.soccer.user.service.UserService;
 
 @Service
@@ -11,19 +13,20 @@ import ssb.soccer.user.service.UserService;
 public class AuthService {
 
     private final UserService userService;
-    private final RedisService redisService;
+    private final EncryptionService encryptionService;
 
-    public Boolean login(LoginDto loginDto) {
-        Boolean result = false;
+    public boolean login(LoginDto loginDto) {
+
+        boolean result = false;
         String userId = loginDto.getUserId();
-        if(redisService.exists(userId)){
-            return true;
-        }
-        else1{
-            userService.findByIdAndPassword(loginDto)
-            return true;
+        String inputPwd = loginDto.getPasswd();
+
+        User user = userService.findById(userId);
+        if(user != null){
+            result = encryptionService.verifyPassword(inputPwd, user.getPasswd(), user.getSalt());
         }
         return result;
 
     }
+
 }

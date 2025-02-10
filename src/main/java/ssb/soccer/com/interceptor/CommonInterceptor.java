@@ -1,5 +1,7 @@
 package ssb.soccer.com.interceptor;
 
+import ssb.soccer.com.exception.CustomApiException;
+import ssb.soccer.com.exception.ExceptionEnum;
 import ssb.soccer.user.auth.SessionService;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
@@ -9,7 +11,7 @@ import org.springframework.web.servlet.HandlerInterceptor;
 
 @Component
 @RequiredArgsConstructor
-public class CommonIntercerptor implements HandlerInterceptor {
+public class CommonInterceptor implements HandlerInterceptor {
 
     private final SessionService sessionService;
 
@@ -19,16 +21,12 @@ public class CommonIntercerptor implements HandlerInterceptor {
 
         // 세션 ID가 없는 경우 401 응답
         if (sessionId == null || sessionId.isEmpty()) {
-            response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
-            response.getWriter().write("Session ID is empty");
-            return false;
+            throw new CustomApiException(ExceptionEnum.UNAUTHORIZED_EXCEPTION, "Session ID가 비어 있습니다.");
         }
 
         // 세션 ID가 잘못된 경우 401 응답
         if (!sessionService.isSessionValid(sessionId)) {
-            response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
-            response.getWriter().write("Session ID 잘못됨");
-            return false;
+            throw new CustomApiException(ExceptionEnum.UNAUTHORIZED_EXCEPTION, "잘못된 Session ID입니다.");
         }
 
         return true;

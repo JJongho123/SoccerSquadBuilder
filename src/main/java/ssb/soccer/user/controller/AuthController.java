@@ -23,7 +23,7 @@ public class AuthController {
     @PostMapping("/login")
     public ResponseEntity<ApiResponse<?>> login(@RequestBody LoginDto loginDto, HttpServletResponse response) {
 
-        Boolean result = authService.login(loginDto);
+        boolean result = authService.login(loginDto);
         if(result){
             response.addCookie(setCookie(loginDto.getUserId()));
         }

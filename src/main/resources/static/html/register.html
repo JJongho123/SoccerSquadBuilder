@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <title>축구 스쿼드 빌더 - 회원가입</title>
+    <link rel="stylesheet" href="../css/register.css" />
+</head>
+<body>
+<div class="signup-container">
+    <h1>회원가입</h1>
+    <form id="registForm">
+        <div class="form-group">
+            <label for="user_id">아이디</label>
+            <input type="text" id="user_id" required>
+            <div id="userIdError" class="error-message"></div>
+        </div>
+
+        <div class="form-group">
+            <label for="username">이름</label>
+            <input type="text" id="username" required>
+            <div id="usernameError" class="error-message"></div>
+        </div>
+
+        <div class="form-group">
+            <label for="email">이메일</label>
+            <input type="email" id="email" required>
+            <div id="emailError" class="error-message"></div>
+        </div>
+
+        <div class="form-group">
+            <label for="passwd">비밀번호</label>
+            <input type="password" id="passwd" required>
+            <div class="password-rules">
+                * 비밀번호 정책 *<br>
+                <ul id="policyList"></ul>
+            </div>
+            <div id="passwordError" class="error-message"></div>
+        </div>
+
+        <!--        <div class="form-group">-->
+        <!--            <label for="confirmPassword">비밀번호 확인</label>-->
+        <!--            <input type="password" id="confirmPassword" required>-->
+        <!--            <div id="confirmPasswordError" class="error-message"></div>-->
+        <!--        </div>-->
+
+        <button type="submit">가입하기</button>
+    </form>
+</div>
+
+<script type="text/javascript" src="../js/register.js"></script>
+</body>
+</html>

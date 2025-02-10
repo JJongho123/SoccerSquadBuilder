@@ -8,8 +8,8 @@ import java.util.List;
 public interface UserMapper {
     List<User> findAllUsers();
     boolean createUser(User user);
-    User findById(String userId);
-
     User findByIdAndPassword(LoginDto loginDto);
+
+    User findById(String userId);
 
 }
