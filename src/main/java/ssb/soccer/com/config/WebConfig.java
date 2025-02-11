@@ -30,7 +30,7 @@ public class WebConfig implements WebMvcConfigurer {
                         "/images/**",
                         "/api/validation/password-policies",
                         "/favicon.ico",
-                        "/api/user"
+                        "/api/user/**"
                 );
     }
 

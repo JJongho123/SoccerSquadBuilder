@@ -1,9 +1,9 @@
-package ssb.soccer.user.service;
+package ssb.soccer.passwdPolicy.service;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
-import ssb.soccer.user.mapper.PasswdPolicyMapper;
-import ssb.soccer.user.model.PasswdPolicy;
+import ssb.soccer.passwdPolicy.mapper.PasswdPolicyMapper;
+import ssb.soccer.passwdPolicy.model.PasswdPolicy;
 
 import java.util.ArrayList;
 import java.util.HashMap;

@@ -5,6 +5,7 @@ import org.springframework.stereotype.Service;
 import ssb.soccer.com.encrypt.EncryptionService;
 import ssb.soccer.com.exception.CustomApiException;
 import ssb.soccer.com.exception.ExceptionEnum;
+import ssb.soccer.passwdPolicy.service.PasswdVaildationService;
 import ssb.soccer.user.mapper.UserMapper;
 import ssb.soccer.user.model.LoginDto;
 import ssb.soccer.user.model.User;

@@ -11,14 +11,14 @@ import org.springframework.core.io.support.PathMatchingResourcePatternResolver;
 import javax.sql.DataSource;
 
 @Configuration
-@MapperScan(basePackages = "ssb.soccer.user.mapper")
+@MapperScan(basePackages = "ssb.soccer")
 public class MyBatisConfig {
 
     @Bean
     public SqlSessionFactory sqlSessionFactory(DataSource dataSource) throws Exception {
         SqlSessionFactoryBean factoryBean = new SqlSessionFactoryBean();
         factoryBean.setDataSource(dataSource);
-        factoryBean.setTypeAliasesPackage("ssb.soccer.user.model");
+        factoryBean.setTypeAliasesPackage("ssb.soccer");
 
         factoryBean.setMapperLocations(new PathMatchingResourcePatternResolver().getResources("classpath:mapper/*.xml"));
 

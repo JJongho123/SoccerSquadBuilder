@@ -1,4 +1,4 @@
-package ssb.soccer.user.controller;
+package ssb.soccer.passwdPolicy.controller;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
@@ -6,7 +6,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import ssb.soccer.com.api.dto.ApiResponse;
-import ssb.soccer.user.service.PasswdVaildationService;
+import ssb.soccer.passwdPolicy.service.PasswdVaildationService;
 
 import java.util.HashMap;
 

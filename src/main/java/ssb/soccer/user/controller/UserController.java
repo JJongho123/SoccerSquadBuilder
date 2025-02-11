@@ -25,6 +25,16 @@ public class UserController {
         return ResponseEntity.ok(ApiResponse.successResponse(result));
     }
 
+    @PostMapping("/check-duplicate-id")
+    public ResponseEntity<ApiResponse<?>>  checkDuplicateId(@RequestParam String userId) {
+        boolean isDuplicate = true;
+        User user = userService.findById(userId);
+        if(user == null) {
+            isDuplicate = false;
+        }
+        return ResponseEntity.ok(ApiResponse.successResponse(isDuplicate));
+    }
+
 //    @GetMapping("/{id}")
 //    public User getUserById(@PathVariable String id) {
 //        return userService.getUserById(id);

@@ -1,4 +1,4 @@
-package ssb.soccer.user.model;
+package ssb.soccer.passwdPolicy.model;
 
 import lombok.Getter;
 import lombok.Setter;

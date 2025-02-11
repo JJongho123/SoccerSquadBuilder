@@ -52,13 +52,6 @@ input {
     margin-top: 0.5rem;
 }
 
-.error-message {
-    color: #dc3545;
-    font-size: 0.8rem;
-    margin-top: 0.3rem;
-    display: none;
-}
-
 button {
     width: 100%;
     padding: 0.8rem;
@@ -73,4 +66,16 @@ button {
 
 button:hover {
     background: #1557b0;
+}
+
+.error-message {
+    color: #ff0000;
+    font-size: 14px;
+    margin-top: 5px;
+}
+
+.valid-message {
+    color: #008000;
+    font-size: 14px;
+    margin-top: 5px;
 }

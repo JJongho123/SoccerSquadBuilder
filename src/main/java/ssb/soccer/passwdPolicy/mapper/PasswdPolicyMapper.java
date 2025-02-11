@@ -1,6 +1,6 @@
-package ssb.soccer.user.mapper;
+package ssb.soccer.passwdPolicy.mapper;
 
-import ssb.soccer.user.model.PasswdPolicy;
+import ssb.soccer.passwdPolicy.model.PasswdPolicy;
 
 import java.util.List;
 
