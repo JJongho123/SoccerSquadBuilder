@@ -1,4 +1,4 @@
-package ssb.soccer.user.model;
+package ssb.soccer.team.model;
 
 import lombok.Getter;
 import lombok.Setter;

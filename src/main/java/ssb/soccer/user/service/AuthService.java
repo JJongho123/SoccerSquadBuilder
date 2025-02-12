@@ -58,6 +58,7 @@ public class AuthService {
         sessionCookie.setHttpOnly(true);
         sessionCookie.setPath("/");
         sessionCookie.setMaxAge(CommonConstant.EXPIRY_DURATION_SECONDS);
+        sessionCookie.setAttribute("SameSite", "Strict"); // CSRF 방어
         return sessionCookie;
     }
 }

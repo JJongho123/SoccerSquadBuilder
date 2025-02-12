@@ -14,7 +14,7 @@
     <h1 class="logo">Squad Builder</h1>
   </div>
   <div class="nav-right">
-    <button class="create-team-btn">팀 생성 +</button>
+    <button onclick="openTeamPopup()" class="create-team-btn">팀 생성</button>
     <div class="user-menu">
       <a href="/my-teams">내 팀 관리</a>
       <a href="/profile">프로필</a>
@@ -54,6 +54,44 @@
     </div>
   </div>
 </main>
+
+<!-- 레이어 팝업 -->
+<div id="teamPopup" class="popup-overlay">
+  <div class="popup-content">
+    <h2>새 팀 생성</h2>
+    <form id="teamCreateForm">
+      <div class="form-group">
+        <label for="teamName">팀명</label>
+        <input type="text" id="teamName" name="teamName" required>
+      </div>
+
+      <div class="form-group">
+        <label for="teamMemberMaxCount">팀 최대 인원</label>
+        <input type="number" id="teamMemberMaxCount" name="teamMemberMaxCount" min="1" max="100" required>
+      </div>
+
+      <div class="form-group">
+        <label for="teamLevel">팀 실력</label>
+        <select id="teamLevel" name="teamLevel" required>
+          <option value="">선택해주세요</option>
+          <option value="beginner">입문</option>
+          <option value="intermediate">중급</option>
+          <option value="advanced">상급</option>
+        </select>
+      </div>
+
+      <div class="form-group">
+        <label for="teamActivityArea">활동 지역</label>
+        <input type="text" id="teamActivityArea" name="teamActivityArea" required>
+      </div>
+
+      <div class="button-group">
+        <button type="submit">생성하기</button>
+        <button type="button" onclick="closeTeamPopup()">취소</button>
+      </div>
+    </form>
+  </div>
+</div>
 
 <!-- 필요한 스크립트 -->
 <script type="text/javascript" src="../js/squadBuilder.js"></script>
