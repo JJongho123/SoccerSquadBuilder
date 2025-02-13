@@ -1,6 +1,5 @@
 package ssb.soccer.redis.service;
 
-import lombok.RequiredArgsConstructor;
 import org.springframework.data.redis.core.HashOperations;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.data.redis.core.ValueOperations;
@@ -11,9 +10,14 @@ import java.util.Map;
 import java.util.concurrent.TimeUnit;
 
 @Service
-@RequiredArgsConstructor
 public class RedisService {
-    private final RedisTemplate<String ,String> redisTemplate;
+    private final RedisTemplate<String, Object> redisTemplate;
+    private final HashOperations<String, String, Object> hashOperations;
+
+    public RedisService(RedisTemplate<String, Object> redisTemplate) {
+        this.redisTemplate = redisTemplate;
+        this.hashOperations = redisTemplate.opsForHash();
+    }
 
     /**
      * Redis 데이터 저장
@@ -22,7 +26,7 @@ public class RedisService {
      * @param	data (type = String)
      */
     public void setValues(String key, String data) {
-        ValueOperations<String, String> valueOps = redisTemplate.opsForValue();
+        ValueOperations<String, Object> valueOps = redisTemplate.opsForValue();
         valueOps.set(key, data);
     }
 
@@ -34,7 +38,7 @@ public class RedisService {
      * @param	duration (type = Duration)
      */
     public void setValues(String key, String data, Duration duration) {
-        ValueOperations<String, String> valueOps = redisTemplate.opsForValue();
+        ValueOperations<String, Object> valueOps = redisTemplate.opsForValue();
         valueOps.set(key, data, duration);
     }
 
@@ -44,19 +48,19 @@ public class RedisService {
      * @param	key (type = String)
      */
     public String getValues(String key) {
-        ValueOperations<String, String> valueOps = redisTemplate.opsForValue();
-        return valueOps.get(key);
+        ValueOperations<String, Object> valueOps = redisTemplate.opsForValue();
+        Object value = valueOps.get(key);
+        return value != null ? value.toString() : null;
     }
 
     /**
      * Redis Hash 타입 데이터 저장
      *
      * @param	key (type = String)
-     * @param	data (type = Map<Object, Object> data)
+     * @param	data (type = Map<Object, Object>)
      */
-    public void setHashOps(String key, Map<Object, Object> data) {
-        HashOperations<String, Object, Object> values = redisTemplate.opsForHash();
-        values.putAll(key, data);
+    public void setHashOps(String key, Map<String, Object> data) {
+        hashOperations.putAll(key, data);
     }
 
     /**
@@ -66,9 +70,8 @@ public class RedisService {
      * @param data 저장할 데이터 (Hash 형태의 Map)
      * @param duration 만료 시간 (Hash 키 전체에 적용)
      */
-    public void setHashOps(String key, Map<Object, Object> data, Duration duration) {
-        HashOperations<String, Object, Object> values = redisTemplate.opsForHash();
-        values.putAll(key, data);
+    public void setHashOps(String key, Map<String, Object> data, Duration duration) {
+        hashOperations.putAll(key, data);
         redisTemplate.expire(key, duration);
     }
 
@@ -78,9 +81,8 @@ public class RedisService {
      * @param key Redis의 Hash 키
      * @return Map 형태의 전체 필드-값 쌍
      */
-    public Map<Object, Object> getAllHashOps(String key) {
-        HashOperations<String, Object, Object> values = redisTemplate.opsForHash();
-        return values.entries(key);
+    public Map<String, Object> getAllHashOps(String key) {
+        return hashOperations.entries(key);
     }
 
     /**
@@ -103,11 +105,11 @@ public class RedisService {
      * @param	hashKey (type = String)
      */
     public String getHashOps(String key, String hashKey) {
-        HashOperations<String, Object, Object> values = redisTemplate.opsForHash();
-        if (!Boolean.TRUE.equals(values.hasKey(key, hashKey))) {
-            return null; // 기본값을 null로 반환
+        if (!Boolean.TRUE.equals(hashOperations.hasKey(key, hashKey))) {
+            return null;
         }
-        return (String) values.get(key, hashKey);
+        Object value = hashOperations.get(key, hashKey);
+        return value != null ? value.toString() : null;
     }
 
     /**
@@ -127,8 +129,7 @@ public class RedisService {
      * @param	hashKey (type = String)
      */
     public void deleteHashOps(String key, String hashKey) {
-        HashOperations<String, Object, Object> values = redisTemplate.opsForHash();
-        values.delete(key, hashKey);
+        hashOperations.delete(key, hashKey);
     }
 
     /**
@@ -138,7 +139,17 @@ public class RedisService {
      * @return	boolean 키 존재 여부 (true: 키 있음 , false: 키 없음)
      */
     public boolean exists(String key) {
-        return redisTemplate.hasKey(key);
+        return Boolean.TRUE.equals(redisTemplate.hasKey(key));
     }
 
+    /**
+     * Redis에서 hashKey 존재 여부 확인
+     *
+     * @param	key (type = String)
+     * @param	hashKey (type = String)
+     * @return	boolean hashKey 존재 여부 (true: 키 있음 , false: 키 없음)
+     */
+    public boolean existsHashKey(String key, String hashKey) {
+        return Boolean.TRUE.equals(hashOperations.hasKey(key, hashKey));
+    }
 }

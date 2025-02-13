@@ -10,7 +10,7 @@ spring:
       port: 6379
   web:
     resources:
-      static-locations: classpath:/html/static/
+      static-locations: classpath:/static/
 
 logging:
   level:

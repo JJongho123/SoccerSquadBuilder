@@ -9,9 +9,8 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import ssb.soccer.com.api.dto.ApiResponse;
-import ssb.soccer.com.constant.CommonConstant;
 import ssb.soccer.user.model.LoginDto;
-import ssb.soccer.user.auth.AuthService;
+import ssb.soccer.user.service.AuthService;
 
 @RequiredArgsConstructor
 @RestController
@@ -23,21 +22,13 @@ public class AuthController {
     @PostMapping("/login")
     public ResponseEntity<ApiResponse<?>> login(@RequestBody LoginDto loginDto, HttpServletResponse response) {
 
-        Boolean result = authService.login(loginDto);
-        if(result){
-            response.addCookie(setCookie(loginDto.getUserId()));
+        Cookie sessionCookie = authService.login(loginDto);
+        boolean isSuccess = (sessionCookie != null);
+
+        if (isSuccess) {
+            response.addCookie(sessionCookie);
         }
-        return ResponseEntity.ok(ApiResponse.successResponse(result));
 
-    }
-
-    private Cookie setCookie(String sessionId){
-
-        Cookie sessionCookie = new Cookie("sessionId", sessionId);
-        sessionCookie.setHttpOnly(true);
-        sessionCookie.setPath("/");
-        sessionCookie.setMaxAge(CommonConstant.EXPIRY_DURATION_SECONDS);
-        return sessionCookie;
-
+        return ResponseEntity.ok(ApiResponse.successResponse(isSuccess));
     }
 }

@@ -11,17 +11,18 @@ public class ViewController {
 
     @GetMapping("/login")
     public ModelAndView showLoginPage() {
-        return new ModelAndView("forward:/login.html");
+        return new ModelAndView("forward:/html/login.html");
     }
 
     @GetMapping("/soccer")
-    public ModelAndView showSoccerPage() {
-        return new ModelAndView("forward:/soccer.html");
-    }
+    public ModelAndView showSoccerPage() {return new ModelAndView("forward:/html/soccer.html");}
+
+    @GetMapping("/squadBuilder")
+    public ModelAndView showsquadBuilderPage() {return new ModelAndView("forward:/html/squadBuilder.html");}
 
     @GetMapping("/register")
     public ModelAndView showRegisterPage() {
-        return new ModelAndView("forward:/register.html");
+        return new ModelAndView("forward:/html/register.html");
     }
 
     @GetMapping("/error400")

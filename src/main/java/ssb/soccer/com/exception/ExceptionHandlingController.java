@@ -90,7 +90,7 @@ public class ExceptionHandlingController {
 
         ApiExceptionDto exceptionDto = ApiExceptionDto.builder()
                 .errorCode(ex.getError().getCode())
-                .errorMsg(ex.getError().getMessage())
+                .errorMsg(ex.getMessage())
                 .build();
 
         return ResponseEntity

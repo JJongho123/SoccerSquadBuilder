@@ -15,12 +15,14 @@
 
     <!-- ID로 사용자 조회 -->
     <select id="findById" parameterType="String" resultType="ssb.soccer.user.model.User">
-        SELECT * FROM user WHERE id = #{id};
+        SELECT *
+        FROM user
+        WHERE user_id = #{userId};
     </select>
 
     <insert id="createUser" parameterType="User">
-        INSERT INTO user (user_id, name, email, passwd)
-        VALUES (#{userId}, #{name}, #{email}, #{passwd})
+        INSERT INTO user (user_id, name, passwd, email, salt)
+        VALUES (#{userId}, #{name}, #{passwd}, #{email}, #{salt})
     </insert>
 
 </mapper>

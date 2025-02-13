@@ -14,4 +14,5 @@ public class User {
     private String position;
     private int height;
     private int stamina;
+    private String salt;
 }

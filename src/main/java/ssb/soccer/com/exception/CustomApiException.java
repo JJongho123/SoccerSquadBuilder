@@ -11,4 +11,9 @@ public class CustomApiException extends RuntimeException {
         super(e.getMessage());
         this.error = e;
     }
+
+    public CustomApiException(ExceptionEnum e, String errorMsg) {
+        super(errorMsg);
+        this.error = e;
+    }
 }

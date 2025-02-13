@@ -2,19 +2,36 @@ package ssb.soccer.com.config;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.web.servlet.config.annotation.InterceptorRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
-import ssb.soccer.com.interceptor.CommonIntercerptor;
+import ssb.soccer.com.interceptor.CommonInterceptor;
 
 @Configuration
 @RequiredArgsConstructor
 public class WebConfig implements WebMvcConfigurer {
 
-    private final CommonIntercerptor commonInterceptor;
+    private final CommonInterceptor commonInterceptor;
 
-//    @Override
-//    public void addInterceptors(InterceptorRegistry registry) {
-//        registry.addInterceptor(commonInterceptor)
-//                .addPathPatterns("/**")                      // 모든 요청에 대해 Interceptor 적용
-//                .excludePathPatterns("/login", "/login/**", "/api/auth/login/**"); // 제외할 URL 패턴
-//    }
+    @Override
+    public void addInterceptors(InterceptorRegistry registry) {
+        registry.addInterceptor(commonInterceptor)
+                .addPathPatterns("/**")
+                .excludePathPatterns(
+                        "/login",
+                        "/login/**",
+                        "/html/login.html",
+                        "/register",
+                        "/register/**",
+                        "/html/register.html",
+                        "/api/auth/login/**",
+                        "/static/**",
+                        "/css/**",
+                        "/js/**",
+                        "/images/**",
+                        "/api/validation/password-policies",
+                        "/favicon.ico",
+                        "/api/user/**"
+                );
+    }
+
 }
