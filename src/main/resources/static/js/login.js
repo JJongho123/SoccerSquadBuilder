@@ -17,7 +17,7 @@ $(document).ready(function() {
             },
             success: function(ajaxData) {
                 if(ajaxData.data === true){
-                    window.location.href = '/soccer';
+                    window.location.href = '/squadBuilder';
                 }
                 else{
                     alert('로그인에 실패했습니다.');

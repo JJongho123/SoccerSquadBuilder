@@ -1,6 +1,6 @@
 package ssb.soccer.user.mapper;
 
-import ssb.soccer.user.model.LoginDto;
+import ssb.soccer.user.dto.LoginDto;
 import ssb.soccer.user.model.User;
 
 import java.util.List;

@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="ssb.soccer.team.mapper.TeamMembershipMapper">
+
+    <insert id="addMember" parameterType="TeamMembership">
+        INSERT INTO team_membership (team_id, user_fk, role)
+        VALUES (#{teamId}, #{userFk}, #{role});
+    </insert>
+
+</mapper>

@@ -7,7 +7,7 @@
         SELECT * FROM user;
     </select>
 
-    <select id="findByIdAndPassword" parameterType="ssb.soccer.user.model.LoginDto" resultType="ssb.soccer.user.model.User">
+    <select id="findByIdAndPassword" parameterType="ssb.soccer.user.dto.LoginDto" resultType="ssb.soccer.user.model.User">
         SELECT *
         FROM user
         WHERE user_id = #{userId} AND passwd = #{passwd};

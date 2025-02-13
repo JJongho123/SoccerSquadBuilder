@@ -7,7 +7,7 @@ import ssb.soccer.com.exception.CustomApiException;
 import ssb.soccer.com.exception.ExceptionEnum;
 import ssb.soccer.passwdPolicy.service.PasswdVaildationService;
 import ssb.soccer.user.mapper.UserMapper;
-import ssb.soccer.user.model.LoginDto;
+import ssb.soccer.user.dto.LoginDto;
 import ssb.soccer.user.model.User;
 
 import java.util.HashMap;
@@ -16,7 +16,6 @@ import java.util.List;
 @Service
 @RequiredArgsConstructor
 public class UserService {
-
 
     private final UserMapper userMapper;
 
