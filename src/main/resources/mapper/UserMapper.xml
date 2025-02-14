@@ -7,17 +7,19 @@
         SELECT * FROM user;
     </select>
 
-    <select id="findByIdAndPassword" parameterType="ssb.soccer.user.dto.LoginDto" resultType="ssb.soccer.user.model.User">
-        SELECT *
-        FROM user
-        WHERE user_id = #{userId} AND passwd = #{passwd};
-    </select>
-
     <!-- ID로 사용자 조회 -->
     <select id="findById" parameterType="String" resultType="ssb.soccer.user.model.User">
         SELECT *
         FROM user
         WHERE user_id = #{userId};
+    </select>
+
+    <!-- ID로 사용자와 팀 조회 -->
+    <select id="findUserWithTeam" parameterType="String" resultType="ssb.soccer.user.dto.UserWithTeamDTO">
+        SELECT u.id, u.user_id, u.passwd, u.name, u.salt, tm.team_id
+        FROM user u
+                 LEFT JOIN team_membership tm ON u.id = tm.user_fk
+        where u.user_id = #{userId}
     </select>
 
     <insert id="createUser" parameterType="User">

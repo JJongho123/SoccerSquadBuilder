@@ -6,7 +6,7 @@ import ssb.soccer.team.model.Team;
 import java.util.List;
 
 public interface TeamMapper {
-    void createTeam(Team team);
+    boolean createTeam(Team team);
 
     List<TeamListDto> getTeamList();
 }

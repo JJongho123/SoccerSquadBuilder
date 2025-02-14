@@ -10,8 +10,10 @@ import ssb.soccer.com.constant.CommonConstant;
 import ssb.soccer.com.encrypt.EncryptionService;
 import ssb.soccer.com.exception.CustomApiException;
 import ssb.soccer.com.exception.ExceptionEnum;
+import ssb.soccer.com.util.CookieUtil;
 import ssb.soccer.redis.service.RedisService;
-import ssb.soccer.user.dto.LoginDto;
+import ssb.soccer.user.dto.LoginRequestDto;
+import ssb.soccer.user.dto.UserWithTeamDTO;
 import ssb.soccer.user.model.User;
 
 import java.time.Duration;
@@ -25,12 +27,12 @@ public class AuthService {
     private final EncryptionService encryptionService;
     private final RedisService redisService;
 
-    public Cookie login(LoginDto loginDto) throws JsonProcessingException {
+    public Cookie login(LoginRequestDto loginDto) throws JsonProcessingException {
 
         String userId = loginDto.getUserId();
         String inputPwd = loginDto.getPasswd();
 
-        User user = userService.findById(userId);
+        UserWithTeamDTO user = userService.findUserWithTeam(userId);
         if (user != null) {
             boolean isAuthenticated = encryptionService.verifyPassword(inputPwd, user.getPasswd(), user.getSalt());
             if (isAuthenticated) {
@@ -38,48 +40,23 @@ public class AuthService {
                 ObjectMapper objectMapper = new ObjectMapper();
                 HashMap<String, Object> data = new HashMap<>();
 
+                // pw, salt 제거 후 Redis에 저장
+                user.setSalt(null);
+                user.setPasswd(null);
+
                 data.put(userId, objectMapper.writeValueAsString(user));
 
-                // Redis에 세션 정보 저장
+                // Redis에 사용자 정보 저장
                 redisService.setHashOps(CommonConstant.USER_KEY, data, Duration.ofSeconds(CommonConstant.EXPIRY_DURATION_SECONDS));
 
-                User test = objectMapper.readValue(redisService.getHashOps(CommonConstant.USER_KEY, userId), User.class);
-                System.out.println(test);
-                System.out.println(test.getName());
-                System.out.println(test.getSalt());
-
                 // 로그인 성공 시 쿠키 생성
-                return createSessionCookie(userId);
+                return CookieUtil.createSessionCookie(userId);
             }
         }
         else{
             throw new CustomApiException(ExceptionEnum.USER_NOT_FOUND_EXCEPTION);
         }
         return null;
-    }
-
-    private Cookie createSessionCookie(String sessionId) {
-        Cookie sessionCookie = new Cookie("sessionId", sessionId);
-        sessionCookie.setHttpOnly(true);
-        sessionCookie.setPath("/");
-        sessionCookie.setMaxAge(CommonConstant.EXPIRY_DURATION_SECONDS);
-        sessionCookie.setAttribute("SameSite", "Strict"); // CSRF 방어
-        return sessionCookie;
-    }
-
-    public String getCookieSessionId(HttpServletRequest request){
-        String sessionId = null;
-        Cookie[] cookies = request.getCookies();
-        if (cookies != null) {
-            for (Cookie cookie : cookies) {
-                if ("sessionId".equals(cookie.getName())) {
-                    sessionId = cookie.getValue();
-                    break;
-                }
-            }
-        }
-        return sessionId;
-
     }
 
     public void validateSessionId(String sessionId){

@@ -1,9 +1,15 @@
 package ssb.soccer.user.controller;
 
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import ssb.soccer.com.api.dto.ApiResponse;
+import ssb.soccer.com.constant.CommonConstant;
+import ssb.soccer.redis.service.RedisService;
+import ssb.soccer.user.dto.LoginRequestDto;
+import ssb.soccer.user.dto.UserWithTeamDTO;
 import ssb.soccer.user.model.User;
 import ssb.soccer.user.service.UserService;
 
@@ -13,6 +19,7 @@ import ssb.soccer.user.service.UserService;
 public class UserController {
 
     private final UserService userService;
+    private final RedisService redisService;
 
     @GetMapping("/")
     public ResponseEntity<ApiResponse<?>> getAllUsers() {
@@ -32,6 +39,13 @@ public class UserController {
             isDuplicate = false;
         }
         return ResponseEntity.ok(ApiResponse.successResponse(isDuplicate));
+    }
+
+
+    @GetMapping("/data")
+    public ResponseEntity<ApiResponse<?>> getUserData(HttpServletRequest request){
+        UserWithTeamDTO responseDto = userService.getUserData(request);
+        return ResponseEntity.ok(ApiResponse.successResponse(responseDto));
     }
 
 //    @GetMapping("/{id}")

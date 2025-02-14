@@ -7,6 +7,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import ssb.soccer.com.api.dto.ApiResponse;
+import ssb.soccer.com.util.CookieUtil;
 import ssb.soccer.team.dto.TeamRequestDto;
 import ssb.soccer.team.service.TeamService;
 import ssb.soccer.user.service.AuthService;
@@ -16,13 +17,12 @@ import ssb.soccer.user.service.AuthService;
 @RequestMapping("/api/team")
 public class TeamController {
 
-    private final AuthService authService;
     private final TeamService teamService;
 
     @PostMapping
-    public ResponseEntity<ApiResponse<?>> createTeam(@RequestBody TeamRequestDto teamDto, HttpServletRequest request, HttpServletResponse response) throws JsonProcessingException {
-        String sessionId = authService.getCookieSessionId(request);
-        return ResponseEntity.ok(ApiResponse.successResponse(teamService.createTeam(teamDto, sessionId)));
+    public void createTeam(@RequestBody TeamRequestDto teamDto, HttpServletRequest request, HttpServletResponse response) throws JsonProcessingException {
+        String sessionId = CookieUtil.getCookieSessionId(request);
+        teamService.createTeam(teamDto, sessionId);
     }
 
     @GetMapping

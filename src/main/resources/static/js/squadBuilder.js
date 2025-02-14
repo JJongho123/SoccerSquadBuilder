@@ -1,4 +1,10 @@
+let hasTeam;
+let role;
+
 $(document).ready(function() {
+
+    getUserData();
+
     // 팀 생성 버튼 클릭 시 팝업 열기
     $('.create-team-btn').on('click', function() {
         $('#teamPopup').fadeIn(300);
@@ -163,6 +169,21 @@ function requestJoinTeam(teamId) {
         success: function(response) {
             alert('가입 신청이 완료되었습니다.');
             $('#teamDetailPopup').fadeOut(300);
+        },
+        error: function(xhr, status, error) {
+            const errorMessage = xhr.responseJSON?.message || '가입 신청 중 오류가 발생했습니다.';
+            alert(errorMessage);
+        }
+    });
+}
+
+function getUserData(){
+    $.ajax({
+        url: `/api/user/data`,
+        type: 'get',
+        success: function(ajaxData) {
+            alert('가입 신청이 완료되었습니다.');
+            console.log(ajaxData)
         },
         error: function(xhr, status, error) {
             const errorMessage = xhr.responseJSON?.message || '가입 신청 중 오류가 발생했습니다.';

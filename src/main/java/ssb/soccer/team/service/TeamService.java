@@ -5,6 +5,8 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import ssb.soccer.com.constant.CommonConstant;
+import ssb.soccer.com.exception.CustomApiException;
+import ssb.soccer.com.exception.ExceptionEnum;
 import ssb.soccer.redis.service.RedisService;
 import ssb.soccer.team.TeamEnum;
 import ssb.soccer.team.dto.TeamListDto;
@@ -13,7 +15,7 @@ import ssb.soccer.team.mapper.TeamMapper;
 import ssb.soccer.team.mapper.TeamMembershipMapper;
 import ssb.soccer.team.model.Team;
 import ssb.soccer.team.model.TeamMembership;
-import ssb.soccer.user.model.User;
+import ssb.soccer.user.dto.UserWithTeamDTO;
 
 import java.util.List;
 
@@ -25,7 +27,7 @@ public class TeamService {
     private final TeamMapper teamMapper;
     private final TeamMembershipMapper teamMembershipMapper;
 
-    public boolean createTeam(TeamRequestDto teamDto, String sessionId) throws JsonProcessingException {
+    public void createTeam(TeamRequestDto teamDto, String sessionId) throws JsonProcessingException {
 
         Team team = Team.builder()
                 .teamName(teamDto.getTeamName())
@@ -35,9 +37,11 @@ public class TeamService {
                 .id(null)
                 .build();
 
-        ObjectMapper objectMapper = new ObjectMapper();
-        User user = objectMapper.readValue(redisService.getHashOps(CommonConstant.USER_KEY, sessionId), User.class);
-        teamMapper.createTeam(team);
+        UserWithTeamDTO user = redisService.getHashOpsAsObject(CommonConstant.USER_KEY, sessionId, UserWithTeamDTO.class);
+        boolean isCreatedTeam = teamMapper.createTeam(team);
+        if (isCreatedTeam) {
+            throw new CustomApiException(ExceptionEnum.TEAM_CREATION_FAILED);
+        }
 
         TeamMembership teamMembership = TeamMembership.builder()
                 .teamId(team.getId())
@@ -46,7 +50,11 @@ public class TeamService {
                 .id(null)
                 .build();
 
-        return teamMembershipMapper.addMember(teamMembership);
+        boolean isCreatedMembership = teamMembershipMapper.createMemberShip(teamMembership);
+        if (isCreatedMembership) {
+            throw new CustomApiException(ExceptionEnum.TEAM_MEMBERSHIP_CREATION_FAILED);
+        }
+
     }
 
     public List<TeamListDto> getTeamList(){
