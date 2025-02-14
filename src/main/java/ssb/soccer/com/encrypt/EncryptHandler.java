@@ -6,8 +6,9 @@ import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 import java.security.SecureRandom;
 
-@Component
 public class EncryptHandler {
+
+    private final String SHA_256 = "SHA-256";
 
     // 솔트 생성
     public String generateSalt() {
@@ -25,7 +26,6 @@ public class EncryptHandler {
     // 비밀번호 + 솔트 해싱
     public String hashPassword(String password, String salt) {
         try {
-            String SHA_256 = "SHA-256";
             MessageDigest md = MessageDigest.getInstance(SHA_256);
             md.update((password + salt).getBytes());
             byte[] hashedBytes = md.digest();

@@ -21,6 +21,8 @@ import java.util.HashMap;
 @RequiredArgsConstructor
 public class AuthService {
 
+    private final String USER_KEY = "user";
+
     private final UserService userService;
     private final EncryptionService encryptionService;
     private final RedisService redisService;
@@ -38,14 +40,12 @@ public class AuthService {
                 ObjectMapper objectMapper = new ObjectMapper();
                 HashMap<String, Object> data = new HashMap<>();
 
-                String key = "user";
-
                 data.put(userId, objectMapper.writeValueAsString(user));
 
                 // Redis에 세션 정보 저장
-                redisService.setHashOps(key, data, Duration.ofSeconds(CommonConstant.EXPIRY_DURATION_SECONDS));
+                redisService.setHashOps(USER_KEY, data, Duration.ofSeconds(CommonConstant.EXPIRY_DURATION_SECONDS));
 
-                User test = objectMapper.readValue(redisService.getHashOps(key, userId), User.class);
+                User test = objectMapper.readValue(redisService.getHashOps(USER_KEY, userId), User.class);
                 System.out.println(test);
                 System.out.println(test.getName());
                 System.out.println(test.getSalt());
@@ -53,6 +53,9 @@ public class AuthService {
                 // 로그인 성공 시 쿠키 생성
                 return createSessionCookie(userId);
             }
+        }
+        else{
+            throw new CustomApiException(ExceptionEnum.USER_NOT_FOUND_EXCEPTION);
         }
         return null;
     }
@@ -83,15 +86,13 @@ public class AuthService {
 
     public void validateSessionId(String sessionId){
 
-        String key = "user";
-
         // 세션 ID가 없는 경우 401 응답
         if (sessionId == null || sessionId.isEmpty()) {
             throw new CustomApiException(ExceptionEnum.UNAUTHORIZED_EXCEPTION, "Session ID가 비어 있습니다.");
         }
 
         // 세션 ID가 잘못된 경우 401 응답
-        if (!redisService.existsHashKey(key, sessionId)) {
+        if (!redisService.existsHashKey(USER_KEY, sessionId)) {
             throw new CustomApiException(ExceptionEnum.UNAUTHORIZED_EXCEPTION, "잘못된 Session ID입니다.");
         }
 

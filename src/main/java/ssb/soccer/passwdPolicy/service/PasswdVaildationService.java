@@ -8,6 +8,7 @@ import ssb.soccer.passwdPolicy.model.PasswdPolicy;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.regex.Pattern;
 
 @Service
@@ -16,7 +17,7 @@ public class PasswdVaildationService {
 
     private final PasswdPolicyMapper passwdPolciy;
     private Pattern compiledPattern;
-    private HashMap<String, Object> resultMap = null;
+    private Map<String, Object> resultMap = null;
 
     /**
      * 비밀번호 정책 초기화 메서드
@@ -30,7 +31,7 @@ public class PasswdVaildationService {
      *         - `policies`: 활성화된 비밀번호 정책 설명 목록
      *         - `regexPattern`: 모든 정책을 결합한 정규식 패턴
      */
-    public HashMap<String, Object> initPasswdPolicyDatas() {
+    public Map<String, Object> initPasswdPolicyDatas() {
 
         // 초기화된 데이터가 있을 경우, 재처리 없이 캐시된 데이터를 반환
         if(resultMap != null){

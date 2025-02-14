@@ -21,7 +21,9 @@ public enum ExceptionEnum {
     // Custom Exception
     SECURITY(HttpStatus.UNAUTHORIZED, "CE0001", "로그인이 필요합니다"),
     PASSWD_POLICY_ERROR(HttpStatus.BAD_REQUEST, "CE0002", "비밀번호가 정책을 만족하지 않습니다."),
-    UNAUTHORIZED_EXCEPTION(HttpStatus.UNAUTHORIZED, "CE0003", "사용자 인증이 유효하지 않습니다.");
+    UNAUTHORIZED_EXCEPTION(HttpStatus.UNAUTHORIZED, "CE0003", "사용자 인증이 유효하지 않습니다."),
+    USER_CREATION_FAILED(HttpStatus.INTERNAL_SERVER_ERROR, "CE0004", "사용자 생성에 실패하였습니다."),
+    USER_NOT_FOUND_EXCEPTION(HttpStatus.BAD_REQUEST, "CE0005", "아이디가 존재하지 않습니다.");
 
     private final HttpStatus status;
     private final String code;

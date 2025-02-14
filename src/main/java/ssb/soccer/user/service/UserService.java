@@ -12,6 +12,7 @@ import ssb.soccer.user.model.User;
 
 import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 @Service
 @RequiredArgsConstructor
@@ -29,22 +30,19 @@ public class UserService {
     }
 
     // 사용자 저장
-    public boolean createUser(User user) {
-
-        boolean result = passwdVaildationService.isPolicySatisfaction(user.getPasswd());
-
-        if (result){
-
-            HashMap<String, String > map = encryptionService.generateHashPassWordAndSalt(user.getPasswd());
-            user.setSalt(map.get("salt"));
-            user.setPasswd(map.get("password"));
-            result = userMapper.createUser(user);
-
-        }
-        else
+    public void createUser(User user) {
+        if (!passwdVaildationService.isPolicySatisfaction(user.getPasswd())) {
             throw new CustomApiException(ExceptionEnum.PASSWD_POLICY_ERROR);
+        }
 
-        return result;
+        Map<String, String> map = encryptionService.generateHashPassWordAndSalt(user.getPasswd());
+        user.setSalt(map.get("salt"));
+        user.setPasswd(map.get("password"));
+
+        boolean isCreated = userMapper.createUser(user);
+        if (!isCreated) {
+            throw new CustomApiException(ExceptionEnum.USER_CREATION_FAILED);
+        }
     }
 
     public boolean findByIdAndPassword(LoginDto loginDto) {

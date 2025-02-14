@@ -9,6 +9,7 @@ import ssb.soccer.com.api.dto.ApiResponse;
 import ssb.soccer.passwdPolicy.service.PasswdVaildationService;
 
 import java.util.HashMap;
+import java.util.Map;
 
 @RestController
 @RequiredArgsConstructor
@@ -19,7 +20,7 @@ public class PasswdVaildationController {
 
     @GetMapping("/password-policies")
     public ResponseEntity<ApiResponse<?>> initPasswdPolicyDatas() {
-        HashMap<String, Object> data = passwdVaildationService.initPasswdPolicyDatas();
+        Map<String, Object> data = passwdVaildationService.initPasswdPolicyDatas();
         return ResponseEntity.ok(ApiResponse.successResponse(data));
     }
 }

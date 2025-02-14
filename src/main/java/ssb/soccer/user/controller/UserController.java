@@ -20,9 +20,8 @@ public class UserController {
     }
 
     @PostMapping
-    public ResponseEntity<ApiResponse<?>>  createUser(@RequestBody User user) {
-        Boolean result =  userService.createUser(user);
-        return ResponseEntity.ok(ApiResponse.successResponse(result));
+    public void createUser(@RequestBody User user) {
+        userService.createUser(user);
     }
 
     @PostMapping("/check-duplicate-id")
