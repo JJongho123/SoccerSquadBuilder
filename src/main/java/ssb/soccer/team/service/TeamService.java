@@ -4,6 +4,7 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+import ssb.soccer.com.constant.CommonConstant;
 import ssb.soccer.redis.service.RedisService;
 import ssb.soccer.team.TeamEnum;
 import ssb.soccer.team.dto.TeamListDto;
@@ -35,7 +36,7 @@ public class TeamService {
                 .build();
 
         ObjectMapper objectMapper = new ObjectMapper();
-        User user = objectMapper.readValue(redisService.getHashOps( "user", sessionId), User.class);
+        User user = objectMapper.readValue(redisService.getHashOps(CommonConstant.USER_KEY, sessionId), User.class);
         teamMapper.createTeam(team);
 
         TeamMembership teamMembership = TeamMembership.builder()

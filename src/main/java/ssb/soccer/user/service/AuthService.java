@@ -21,8 +21,6 @@ import java.util.HashMap;
 @RequiredArgsConstructor
 public class AuthService {
 
-    private final String USER_KEY = "user";
-
     private final UserService userService;
     private final EncryptionService encryptionService;
     private final RedisService redisService;
@@ -43,9 +41,9 @@ public class AuthService {
                 data.put(userId, objectMapper.writeValueAsString(user));
 
                 // Redis에 세션 정보 저장
-                redisService.setHashOps(USER_KEY, data, Duration.ofSeconds(CommonConstant.EXPIRY_DURATION_SECONDS));
+                redisService.setHashOps(CommonConstant.USER_KEY, data, Duration.ofSeconds(CommonConstant.EXPIRY_DURATION_SECONDS));
 
-                User test = objectMapper.readValue(redisService.getHashOps(USER_KEY, userId), User.class);
+                User test = objectMapper.readValue(redisService.getHashOps(CommonConstant.USER_KEY, userId), User.class);
                 System.out.println(test);
                 System.out.println(test.getName());
                 System.out.println(test.getSalt());
@@ -92,7 +90,7 @@ public class AuthService {
         }
 
         // 세션 ID가 잘못된 경우 401 응답
-        if (!redisService.existsHashKey(USER_KEY, sessionId)) {
+        if (!redisService.existsHashKey(CommonConstant.USER_KEY, sessionId)) {
             throw new CustomApiException(ExceptionEnum.UNAUTHORIZED_EXCEPTION, "잘못된 Session ID입니다.");
         }
 
