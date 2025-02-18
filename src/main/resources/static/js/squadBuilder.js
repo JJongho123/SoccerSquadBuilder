@@ -1,5 +1,4 @@
-let hasTeam;
-let role;
+import { getUserData } from "./util/userUtil.js";
 
 $(document).ready(function() {
 
@@ -90,10 +89,10 @@ $(document).ready(function() {
     loadTeams();
 
     // 팀 카드 클릭 이벤트 (동적 생성된 요소에 대한 이벤트 바인딩)
-    $(document).on('click', '.team-card', function() {
-        const teamId = $(this).data('team-id');
-        loadTeamDetail(teamId);
-    });
+    // $(document).on('click', '.team-card', function() {
+    //     const teamId = $(this).data('team-id');
+    //     loadTeamDetail(teamId);
+    // });
 
     // 상세 팝업 닫기
     $('.close-btn').on('click', function() {
@@ -101,9 +100,12 @@ $(document).ready(function() {
     });
 
     // 가입 신청 버튼 클릭
-    $('#joinTeamBtn').on('click', function() {
+    $('#joinTeam').on('click', function() {
         const teamId = $(this).data('team-id');
-        requestJoinTeam(teamId);
+        if(confirm("가입하시겠습니까?")){
+            requestJoinTeam(teamId);
+        }
+
     });
 });
 
@@ -125,6 +127,7 @@ function loadTeams() {
                         <p>팀 실력: ${team.teamLevel}</p>
                         <p>인원: ${team.teamMemberMaxCount}</p>
                         <p>팀장: ${team.userId}</p>
+                        <button id="joinTeam" class="join-team-btn">가입</button>
                     </div>
                 `);
             });
@@ -177,17 +180,3 @@ function requestJoinTeam(teamId) {
     });
 }
 
-function getUserData(){
-    $.ajax({
-        url: `/api/user/data`,
-        type: 'get',
-        success: function(ajaxData) {
-            alert('가입 신청이 완료되었습니다.');
-            console.log(ajaxData)
-        },
-        error: function(xhr, status, error) {
-            const errorMessage = xhr.responseJSON?.message || '가입 신청 중 오류가 발생했습니다.';
-            alert(errorMessage);
-        }
-    });
-}

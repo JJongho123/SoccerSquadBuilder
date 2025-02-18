@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <link rel="stylesheet" href="../css/team-manage.css" />
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+</head>
+<body>
+
+<div class="my-team-container">
+    <!-- 팀 정보 섹션 -->
+    <div class="team-info-section">
+        <div class="team-basic-info">
+            <h2 class="team-name">FC Barcelona</h2>
+            <div class="team-stats">
+                <p><strong>전체 인원:</strong> <span id="totalMembers">25</span>명</p>
+                <p><strong>현재 인원:</strong> <span id="currentMembers">18</span>/<span id="maxMembers">25</span></p>
+                <p><strong>활동 지역:</strong> <span id="location">서울시 강남구</span></p>
+                <p><strong>팀 실력:</strong> <span id="teamLevel">상급</span></p>
+                <p><strong>팀장:</strong> <span id="leaderName">홍길동</span></p>
+            </div>
+        </div>
+
+        <!-- 스쿼드 생성 섹션 -->
+        <div class="squad-creation-section">
+            <select id="squadType" class="squad-select">
+                <option value="">스쿼드 유형 선택</option>
+                <option value="5">5:5</option>
+                <option value="6">6:6</option>
+                <option value="9">9:9</option>
+                <option value="11">11:11</option>
+            </select>
+            <button id="createSquadBtn" class="create-squad-btn" disabled>스쿼드 생성하기</button>
+        </div>
+    </div>
+
+    <!-- 팀원 리스트 섹션 -->
+    <div class="member-list-section">
+        <h3>팀원 목록</h3>
+        <div class="member-list" id="memberList">
+            <!-- 팀원 목록은 JavaScript로 동적 생성됩니다 -->
+        </div>
+        <div class="loading-spinner" style="display: none;">로딩중...</div>
+    </div>
+</div>
+<script type="module" src="../js/team-manage.js"></script>
+</body>
+</html>

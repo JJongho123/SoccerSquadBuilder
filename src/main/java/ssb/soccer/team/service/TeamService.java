@@ -9,6 +9,7 @@ import ssb.soccer.com.exception.CustomApiException;
 import ssb.soccer.com.exception.ExceptionEnum;
 import ssb.soccer.redis.service.RedisService;
 import ssb.soccer.team.TeamEnum;
+import ssb.soccer.team.dto.TeamDetailDto;
 import ssb.soccer.team.dto.TeamListDto;
 import ssb.soccer.team.dto.TeamRequestDto;
 import ssb.soccer.team.mapper.TeamMapper;
@@ -16,6 +17,7 @@ import ssb.soccer.team.mapper.TeamMembershipMapper;
 import ssb.soccer.team.model.Team;
 import ssb.soccer.team.model.TeamMembership;
 import ssb.soccer.user.dto.UserWithTeamDTO;
+import ssb.soccer.user.mapper.UserMapper;
 
 import java.util.List;
 
@@ -25,6 +27,7 @@ public class TeamService {
 
     private final RedisService redisService;
     private final TeamMapper teamMapper;
+    private final UserMapper userMapper;
     private final TeamMembershipMapper teamMembershipMapper;
 
     public void createTeam(TeamRequestDto teamDto, String sessionId) throws JsonProcessingException {
@@ -57,7 +60,18 @@ public class TeamService {
 
     }
 
-    public List<TeamListDto> getTeamList(){
+    public List<TeamDetailDto> getTeamList(){
         return teamMapper.getTeamList();
+    }
+
+
+    public TeamListDto getTeamDetail(int teamId) {
+
+        TeamListDto teamListDto = TeamListDto.builder()
+                .teamDetail(teamMapper.getTeamDetail(teamId))
+                .userList(userMapper.findUserListWithTeam(teamId))
+                .build();
+
+        return teamListDto;
     }
 }

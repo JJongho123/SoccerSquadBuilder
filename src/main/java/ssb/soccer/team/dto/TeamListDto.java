@@ -1,15 +1,19 @@
 package ssb.soccer.team.dto;
 
+import lombok.Builder;
 import lombok.Getter;
 import lombok.Setter;
+import ssb.soccer.team.model.Team;
+import ssb.soccer.user.model.User;
+
+import java.util.List;
 
 @Getter
 @Setter
+@Builder
 public class TeamListDto {
-    private Integer id;
-    private String teamName;
-    private Integer teamMemberMaxCount;
-    private String teamLevel;
-    private String teamActivityArea;
-    private String userId;
+
+    private TeamDetailDto teamDetail;
+    private List<User> userList;
+
 }

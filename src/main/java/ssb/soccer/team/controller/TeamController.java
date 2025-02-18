@@ -27,7 +27,12 @@ public class TeamController {
 
     @GetMapping
     public ResponseEntity<ApiResponse<?>> getTeamList(){
-        System.out.println(teamService.getTeamList());
         return ResponseEntity.ok(ApiResponse.successResponse(teamService.getTeamList()));
     }
+
+    @GetMapping(value="{teamId}")
+    public ResponseEntity<ApiResponse<?>> getTeamDetail(@PathVariable int teamId){
+        return ResponseEntity.ok(ApiResponse.successResponse(teamService.getTeamDetail(teamId)));
+    }
+
 }

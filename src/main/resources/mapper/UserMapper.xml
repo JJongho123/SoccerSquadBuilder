@@ -16,7 +16,7 @@
 
     <!-- ID로 사용자와 팀 조회 -->
     <select id="findUserWithTeam" parameterType="String" resultType="ssb.soccer.user.dto.UserWithTeamDTO">
-        SELECT u.id, u.user_id, u.passwd, u.name, u.salt, tm.team_id
+        SELECT u.id, u.user_id, u.passwd, u.name, u.salt, tm.team_id, tm.role
         FROM user u
                  LEFT JOIN team_membership tm ON u.id = tm.user_fk
         where u.user_id = #{userId}
@@ -26,5 +26,12 @@
         INSERT INTO user (user_id, name, passwd, email, salt)
         VALUES (#{userId}, #{name}, #{passwd}, #{email}, #{salt})
     </insert>
+
+    <select id="findUserListWithTeam" parameterType="Integer" resultType="ssb.soccer.user.dto.UserWithTeamDTO">
+        SELECT u.id, u.user_id, u.passwd, u.name, u.salt, tm.team_id, tm.role
+        FROM user u
+                 left join team_membership tm on u.id = tm.user_fk
+        where tm.team_id = #{teamId}
+    </select>
 
 </mapper>

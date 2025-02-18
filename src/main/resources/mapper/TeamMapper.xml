@@ -7,7 +7,7 @@
         values (#{teamName}, #{teamMemberMaxCount}, #{teamLevel}, #{teamActivityArea});
     </insert>
 
-    <select id="getTeamList" resultType="TeamListDto">
+    <select id="getTeamList" resultType="TeamDetailDto">
         select
             t.id,
             t.team_name,
@@ -20,5 +20,14 @@
         left join user u on tm.user_fk = u.id
         where tm.role = '팀장';
     </select>
+
+    <select id="getTeamDetail" resultType="TeamDetailDto" parameterType="Integer">
+        select t.id, t.team_name, t.team_member_max_count, t.team_level, t.team_activity_area, u.user_id
+        from team t
+                 left join team_membership tm on t.id = tm.team_id
+                 left join user u on u.id = tm.user_fk
+        where t.id = #{teamId} and role = '팀장';
+    </select>
+
 
 </mapper>
