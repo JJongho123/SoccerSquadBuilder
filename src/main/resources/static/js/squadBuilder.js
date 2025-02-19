@@ -1,15 +1,15 @@
-import { getUserData } from "./util/userUtil.js";
+import {getUserData} from "./util/userUtil.js";
 
-$(document).ready(function() {
+$(document).ready(function () {
 
     getUserData();
 
     // 팀 생성 버튼 클릭 시 팝업 열기
-    $('.create-team-btn').on('click', function() {
+    $('.create-team-btn').on('click', function () {
         $('#teamPopup').fadeIn(300);
     });
 
-    $('#createTeamBtn').on('click', function() {
+    $('#createTeamBtn').on('click', function () {
         const params = {
             teamActivityArea: $('#teamActivityArea').val(),
             teamLevel: $('#teamLevel').val(),
@@ -22,35 +22,31 @@ $(document).ready(function() {
             type: 'POST',
             contentType: 'application/json',
             data: JSON.stringify(params),
-            success: function(ajaxData) {
-                if(ajaxData.data === true){
-                    alert("팀 생성 성공")
-                }
-                else{
-                    alert('팀 생성 실패');
-                }
+            success: function () {
+                alert("팀 생성 성공")
+                window.location.reload();
             },
-            error: function(xhr, status, error) {
-                alert('팀 생성 실패 !!!');
+            error: function (xhr, status, error) {
+                alert('팀 생성 실패');
                 console.error('Error:', error);
             }
         });
     });
 
     // 취소 버튼 클릭 시 팝업 닫기
-    $('.popup-content button[type="button"]').on('click', function() {
+    $('.popup-content button[type="button"]').on('click', function () {
         $('#teamPopup').fadeOut(300);
     });
 
     // 팝업 외부 클릭 시 닫기
-    $(document).on('click', function(e) {
+    $(document).on('click', function (e) {
         if ($(e.target).is('#teamPopup')) {
             $('#teamPopup').fadeOut(300);
         }
     });
 
     // 폼 제출 처리
-    $('#teamCreateForm').on('submit', function(e) {
+    $('#teamCreateForm').on('submit', function (e) {
         e.preventDefault();
 
         // 폼 데이터 수집
@@ -84,7 +80,7 @@ $(document).ready(function() {
     });
 });
 
-$(document).ready(function() {
+$(document).ready(function () {
     // 팀 목록 로드
     loadTeams();
 
@@ -95,14 +91,14 @@ $(document).ready(function() {
     // });
 
     // 상세 팝업 닫기
-    $('.close-btn').on('click', function() {
+    $('.close-btn').on('click', function () {
         $('#teamDetailPopup').fadeOut(300);
     });
 
     // 가입 신청 버튼 클릭
-    $('#joinTeam').on('click', function() {
+    $('#joinTeam').on('click', function () {
         const teamId = $(this).data('team-id');
-        if(confirm("가입하시겠습니까?")){
+        if (confirm("가입하시겠습니까?")) {
             requestJoinTeam(teamId);
         }
 
@@ -114,7 +110,7 @@ function loadTeams() {
     $.ajax({
         url: '/api/team',
         type: 'GET',
-        success: function(ajaxData) {
+        success: function (ajaxData) {
             const teamList = $('.team-list');
             teamList.empty();
             const teams = ajaxData.data
@@ -132,7 +128,7 @@ function loadTeams() {
                 `);
             });
         },
-        error: function(xhr, status, error) {
+        error: function (xhr, status, error) {
             alert('팀 목록을 불러오는데 실패했습니다.');
         }
     });
@@ -143,7 +139,7 @@ function loadTeamDetail(teamId) {
     $.ajax({
         url: `/api/teams/${teamId}`,  // 실제 API 엔드포인트로 수정 필요
         type: 'GET',
-        success: function(team) {
+        success: function (team) {
             // 상세 정보 팝업 데이터 설정
             $('#detailTeamName').text(team.teamName);
             $('#detailLeader').text(team.leaderName);
@@ -158,7 +154,7 @@ function loadTeamDetail(teamId) {
             // 팝업 표시
             $('#teamDetailPopup').fadeIn(300);
         },
-        error: function(xhr, status, error) {
+        error: function (xhr, status, error) {
             alert('팀 정보를 불러오는데 실패했습니다.');
         }
     });
@@ -169,11 +165,11 @@ function requestJoinTeam(teamId) {
     $.ajax({
         url: `/api/teams/${teamId}/join`,  // 실제 API 엔드포인트로 수정 필요
         type: 'POST',
-        success: function(response) {
+        success: function (response) {
             alert('가입 신청이 완료되었습니다.');
             $('#teamDetailPopup').fadeOut(300);
         },
-        error: function(xhr, status, error) {
+        error: function (xhr, status, error) {
             const errorMessage = xhr.responseJSON?.message || '가입 신청 중 오류가 발생했습니다.';
             alert(errorMessage);
         }

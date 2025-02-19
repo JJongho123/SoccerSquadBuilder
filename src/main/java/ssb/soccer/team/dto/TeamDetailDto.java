@@ -12,4 +12,5 @@ public class TeamDetailDto {
     private String teamLevel;
     private String teamActivityArea;
     private String userId;
+    private String name;
 }

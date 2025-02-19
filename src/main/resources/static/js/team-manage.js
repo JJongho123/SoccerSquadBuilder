@@ -1,22 +1,85 @@
 import {getUserData} from "./util/userUtil.js";
 
 let role;
+let page = 1;
+let loading = false;
+let hasMore = true;
 
 $(document).ready(async function () {
-    let page = 1;
-    let loading = false;
-    let hasMore = true;
-
     // 초기 데이터 로드
     const userData = await getUserData();
-    console.log(userData)
-    role = userData.role
+    role = userData.role;
     loadTeamInfo(parseInt(userData.teamId));
-    loadMembers(page);
 
-    // 스쿼드 유형 선택 시 버튼 활성화
+    // 이벤트 리스너 등록
+    initializeEventListeners();
+});
+
+// 모든 이벤트 리스너 초기화
+function initializeEventListeners() {
+    // 스쿼드 유형 선택 이벤트
     $('#squadType').on('change', function () {
         $('#createSquadBtn').prop('disabled', !$(this).val());
+    });
+
+    // 스쿼드 생성 버튼 클릭
+    $('#createSquadBtn').on('click', function () {
+        const squadType = $('#squadType').val();
+        const selectedMembers = getSelectedMembers();
+        if (validateSquadMembers(squadType, selectedMembers)) {
+            createSquad(squadType, selectedMembers);
+        }
+    });
+
+    // 팀 수정 버튼 클릭
+    $('.edit-team-btn').on('click', function () {
+        if (role !== '팀장') {
+            alert('팀장만 수정할 수 있습니다.');
+            return;
+        }
+        openTeamEditPopup();
+    });
+
+    // 팀원 팝업 닫기 버튼 클릭
+    $('#close-popup-btn').on('click', function () {
+        closeMemberEditPopup();
+    });
+
+    // 팀 팝업 닫기 버튼 클릭
+    $('#team-popup-btn').on('click', function () {
+        closeTeamEditPopup();
+    });
+
+    // 팀원 수정 버튼 클릭 (동적 요소)
+    $(document).on('click', '.edit-member-btn', function () {
+        if (role !== '팀장') {
+            alert('팀장만 수정할 수 있습니다.');
+            return;
+        }
+        // const memberId = $(this).data('member-id');
+        openMemberEditPopup($(this));
+    });
+
+    // 팀원 추방 버튼 클릭 (동적 요소)
+    $(document).on('click', '.remove-member-btn', function () {
+        if (role !== '팀장') {
+            alert('팀장만 추방할 수 있습니다.');
+            return;
+        }
+        const memberId = $(this).data('member-id');
+        removeMember(memberId);
+    });
+
+    // 팀 정보 수정 폼 제출
+    $('#teamEditForm').on('submit', function (e) {
+        e.preventDefault();
+        updateTeamInfo();
+    });
+
+    // 팀원 정보 수정 폼 제출
+    $('#memberEditForm').on('submit', function (e) {
+        e.preventDefault();
+        updateMemberInfo();
     });
 
     // 무한 스크롤
@@ -28,88 +91,180 @@ $(document).ready(async function () {
             }
         }
     });
-
-    // 스쿼드 생성 버튼 클릭
-    $('#createSquadBtn').on('click', function () {
-        const squadType = $('#squadType').val();
-        const selectedMembers = getSelectedMembers();
-
-        if (validateSquadMembers(squadType, selectedMembers)) {
-            createSquad(squadType, selectedMembers);
-        }
-    });
-});
+}
 
 // 팀 정보 로드
 function loadTeamInfo(teamId) {
-
     $.ajax({
-        url: `/api/team/${teamId}`,  // 실제 API 엔드포인트로 수정 필요
+        url: `/api/team/${teamId}`,
         type: 'GET',
-        success: function(team) {
-            $('#totalMembers').text(team.totalMembers);
-            $('#currentMembers').text(team.currentMembers);
-            $('#maxMembers').text(team.maxMembers);
-            $('#location').text(team.location);
-            $('#teamLevel').text(team.teamLevel);
-            $('#leaderName').text(team.leaderName);
+        success: function (ajaxData) {
+            const team = ajaxData.data.teamDetail;
+            const userList = ajaxData.data.userList;
+
+            updateTeamInfoDisplay(team, userList.length);
+            renderMemberList(userList);
         },
-        error: function(xhr, status, error) {
+        error: function (xhr, status, error) {
+            console.error('팀 정보 로드 실패:', error);
             alert('팀 정보를 불러오는데 실패했습니다.');
         }
     });
 }
 
-// 팀원 목록 로드 (무한 스크롤)
-function loadMembers(page) {
-    if (loading) return;
+// 팀 정보 화면 업데이트
+function updateTeamInfoDisplay(team, currentMembers) {
+    $('#team-name').text(team.teamName);
+    $('#totalMembers').text(team.teamMemberMaxCount);
+    $('#currentMembers').text(currentMembers);
+    $('#location').text(team.teamActivityArea);
+    $('#teamLevel').text(team.teamLevel);
+    $('#leaderName').text(team.name);
+}
 
-    loading = true;
-    $('.loading-spinner').show();
+// 팀원 목록 렌더링
+function renderMemberList(userList) {
+    const memberList = $('#memberList');
+    memberList.empty();
+
+    userList.forEach(member => {
+        const memberActions = role === '팀장' ? `
+            <div class="member-actions">
+                <button id="edit-member-btn" class="edit-member-btn" data-member-id="${member.id}">수정</button>
+                <button class="remove-member-btn" data-member-id="${member.id}">추방</button>
+            </div>
+        ` : '';
+
+        memberList.append(`
+            <div class="member-item">
+                <input type="checkbox" class="member-checkbox" data-member-id="${member.id}">
+                <div class="member-info">
+                    <span><strong>이름:</strong> ${member.name}</span>
+                    <span><strong>키:</strong> ${member.height}cm</span>
+                    <span><strong>체력:</strong> ${member.stamina}</span>
+                    <span><strong>주발:</strong> ${member.mainFoot || ""}</span>
+                    <span><strong>주포지션:</strong> ${member.position || ""}</span>
+                    <span><strong>나이:</strong> ${member.age}세</span>
+                </div>
+                ${memberActions}
+            </div>
+        `);
+    });
+}
+
+// 팀 정보 수정 팝업 열기
+function openTeamEditPopup() {
+
+    $('#editTeamName').val($('#team-name').text());
+    $('#editMaxMembers').val($('#totalMembers').text());
+    $('#editTeamLevel').val($('#teamLevel').text());
+    $('#editLocation').val($('#location').text());
+    $('#teamEditPopup').fadeIn(300);
+}
+
+// 팀 정보 수정
+function updateTeamInfo() {
+    const formData = {
+        teamName: $('#editTeamName').val(),
+        maxMembers: $('#editMaxMembers').val(),
+        teamLevel: $('#editTeamLevel').val(),
+        location: $('#editLocation').val()
+    };
 
     $.ajax({
-        url: `/api/my-team/members?page=${page}`,  // 실제 API 엔드포인트로 수정 필요
-        type: 'GET',
-        success: function(response) {
-            const members = response.members;
-            hasMore = response.hasMore;
-
-            members.forEach(member => {
-                $('#memberList').append(`
-                    <div class="member-item">
-                        <input type="checkbox" class="member-checkbox" data-member-id="${member.id}">
-                        <div class="member-info">
-                            <span><strong>이름:</strong> ${member.name}</span>
-                            <span><strong>키:</strong> ${member.height}cm</span>
-                            <span><strong>체력:</strong> ${member.stamina}</span>
-                            <span><strong>주발:</strong> ${member.mainFoot}</span>
-                            <span><strong>주포지션:</strong> ${member.position}</span>
-                            <span><strong>나이:</strong> ${member.age}세</span>
-                        </div>
-                    </div>
-                `);
-            });
+        url: '/api/teams/update',
+        type: 'PUT',
+        contentType: 'application/json',
+        data: JSON.stringify(formData),
+        success: function (response) {
+            alert('팀 정보가 수정되었습니다.');
+            closeTeamEditPopup();
+            location.reload();
         },
-        error: function(xhr, status, error) {
-            alert('팀원 목록을 불러오는데 실패했습니다.');
-        },
-        complete: function() {
-            loading = false;
-            $('.loading-spinner').hide();
+        error: function (xhr) {
+            alert('팀 정보 수정에 실패했습니다.');
         }
     });
 }
 
-// 선택된 팀원 가져오기
+// 팀원 정보 수정 팝업 열기
+function openMemberEditPopup(memberId) {
+    $.ajax({
+        url: `/api/user/${memberId}`,
+        type: 'GET',
+        success: function (member) {
+            $('#editMemberId').val(memberId);
+            $('#editMemberPosition').val(member.position);
+            $('#editMemberLevel').val(member.level);
+            $('#memberEditPopup').fadeIn(300);
+        },
+        error: function (xhr) {
+            alert('팀원 정보를 불러오는데 실패했습니다.');
+        }
+    });
+}
+
+// 팀원 정보 수정
+function updateMemberInfo() {
+    const memberId = $('#editMemberId').val();
+    const formData = {
+        position: $('#editMemberPosition').val(),
+        level: $('#editMemberLevel').val()
+    };
+
+    $.ajax({
+        url: `/api/members/${memberId}/update`,
+        type: 'PUT',
+        contentType: 'application/json',
+        data: JSON.stringify(formData),
+        success: function (response) {
+            alert('팀원 정보가 수정되었습니다.');
+            closeMemberEditPopup();
+            loadTeamInfo(parseInt(userData.teamId));
+        },
+        error: function (xhr) {
+            alert('팀원 정보 수정에 실패했습니다.');
+        }
+    });
+}
+
+// 팀원 추방
+function removeMember(memberId) {
+    if (!confirm('정말로 이 팀원을 추방하시겠습니까?')) {
+        return;
+    }
+
+    $.ajax({
+        url: `/api/members/${memberId}/remove`,
+        type: 'DELETE',
+        success: function (response) {
+            alert('팀원이 추방되었습니다.');
+            loadTeamInfo(parseInt(userData.teamId));
+        },
+        error: function (xhr) {
+            alert('팀원 추방에 실패했습니다.');
+        }
+    });
+}
+
+// 팝업 닫기 함수들
+function closeTeamEditPopup() {
+    $('#teamEditPopup').fadeOut(300);
+}
+
+function closeMemberEditPopup() {
+    $('#memberEditPopup').fadeOut(300);
+}
+
+// 스쿼드 관련 함수들
 function getSelectedMembers() {
     const selectedMembers = [];
-    $('.member-checkbox:checked').each(function() {
+    $('.member-checkbox:checked').each(function () {
         selectedMembers.push($(this).data('member-id'));
     });
     return selectedMembers;
 }
 
-// 스쿼드 인원 검증
 function validateSquadMembers(squadType, selectedMembers) {
     const requiredMembers = parseInt(squadType) * 2;
     if (selectedMembers.length !== requiredMembers) {
@@ -119,21 +274,19 @@ function validateSquadMembers(squadType, selectedMembers) {
     return true;
 }
 
-// 스쿼드 생성
 function createSquad(squadType, members) {
     $.ajax({
-        url: '/api/squads/create',  // 실제 API 엔드포인트로 수정 필요
+        url: '/api/squads/create',
         type: 'POST',
         contentType: 'application/json',
         data: JSON.stringify({
             type: squadType,
             members: members
         }),
-        success: function(response) {
+        success: function (response) {
             alert('스쿼드가 성공적으로 생성되었습니다.');
-            // 스쿼드 생성 후 처리 (예: 스쿼드 페이지로 이동)
         },
-        error: function(xhr, status, error) {
+        error: function (xhr, status, error) {
             alert('스쿼드 생성에 실패했습니다.');
         }
     });

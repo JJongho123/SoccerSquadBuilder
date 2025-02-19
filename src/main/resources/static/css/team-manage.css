@@ -92,3 +92,95 @@
     padding: 20px;
     color: #666;
 }
+
+/* 팝업 관련 스타일 추가 */
+.popup-overlay {
+    display: none;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.5);
+    z-index: 1000;
+}
+
+.popup-content {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background-color: white;
+    padding: 20px;
+    border-radius: 8px;
+    width: 400px;
+    max-width: 90%;
+}
+
+/* 버튼 스타일 */
+.edit-team-btn,
+.edit-member-btn,
+.remove-member-btn {
+    padding: 6px 12px;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    margin-left: 10px;
+}
+
+.edit-team-btn {
+    background-color: #007bff;
+    color: white;
+}
+
+.edit-member-btn {
+    background-color: #28a745;
+    color: white;
+}
+
+.remove-member-btn {
+    background-color: #dc3545;
+    color: white;
+}
+
+/* 팀원 목록 아이템 스타일 */
+.member-item {
+    display: flex;
+    align-items: center;
+    padding: 15px;
+    border-bottom: 1px solid #eee;
+}
+
+.member-actions {
+    display: flex;
+    gap: 8px;
+    margin-left: auto;
+}
+
+/* 폼 스타일 */
+.form-group {
+    margin-bottom: 15px;
+}
+
+.form-group label {
+    display: block;
+    margin-bottom: 5px;
+}
+
+.form-group input,
+.form-group select {
+    width: 100%;
+    padding: 8px;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+}
+
+.button-group {
+    text-align: right;
+    margin-top: 20px;
+}
+
+.button-group button {
+    margin-left: 10px;
+    padding: 8px 16px;
+}

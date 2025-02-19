@@ -12,6 +12,11 @@ public class CustomApiException extends RuntimeException {
         this.error = e;
     }
 
+    public CustomApiException(ExceptionEnum e, Throwable cause) {
+        super(e.getMessage(), cause);
+        this.error = e;
+    }
+
     public CustomApiException(ExceptionEnum e, String errorMsg) {
         super(errorMsg);
         this.error = e;

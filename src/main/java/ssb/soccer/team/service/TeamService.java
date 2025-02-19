@@ -30,7 +30,7 @@ public class TeamService {
     private final UserMapper userMapper;
     private final TeamMembershipMapper teamMembershipMapper;
 
-    public void createTeam(TeamRequestDto teamDto, String sessionId) throws JsonProcessingException {
+    public void createTeam(TeamRequestDto teamDto, String sessionId) {
 
         Team team = Team.builder()
                 .teamName(teamDto.getTeamName())
@@ -41,9 +41,10 @@ public class TeamService {
                 .build();
 
         UserWithTeamDTO user = redisService.getHashOpsAsObject(CommonConstant.USER_KEY, sessionId, UserWithTeamDTO.class);
-        boolean isCreatedTeam = teamMapper.createTeam(team);
-        if (isCreatedTeam) {
-            throw new CustomApiException(ExceptionEnum.TEAM_CREATION_FAILED);
+        try {
+            teamMapper.createTeam(team);
+        } catch (Exception e) {
+            throw new CustomApiException(ExceptionEnum.TEAM_CREATION_FAILED, e);
         }
 
         TeamMembership teamMembership = TeamMembership.builder()
@@ -53,23 +54,23 @@ public class TeamService {
                 .id(null)
                 .build();
 
-        boolean isCreatedMembership = teamMembershipMapper.createMemberShip(teamMembership);
-        if (isCreatedMembership) {
-            throw new CustomApiException(ExceptionEnum.TEAM_MEMBERSHIP_CREATION_FAILED);
+        try {
+            teamMembershipMapper.createMemberShip(teamMembership);
+        } catch (Exception e) {
+            throw new CustomApiException(ExceptionEnum.TEAM_MEMBERSHIP_CREATION_FAILED, e);
         }
 
     }
 
-    public List<TeamDetailDto> getTeamList(){
+    public List<TeamDetailDto> getTeamList() {
         return teamMapper.getTeamList();
     }
-
 
     public TeamListDto getTeamDetail(int teamId) {
 
         TeamListDto teamListDto = TeamListDto.builder()
                 .teamDetail(teamMapper.getTeamDetail(teamId))
-                .userList(userMapper.findUserListWithTeam(teamId))
+                .userList(userMapper.findUserList(teamId))
                 .build();
 
         return teamListDto;

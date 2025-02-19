@@ -49,7 +49,7 @@ public class UserService {
 
     // 사용자 ID로 사용자 조회
     public User findById(String userId) {
-        return userMapper.findById(userId);
+        return userMapper.findByUserId(userId);
     }
 
     // 사용자 ID로 사용자와 팀 조회
@@ -60,5 +60,9 @@ public class UserService {
     public UserWithTeamDTO getUserData(HttpServletRequest request) {
         String sessionId = CookieUtil.getCookieSessionId(request);
         return redisService.getHashOpsAsObject(CommonConstant.USER_KEY, sessionId, UserWithTeamDTO.class);
+    }
+
+    public User getUserById(int id) {
+        return userMapper.findById(id);
     }
 }

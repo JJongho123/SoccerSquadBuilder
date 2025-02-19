@@ -22,7 +22,13 @@
     </select>
 
     <select id="getTeamDetail" resultType="TeamDetailDto" parameterType="Integer">
-        select t.id, t.team_name, t.team_member_max_count, t.team_level, t.team_activity_area, u.user_id
+        select t.id,
+               t.team_name,
+               t.team_member_max_count,
+               t.team_level,
+               t.team_activity_area,
+               u.user_id,
+               u.name
         from team t
                  left join team_membership tm on t.id = tm.team_id
                  left join user u on u.id = tm.user_fk

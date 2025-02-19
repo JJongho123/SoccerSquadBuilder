@@ -7,14 +7,21 @@
         SELECT * FROM user;
     </select>
 
-    <!-- ID로 사용자 조회 -->
-    <select id="findById" parameterType="String" resultType="ssb.soccer.user.model.User">
+    <!-- 사용자ID로 사용자 조회 -->
+    <select id="findByUserId" parameterType="String" resultType="ssb.soccer.user.model.User">
         SELECT *
         FROM user
         WHERE user_id = #{userId};
     </select>
 
-    <!-- ID로 사용자와 팀 조회 -->
+    <!-- ID로 사용자 조회 -->
+    <select id="findById" parameterType="Integer" resultType="ssb.soccer.user.model.User">
+        SELECT *
+        FROM user
+        WHERE id = #{id};
+    </select>
+
+    <!-- 사용자ID로 사용자와 팀 조회 -->
     <select id="findUserWithTeam" parameterType="String" resultType="ssb.soccer.user.dto.UserWithTeamDTO">
         SELECT u.id, u.user_id, u.passwd, u.name, u.salt, tm.team_id, tm.role
         FROM user u
@@ -22,16 +29,29 @@
         where u.user_id = #{userId}
     </select>
 
+    <!-- 팀ID로 사용자와 팀 조회 -->
+    <select id="findUserList" parameterType="Integer" resultType="ssb.soccer.user.dto.UserWithTeamDTO">
+        SELECT u.id,
+               u.user_id,
+               u.passwd,
+               u.name,
+               u.position,
+               u.height,
+               u.stamina,
+               u.age,
+               u.main_foot,
+               tm.role
+        FROM user u
+                 left join team_membership tm on u.id = tm.user_fk
+        where tm.team_id = #{teamId}
+        order by (tm.role = '팀장') desc
+    </select>
+
+
+    <!-- 사용자 생성 -->
     <insert id="createUser" parameterType="User">
         INSERT INTO user (user_id, name, passwd, email, salt)
         VALUES (#{userId}, #{name}, #{passwd}, #{email}, #{salt})
     </insert>
-
-    <select id="findUserListWithTeam" parameterType="Integer" resultType="ssb.soccer.user.dto.UserWithTeamDTO">
-        SELECT u.id, u.user_id, u.passwd, u.name, u.salt, tm.team_id, tm.role
-        FROM user u
-                 left join team_membership tm on u.id = tm.user_fk
-        where tm.team_id = #{teamId}
-    </select>
 
 </mapper>

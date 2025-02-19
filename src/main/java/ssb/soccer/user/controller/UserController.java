@@ -48,9 +48,9 @@ public class UserController {
         return ResponseEntity.ok(ApiResponse.successResponse(responseDto));
     }
 
-//    @GetMapping("/{id}")
-//    public User getUserById(@PathVariable String id) {
-//        return userService.getUserById(id);
-//    }
+    @GetMapping("/{id}")
+    public User getUserById(@PathVariable int id) {
+        return userService.getUserById(id);
+    }
 
 }

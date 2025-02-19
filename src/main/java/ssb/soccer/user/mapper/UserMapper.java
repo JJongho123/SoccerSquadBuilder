@@ -9,8 +9,8 @@ public interface UserMapper {
 
     List<User> findAllUsers();
     boolean createUser(User user);
-    User findById(String userId);
+    User findByUserId(String userId);
     UserWithTeamDTO findUserWithTeam(String userId);
-    List<User> findUserListWithTeam(int teamId);
-
+    List<User> findUserList(int teamId);
+    User findById(int id);
 }
