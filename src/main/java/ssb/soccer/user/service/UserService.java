@@ -57,12 +57,16 @@ public class UserService {
         return userMapper.findUserWithTeam(userId);
     }
 
-    public UserWithTeamDTO getUserData(HttpServletRequest request) {
+    public UserWithTeamDTO getUserInfo(HttpServletRequest request) {
         String sessionId = CookieUtil.getCookieSessionId(request);
         return redisService.getHashOpsAsObject(CommonConstant.USER_KEY, sessionId, UserWithTeamDTO.class);
     }
 
     public User getUserById(int id) {
         return userMapper.findById(id);
+    }
+
+    public void updateUser(User user) {
+        userMapper.updateUser(user);
     }
 }

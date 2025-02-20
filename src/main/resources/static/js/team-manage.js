@@ -4,10 +4,12 @@ let role;
 let page = 1;
 let loading = false;
 let hasMore = true;
+let teamId;
 
 $(document).ready(async function () {
     // 초기 데이터 로드
     const userData = await getUserData();
+    teamId = userData.teamId
     role = userData.role;
     loadTeamInfo(parseInt(userData.teamId));
 
@@ -41,7 +43,7 @@ function initializeEventListeners() {
     });
 
     // 팀원 팝업 닫기 버튼 클릭
-    $('#close-popup-btn').on('click', function () {
+    $('#member-update-cancel').on('click', function () {
         closeMemberEditPopup();
     });
 
@@ -56,8 +58,8 @@ function initializeEventListeners() {
             alert('팀장만 수정할 수 있습니다.');
             return;
         }
-        // const memberId = $(this).data('member-id');
-        openMemberEditPopup($(this));
+        const memberId = $(this).data('member-id');
+        openMemberEditPopup(parseInt(memberId));
     });
 
     // 팀원 추방 버튼 클릭 (동적 요소)
@@ -192,10 +194,14 @@ function openMemberEditPopup(memberId) {
     $.ajax({
         url: `/api/user/${memberId}`,
         type: 'GET',
-        success: function (member) {
+        success: function (ajaxData) {
+            const member = ajaxData.data
             $('#editMemberId').val(memberId);
             $('#editMemberPosition').val(member.position);
-            $('#editMemberLevel').val(member.level);
+            $('#editMemberStamina').val(member.stamina);
+            $('#editMemberAge').val(member.age);
+            $('#editMemberMainFoot').val(member.mainFoot);
+            $('#editMemberHeight').val(member.height);
             $('#memberEditPopup').fadeIn(300);
         },
         error: function (xhr) {
@@ -209,18 +215,22 @@ function updateMemberInfo() {
     const memberId = $('#editMemberId').val();
     const formData = {
         position: $('#editMemberPosition').val(),
-        level: $('#editMemberLevel').val()
+        stamina: $('#editMemberStamina').val(),
+        age: $('#editMemberAge').val(),
+        mainFoot: $('#editMemberMainFoot').val(),
+        height: $('#editMemberHeight').val(),
+        id : memberId
     };
 
     $.ajax({
-        url: `/api/members/${memberId}/update`,
+        url: `/api/user`,
         type: 'PUT',
         contentType: 'application/json',
         data: JSON.stringify(formData),
         success: function (response) {
             alert('팀원 정보가 수정되었습니다.');
             closeMemberEditPopup();
-            loadTeamInfo(parseInt(userData.teamId));
+            loadTeamInfo(parseInt(teamId));
         },
         error: function (xhr) {
             alert('팀원 정보 수정에 실패했습니다.');

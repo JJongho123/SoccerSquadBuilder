@@ -19,7 +19,9 @@ import ssb.soccer.team.model.TeamMembership;
 import ssb.soccer.user.dto.UserWithTeamDTO;
 import ssb.soccer.user.mapper.UserMapper;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 @Service
 @RequiredArgsConstructor
@@ -75,4 +77,25 @@ public class TeamService {
 
         return teamListDto;
     }
+
+    // todo 팀 조인부터 다시 작업
+    public void joinTeam(Map<String, Object> params){
+
+        int userFk = Integer.parseInt(params.get("userFk").toString());
+        int teamId = Integer.parseInt(params.get("teamId").toString());
+
+        TeamMembership teamMembership = TeamMembership.builder()
+                .teamId(teamId)
+                .userFk(userFk)
+                .role(TeamEnum.TEAM_LEADER.getName())
+                .id(null)
+                .build();
+
+        try {
+            teamMembershipMapper.createMemberShip(teamMembership);
+        } catch (Exception e) {
+            throw new CustomApiException(ExceptionEnum.TEAM_MEMBERSHIP_CREATION_FAILED, e);
+        }
+    }
+
 }

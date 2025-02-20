@@ -14,5 +14,7 @@ public class User {
     private String position;
     private int height;
     private int stamina;
+    private int age;
     private String salt;
+    private String mainFoot;
 }

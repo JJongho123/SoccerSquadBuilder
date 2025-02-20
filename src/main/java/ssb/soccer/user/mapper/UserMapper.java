@@ -13,4 +13,6 @@ public interface UserMapper {
     UserWithTeamDTO findUserWithTeam(String userId);
     List<User> findUserList(int teamId);
     User findById(int id);
+
+    void updateUser(User user);
 }

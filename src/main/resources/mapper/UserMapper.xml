@@ -54,4 +54,16 @@
         VALUES (#{userId}, #{name}, #{passwd}, #{email}, #{salt})
     </insert>
 
+    <!-- 사용자 수정 -->
+    <update id="updateUser" parameterType="User">
+        UPDATE user
+        SET position = #{position},
+            stamina = #{stamina},
+            age = #{age},
+            main_foot = #{mainFoot},
+            height = #{height}
+        WHERE id = #{id}
+
+    </update>
+
 </mapper>

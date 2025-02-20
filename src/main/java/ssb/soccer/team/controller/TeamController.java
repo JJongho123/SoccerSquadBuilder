@@ -12,6 +12,8 @@ import ssb.soccer.team.dto.TeamRequestDto;
 import ssb.soccer.team.service.TeamService;
 import ssb.soccer.user.service.AuthService;
 
+import java.util.Map;
+
 @RestController
 @RequiredArgsConstructor
 @RequestMapping("/api/team")
@@ -33,6 +35,11 @@ public class TeamController {
     @GetMapping(value="{teamId}")
     public ResponseEntity<ApiResponse<?>> getTeamDetail(@PathVariable int teamId){
         return ResponseEntity.ok(ApiResponse.successResponse(teamService.getTeamDetail(teamId)));
+    }
+
+    @PostMapping("/join")
+    public void joinTeam(@RequestBody Map<String, Object> params){
+        teamService.joinTeam(params);
     }
 
 }

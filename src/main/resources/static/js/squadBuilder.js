@@ -1,8 +1,20 @@
 import {getUserData} from "./util/userUtil.js";
 
-$(document).ready(function () {
+let userInfo;
 
-    getUserData();
+$(document).on('click', '.join-team-btn', function () {
+    const teamId = $(this).data('team-id');
+    if (confirm("가입하시겠습니까?")) {
+        requestJoinTeam(teamId);
+    }
+});
+
+$(document).ready(async function () {
+
+    userInfo = await getUserData();
+    if (userInfo.role) {
+        $(".create-team-btn").remove();
+    }
 
     // 팀 생성 버튼 클릭 시 팝업 열기
     $('.create-team-btn').on('click', function () {
@@ -16,6 +28,7 @@ $(document).ready(function () {
             teamMemberMaxCount: $('#teamMemberMaxCount').val(),
             teamName: $('#teamName').val()
         }
+
 
         $.ajax({
             url: '/api/team',
@@ -80,6 +93,7 @@ $(document).ready(function () {
     });
 });
 
+
 $(document).ready(function () {
     // 팀 목록 로드
     loadTeams();
@@ -95,14 +109,6 @@ $(document).ready(function () {
         $('#teamDetailPopup').fadeOut(300);
     });
 
-    // 가입 신청 버튼 클릭
-    $('#joinTeam').on('click', function () {
-        const teamId = $(this).data('team-id');
-        if (confirm("가입하시겠습니까?")) {
-            requestJoinTeam(teamId);
-        }
-
-    });
 });
 
 // 팀 목록 로드 함수
@@ -123,7 +129,7 @@ function loadTeams() {
                         <p>팀 실력: ${team.teamLevel}</p>
                         <p>인원: ${team.teamMemberMaxCount}</p>
                         <p>팀장: ${team.userId}</p>
-                        <button id="joinTeam" class="join-team-btn">가입</button>
+                        <button data-team-id="${team.id}" class="join-team-btn">가입</button>
                     </div>
                 `);
             });
@@ -149,7 +155,7 @@ function loadTeamDetail(teamId) {
             $('#detailLocation').text(team.location);
 
             // 가입 신청 버튼에 팀 ID 설정
-            $('#joinTeamBtn').data('team-id', teamId);
+            $('#joinTeam').data('team-id', teamId);
 
             // 팝업 표시
             $('#teamDetailPopup').fadeIn(300);
@@ -162,10 +168,17 @@ function loadTeamDetail(teamId) {
 
 // 가입 신청 함수
 function requestJoinTeam(teamId) {
+
+    const params = {
+        teamId: teamId,
+        userFk: userInfo.id
+    }
+
     $.ajax({
-        url: `/api/teams/${teamId}/join`,  // 실제 API 엔드포인트로 수정 필요
-        type: 'POST',
-        success: function (response) {
+        url: `/api/team/${teamId}/join`,  // 실제 API 엔드포인트로 수정 필요
+        type: 'PUT',
+        data: JSON.stringify(params),
+        success: function (ajaxData) {
             alert('가입 신청이 완료되었습니다.');
             $('#teamDetailPopup').fadeOut(300);
         },
@@ -175,4 +188,5 @@ function requestJoinTeam(teamId) {
         }
     });
 }
+
 

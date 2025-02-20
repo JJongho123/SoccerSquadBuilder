@@ -42,15 +42,20 @@ public class UserController {
     }
 
 
-    @GetMapping("/data")
-    public ResponseEntity<ApiResponse<?>> getUserData(HttpServletRequest request){
-        UserWithTeamDTO responseDto = userService.getUserData(request);
+    @GetMapping("/info")
+    public ResponseEntity<ApiResponse<?>> getUserInfo(HttpServletRequest request){
+        UserWithTeamDTO responseDto = userService.getUserInfo(request);
         return ResponseEntity.ok(ApiResponse.successResponse(responseDto));
     }
 
     @GetMapping("/{id}")
-    public User getUserById(@PathVariable int id) {
-        return userService.getUserById(id);
+    public ResponseEntity<ApiResponse<?>> getUserById(@PathVariable int id) {
+        return ResponseEntity.ok(ApiResponse.successResponse(userService.getUserById(id)));
+    }
+
+    @PutMapping()
+    public void updateUserById(@RequestBody User user) {
+        userService.updateUser(user);
     }
 
 }

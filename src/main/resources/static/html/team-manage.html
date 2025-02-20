@@ -18,7 +18,7 @@
                 <button class="edit-team-btn">팀 정보 수정</button>
             </div>
             <div class="team-stats">
-                <p><strong>전체 인원:</strong> <span id="totalMembers"></span>명</p>
+                <p><strong>최대 인원:</strong> <span id="totalMembers"></span>명</p>
                 <p><strong>현재 인원:</strong> <span id="currentMembers"></span>명</p>
                 <p><strong>활동 지역:</strong> <span id="location"></span></p>
                 <p><strong>팀 실력:</strong> <span id="teamLevel"></span></p>
@@ -98,16 +98,28 @@
                 </select>
             </div>
             <div class="form-group">
-                <label for="editMemberLevel">실력</label>
-                <select id="editMemberLevel" name="level" required>
-                    <option value="beginner">입문</option>
-                    <option value="intermediate">중급</option>
-                    <option value="advanced">상급</option>
+                <label for="editMemberStamina">체력</label>
+                <input type="number" id="editMemberStamina" name="age" min="1" max="100" required>
+            </div>
+            <div class="form-group">
+                <label for="editMemberAge">나이</label>
+                <input type="number" id="editMemberAge" name="age" min="1" max="100" required>
+            </div>
+            <div class="form-group">
+                <label for="editMemberMainFoot">주발</label>
+                <select id="editMemberMainFoot" name="mainFoot" required>
+                    <option value="RIGHT">오른발</option>
+                    <option value="LEFT">왼발</option>
+                    <option value="BOTH">양발</option>
                 </select>
             </div>
+            <div class="form-group">
+                <label for="editMemberHeight">키 (cm)</label>
+                <input type="number" id="editMemberHeight" name="height" min="100" max="250" required>
+            </div>
             <div class="button-group">
-                <button type="submit">수정하기</button>
-                <button id="close-popup-btn" type="button" class="close-popup-btn">취소</button>
+                <button id="member-update-submit" type="submit" class="submit-btn">수정</button>
+                <button id="member-update-cancel" type="button" class="cancel-btn">취소</button>
             </div>
         </form>
     </div>
