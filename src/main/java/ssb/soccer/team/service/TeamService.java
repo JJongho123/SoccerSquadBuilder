@@ -10,6 +10,7 @@ import ssb.soccer.com.exception.ExceptionEnum;
 import ssb.soccer.redis.service.RedisService;
 import ssb.soccer.team.TeamEnum;
 import ssb.soccer.team.dto.TeamDetailDto;
+import ssb.soccer.team.dto.TeamJoinRequestDto;
 import ssb.soccer.team.dto.TeamListDto;
 import ssb.soccer.team.dto.TeamRequestDto;
 import ssb.soccer.team.mapper.TeamMapper;
@@ -78,16 +79,15 @@ public class TeamService {
         return teamListDto;
     }
 
-    // todo 팀 조인부터 다시 작업
-    public void joinTeam(Map<String, Object> params){
+    public void joinTeam(TeamJoinRequestDto joinRequestDto){
 
-        int userFk = Integer.parseInt(params.get("userFk").toString());
-        int teamId = Integer.parseInt(params.get("teamId").toString());
+        int userFk = joinRequestDto.getUserFk();
+        int teamId = joinRequestDto.getTeamId();
 
         TeamMembership teamMembership = TeamMembership.builder()
                 .teamId(teamId)
                 .userFk(userFk)
-                .role(TeamEnum.TEAM_LEADER.getName())
+                .role(TeamEnum.TEAM_MEMBER.getName())
                 .id(null)
                 .build();
 

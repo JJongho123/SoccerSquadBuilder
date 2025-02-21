@@ -175,10 +175,11 @@ function requestJoinTeam(teamId) {
     }
 
     $.ajax({
-        url: `/api/team/${teamId}/join`,  // 실제 API 엔드포인트로 수정 필요
+        url: `/api/team/join`,  // 실제 API 엔드포인트로 수정 필요
         type: 'PUT',
+        contentType: 'application/json',
         data: JSON.stringify(params),
-        success: function (ajaxData) {
+        success: function () {
             alert('가입 신청이 완료되었습니다.');
             $('#teamDetailPopup').fadeOut(300);
         },

@@ -8,6 +8,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import ssb.soccer.com.api.dto.ApiResponse;
 import ssb.soccer.com.util.CookieUtil;
+import ssb.soccer.team.dto.TeamJoinRequestDto;
 import ssb.soccer.team.dto.TeamRequestDto;
 import ssb.soccer.team.service.TeamService;
 import ssb.soccer.user.service.AuthService;
@@ -37,9 +38,9 @@ public class TeamController {
         return ResponseEntity.ok(ApiResponse.successResponse(teamService.getTeamDetail(teamId)));
     }
 
-    @PostMapping("/join")
-    public void joinTeam(@RequestBody Map<String, Object> params){
-        teamService.joinTeam(params);
+    @PutMapping("/join")
+    public void joinTeam(@RequestBody TeamJoinRequestDto joinRequestDto){
+        teamService.joinTeam(joinRequestDto);
     }
 
 }

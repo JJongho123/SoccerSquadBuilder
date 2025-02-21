@@ -22,7 +22,8 @@
     </select>
 
     <select id="getTeamDetail" resultType="TeamDetailDto" parameterType="Integer">
-        select t.id,
+        select
+               t.id,
                t.team_name,
                t.team_member_max_count,
                t.team_level,
