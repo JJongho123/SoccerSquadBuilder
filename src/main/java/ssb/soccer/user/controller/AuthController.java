@@ -6,7 +6,7 @@ import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-import ssb.soccer.com.api.dto.ApiResponse;
+import ssb.soccer.com.api.dto.CommonApiResponse;
 import ssb.soccer.user.dto.LoginRequestDto;
 import ssb.soccer.user.service.AuthService;
 
@@ -18,7 +18,7 @@ public class AuthController {
     private final AuthService authService;
 
     @PostMapping("/login")
-    public ResponseEntity<ApiResponse<?>> login(@RequestBody LoginRequestDto loginDto, HttpServletResponse response) throws JsonProcessingException {
+    public ResponseEntity<CommonApiResponse<?>> login(@RequestBody LoginRequestDto loginDto, HttpServletResponse response) throws JsonProcessingException {
 
         Cookie sessionCookie = authService.login(loginDto);
         boolean isSuccess = (sessionCookie != null);
@@ -27,7 +27,7 @@ public class AuthController {
             response.addCookie(sessionCookie);
         }
 
-        return ResponseEntity.ok(ApiResponse.successResponse(isSuccess));
+        return ResponseEntity.ok(CommonApiResponse.successResponse(isSuccess));
     }
 
 }

@@ -5,7 +5,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
-import ssb.soccer.com.api.dto.ApiResponse;
+import ssb.soccer.com.api.dto.CommonApiResponse;
 import ssb.soccer.passwdPolicy.service.PasswdVaildationService;
 
 import java.util.HashMap;
@@ -19,8 +19,8 @@ public class PasswdVaildationController {
     private final PasswdVaildationService passwdVaildationService;
 
     @GetMapping("/password-policies")
-    public ResponseEntity<ApiResponse<?>> initPasswdPolicyDatas() {
+    public ResponseEntity<CommonApiResponse<?>> initPasswdPolicyDatas() {
         Map<String, Object> data = passwdVaildationService.initPasswdPolicyDatas();
-        return ResponseEntity.ok(ApiResponse.successResponse(data));
+        return ResponseEntity.ok(CommonApiResponse.successResponse(data));
     }
 }

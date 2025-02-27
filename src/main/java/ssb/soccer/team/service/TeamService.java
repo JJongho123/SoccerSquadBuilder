@@ -1,7 +1,5 @@
 package ssb.soccer.team.service;
 
-import com.fasterxml.jackson.core.JsonProcessingException;
-import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import ssb.soccer.com.constant.CommonConstant;
@@ -20,9 +18,7 @@ import ssb.soccer.team.model.TeamMembership;
 import ssb.soccer.user.dto.UserWithTeamDTO;
 import ssb.soccer.user.mapper.UserMapper;
 
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 @Service
 @RequiredArgsConstructor

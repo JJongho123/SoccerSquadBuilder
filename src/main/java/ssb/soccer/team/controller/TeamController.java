@@ -6,12 +6,11 @@ import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-import ssb.soccer.com.api.dto.ApiResponse;
+import ssb.soccer.com.api.dto.CommonApiResponse;
 import ssb.soccer.com.util.CookieUtil;
 import ssb.soccer.team.dto.TeamJoinRequestDto;
 import ssb.soccer.team.dto.TeamRequestDto;
 import ssb.soccer.team.service.TeamService;
-import ssb.soccer.user.service.AuthService;
 
 import java.util.Map;
 
@@ -29,13 +28,13 @@ public class TeamController {
     }
 
     @GetMapping
-    public ResponseEntity<ApiResponse<?>> getTeamList(){
-        return ResponseEntity.ok(ApiResponse.successResponse(teamService.getTeamList()));
+    public ResponseEntity<CommonApiResponse<?>> getTeamList(){
+        return ResponseEntity.ok(CommonApiResponse.successResponse(teamService.getTeamList()));
     }
 
     @GetMapping(value="{teamId}")
-    public ResponseEntity<ApiResponse<?>> getTeamDetail(@PathVariable int teamId){
-        return ResponseEntity.ok(ApiResponse.successResponse(teamService.getTeamDetail(teamId)));
+    public ResponseEntity<CommonApiResponse<?>> getTeamDetail(@PathVariable int teamId){
+        return ResponseEntity.ok(CommonApiResponse.successResponse(teamService.getTeamDetail(teamId)));
     }
 
     @PutMapping("/join")
