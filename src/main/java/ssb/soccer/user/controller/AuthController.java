@@ -1,6 +1,9 @@
 package ssb.soccer.user.controller;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.responses.ApiResponse;
+import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import jakarta.servlet.http.Cookie;
 import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
@@ -17,8 +20,12 @@ public class AuthController {
 
     private final AuthService authService;
 
+    @Operation(summary = "로그인", description = "로그인 프로세스 진행")
+    @ApiResponses({
+            @ApiResponse(responseCode = "200", description = "성공")
+    })
     @PostMapping("/login")
-    public ResponseEntity<CommonApiResponse<?>> login(@RequestBody LoginRequestDto loginDto, HttpServletResponse response) throws JsonProcessingException {
+    public ResponseEntity<CommonApiResponse<Boolean>> login(@RequestBody LoginRequestDto loginDto, HttpServletResponse response) throws JsonProcessingException {
 
         Cookie sessionCookie = authService.login(loginDto);
         boolean isSuccess = (sessionCookie != null);

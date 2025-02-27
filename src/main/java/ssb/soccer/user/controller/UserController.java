@@ -1,6 +1,8 @@
 package ssb.soccer.user.controller;
 
 import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.Parameter;
+import io.swagger.v3.oas.annotations.media.ArraySchema;
 import io.swagger.v3.oas.annotations.media.Content;
 import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
@@ -14,6 +16,8 @@ import ssb.soccer.user.dto.UserWithTeamDTO;
 import ssb.soccer.user.model.User;
 import ssb.soccer.user.service.UserService;
 
+import java.util.List;
+
 @RestController
 @RequiredArgsConstructor
 @RequestMapping("/api/user")
@@ -21,30 +25,30 @@ public class UserController {
 
     private final UserService userService;
 
-    @Operation(
-            summary = "선수 목록 조회",
-            description = "모든 선수 목록을 조회합니다.",
-            tags = {"User API"}
-    )
+    @Operation(summary = "모든 사용자 목록 조회", description = "모든 사용자 정보를 목록 형태로 반환합니다.")
     @ApiResponses({
-            @ApiResponse(responseCode = "200", description = "성공",
-                    content = @Content(mediaType = "application/json",
-                            schema = @Schema(implementation = User.class))),
-            @ApiResponse(responseCode = "500", description = "서버 에러")
+            @ApiResponse(responseCode = "200", description = "성공")
     })
-    @GetMapping("/")
-    public ResponseEntity<CommonApiResponse<?>> getAllUsers() {
+    @GetMapping()
+    public ResponseEntity<CommonApiResponse<List<User>>> getAllUsers() {
         return ResponseEntity.ok(CommonApiResponse.successResponse(userService.getAllUsers()));
     }
 
-    @Operation(summary = "선수 등록", description = "새로운 선수를 등록합니다.")
+    @Operation(summary = "사용자 등록", description = "새로운 사용자를 등록합니다.")
     @PostMapping
     public void createUser(@RequestBody User user) {
         userService.createUser(user);
     }
 
+    @Operation(summary = "ID 중복 체크", description = "ID 중복 체크를 합니다.")
+    @ApiResponses({
+            @ApiResponse(responseCode = "200", description = "성공")
+    })
     @PostMapping("/check-duplicate-id")
-    public ResponseEntity<CommonApiResponse<?>>  checkDuplicateId(@RequestParam String userId) {
+    public ResponseEntity<CommonApiResponse<Boolean>>  checkDuplicateId(
+            @Parameter(description = "사용자 ID", required = true, example = "jjh33534")
+            @RequestParam String userId
+    ) {
         boolean isDuplicate = true;
         User user = userService.findById(userId);
         if(user == null) {
@@ -53,18 +57,26 @@ public class UserController {
         return ResponseEntity.ok(CommonApiResponse.successResponse(isDuplicate));
     }
 
-
+    @Operation(summary = "현재 사용자 정보 조회", description = "현재 로그인한 사용자의 정보를 Redis에서 조회합니다.")
+    @ApiResponses({
+            @ApiResponse(responseCode = "200", description = "성공")
+    })
     @GetMapping("/info")
-    public ResponseEntity<CommonApiResponse<?>> getUserInfo(HttpServletRequest request){
+    public ResponseEntity<CommonApiResponse<UserWithTeamDTO>> getUserInfo(HttpServletRequest request){
         UserWithTeamDTO responseDto = userService.getUserInfo(request);
         return ResponseEntity.ok(CommonApiResponse.successResponse(responseDto));
     }
 
+    @Operation(summary = "해당 ID의 사용자 정보 조회", description = "주어진 ID에 해당하는 사용자의 정보를 반환합니다.")
+    @ApiResponses({
+            @ApiResponse(responseCode = "200", description = "성공")
+    })
     @GetMapping("/{id}")
-    public ResponseEntity<CommonApiResponse<?>> getUserById(@PathVariable int id) {
+    public ResponseEntity<CommonApiResponse<User>> getUserById(@PathVariable int id) {
         return ResponseEntity.ok(CommonApiResponse.successResponse(userService.getUserById(id)));
     }
 
+    @Operation(summary = "사용자 정보 수정", description = "사용자 정보를 수정 합니다.")
     @PutMapping()
     public void updateUserById(@RequestBody User user) {
         userService.updateUser(user);

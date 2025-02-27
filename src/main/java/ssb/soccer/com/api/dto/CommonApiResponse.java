@@ -1,9 +1,11 @@
 package ssb.soccer.com.api.dto;
 
+import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.*;
 
 @Getter
 @NoArgsConstructor
+@Schema(description = "공통 API 응답 모델")
 public class CommonApiResponse<T> {
 
 
@@ -11,8 +13,13 @@ public class CommonApiResponse<T> {
     private static final String FAIL_STATUS = "fail";
     private static final String ERROR_STATUS = "error";
 
+    @Schema(description = "상태", example = "success")
     private String status;
+
+    @Schema(description = "데이터")
     private T data;
+
+    @Schema(description = "메시지", example = "응답 성공")
     private String message;
 
     public CommonApiResponse(String status, T data, String message) {

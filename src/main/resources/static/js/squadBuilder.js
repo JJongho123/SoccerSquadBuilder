@@ -114,7 +114,7 @@ $(document).ready(function () {
 // 팀 목록 로드 함수
 function loadTeams() {
     $.ajax({
-        url: '/api/team',
+        url: '/api/team/list',
         type: 'GET',
         success: function (ajaxData) {
             const teamList = $('.team-list');
