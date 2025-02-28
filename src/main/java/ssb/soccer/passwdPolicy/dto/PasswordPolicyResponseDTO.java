@@ -13,7 +13,7 @@ import java.util.List;
 @Schema(description = "비밀번호 정책 응답 모델")
 public class PasswordPolicyResponseDTO {
 
-    @ArraySchema(schema = @Schema(description = "비밀번호 정책 설명 목록", example = "숫자가 포함되어야 합니다., 문자가 포함되어야 합니다."))
+    @ArraySchema(schema = @Schema(description = "비밀번호 정책 설명 목록", example = "숫자와 문자가 포함되어야 합니다."))
     private List<String> policies;
 
     @Schema(description = "비밀번호 정규 표현식", example = "^(?=.*[0-9])(?=.*[a-zA-Z])(?=.*[@#$%^&+=]).{8,16}$")

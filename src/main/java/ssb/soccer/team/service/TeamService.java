@@ -2,6 +2,7 @@ package ssb.soccer.team.service;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import ssb.soccer.com.constant.CommonConstant;
 import ssb.soccer.com.exception.CustomApiException;
 import ssb.soccer.com.exception.ExceptionEnum;
@@ -29,6 +30,7 @@ public class TeamService {
     private final UserMapper userMapper;
     private final TeamMembershipMapper teamMembershipMapper;
 
+    @Transactional
     public void createTeam(TeamRequestDto teamDto, String sessionId) {
 
         Team team = Team.builder()

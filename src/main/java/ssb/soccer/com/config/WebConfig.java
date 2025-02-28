@@ -32,7 +32,8 @@ public class WebConfig implements WebMvcConfigurer {
                         "/favicon.ico",
                         "/api/user/**",
                         "/swagger-ui/**",
-                        "/v3/api-docs/**"
+                        "/v3/api-docs/**",
+                        "http://10.100.10.132:8080/**"
                 );
     }
 
