@@ -2,6 +2,8 @@ package ssb.soccer.team.service;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Isolation;
+import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 import ssb.soccer.com.constant.CommonConstant;
 import ssb.soccer.com.exception.CustomApiException;
@@ -30,7 +32,16 @@ public class TeamService {
     private final UserMapper userMapper;
     private final TeamMembershipMapper teamMembershipMapper;
 
-    @Transactional
+
+    /**
+     * 새로운 팀을 생성한다.
+     * 팀 생성 후, 해당 팀의 팀장을 자동으로 등록한다.
+     *
+     * @param teamDto 팀 생성 요청 DTO
+     * @param sessionId 사용자 세션 ID (Redis에서 사용자 정보 조회에 사용)
+     * @throws CustomApiException 팀 생성 실패 시 발생
+     */
+    @Transactional(propagation = Propagation.REQUIRED, rollbackFor = Exception.class)
     public void createTeam(TeamRequestDto teamDto, String sessionId) {
 
         Team team = Team.builder()
@@ -63,10 +74,21 @@ public class TeamService {
 
     }
 
+    /**
+     * 전체 팀 목록을 조회한다.
+     *
+     * @return 팀 상세 정보 목록
+     */
     public List<TeamDetailDto> getTeamList() {
         return teamMapper.getTeamList();
     }
 
+    /**
+     * 특정 팀의 상세 정보를 조회한다.
+     *
+     * @param teamId 조회할 팀의 ID
+     * @return 해당 팀의 상세 정보
+     */
     public TeamListDto getTeamDetail(int teamId) {
 
         TeamListDto teamListDto = TeamListDto.builder()
@@ -77,6 +99,14 @@ public class TeamService {
         return teamListDto;
     }
 
+
+    /**
+     * 사용자를 특정 팀에 가입시킨다.
+     *
+     * @param joinRequestDto 팀 가입 요청 DTO
+     * @throws CustomApiException 팀 가입 실패 시 발생
+     */
+    @Transactional(propagation = Propagation.REQUIRED, rollbackFor = Exception.class)
     public void joinTeam(TeamJoinRequestDto joinRequestDto){
 
         int userFk = joinRequestDto.getUserFk();

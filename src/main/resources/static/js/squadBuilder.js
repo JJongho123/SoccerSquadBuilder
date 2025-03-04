@@ -16,6 +16,22 @@ $(document).ready(async function () {
         $(".create-team-btn").remove();
     }
 
+    // 로그아웃
+    $('#logout').on('click', function () {
+        $.ajax({
+            url: '/api/auth/logout',
+            type: 'PUT',
+            contentType: 'application/json',
+            success: function () {
+                // 로그아웃 성공 시 로그인 페이지로 이동
+                window.location.href = "/login";
+            },
+            error: function (xhr, status, error) {
+                console.error('Error:', error);
+            }
+        });
+    });
+
     // 팀 생성 버튼 클릭 시 팝업 열기
     $('.create-team-btn').on('click', function () {
         $('#teamPopup').fadeIn(300);

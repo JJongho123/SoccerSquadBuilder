@@ -12,8 +12,6 @@ import ssb.soccer.com.api.dto.CommonApiResponse;
 import ssb.soccer.passwdPolicy.dto.PasswordPolicyResponseDTO;
 import ssb.soccer.passwdPolicy.service.PasswdVaildationService;
 
-import java.util.HashMap;
-import java.util.Map;
 
 @RestController
 @RequiredArgsConstructor

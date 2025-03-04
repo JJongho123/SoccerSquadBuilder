@@ -1,10 +1,8 @@
 package ssb.soccer.user.controller;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
-import io.swagger.v3.oas.annotations.media.ArraySchema;
-import io.swagger.v3.oas.annotations.media.Content;
-import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import jakarta.servlet.http.HttpServletRequest;
@@ -57,12 +55,12 @@ public class UserController {
         return ResponseEntity.ok(CommonApiResponse.successResponse(isDuplicate));
     }
 
-    @Operation(summary = "현재 사용자 정보 조회", description = "현재 로그인한 사용자의 정보를 Redis에서 조회합니다.")
+    @Operation(summary = "현재 사용자 정보 조회", description = "현재 세션을 기반으로 사용자 정보를 조회한다.(Look-aside 캐싱 적용)")
     @ApiResponses({
             @ApiResponse(responseCode = "200", description = "성공")
     })
     @GetMapping("/info")
-    public ResponseEntity<CommonApiResponse<UserWithTeamDTO>> getUserInfo(HttpServletRequest request){
+    public ResponseEntity<CommonApiResponse<UserWithTeamDTO>> getUserInfo(HttpServletRequest request) throws JsonProcessingException {
         UserWithTeamDTO responseDto = userService.getUserInfo(request);
         return ResponseEntity.ok(CommonApiResponse.successResponse(responseDto));
     }
