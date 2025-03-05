@@ -129,4 +129,14 @@ public class UserService {
     public void updateUser(User user) {
         userMapper.updateUser(user);
     }
+
+    /**
+     * 사용자 정보목록을 불러온다
+     *
+     * @param ids 업데이트할 사용자 객체
+     * @return List<User> 조회한 사용자 목록 정보 리스트
+     */
+    public List<User> getUsersByIds(List<Integer> ids) {
+        return userMapper.findUsersByIds(ids);
+    }
 }

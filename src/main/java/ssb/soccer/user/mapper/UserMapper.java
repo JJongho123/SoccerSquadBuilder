@@ -15,4 +15,6 @@ public interface UserMapper {
     User findById(int id);
 
     void updateUser(User user);
+
+    List<User> findUsersByIds(List<Integer> ids);
 }

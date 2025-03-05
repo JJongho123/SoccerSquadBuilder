@@ -19,6 +19,18 @@ $(document).ready(async function () {
 
 // 모든 이벤트 리스너 초기화
 function initializeEventListeners() {
+
+    // 전체 선택 체크박스 이벤트
+    $('#selectAllMembers').on('change', function() {
+        const isChecked = $(this).prop('checked');
+        $('.member-checkbox').prop('checked', isChecked);
+    });
+
+    // 개별 체크박스 변경 시 전체 선택 체크박스 상태 업데이트
+    $(document).on('change', '.member-checkbox', function() {
+        updateSelectAllCheckbox();
+    });
+
     // 스쿼드 유형 선택 이벤트
     $('#squadType').on('change', function () {
         $('#createSquadBtn').prop('disabled', !$(this).val());
@@ -28,9 +40,9 @@ function initializeEventListeners() {
     $('#createSquadBtn').on('click', function () {
         const squadType = $('#squadType').val();
         const selectedMembers = getSelectedMembers();
-        if (validateSquadMembers(squadType, selectedMembers)) {
+        // if (validateSquadMembers(squadType, selectedMembers)) {
             createSquad(squadType, selectedMembers);
-        }
+        // }
     });
 
     // 팀 수정 버튼 클릭
@@ -286,12 +298,12 @@ function validateSquadMembers(squadType, selectedMembers) {
 
 function createSquad(squadType, members) {
     $.ajax({
-        url: '/api/squads/create',
+        url: '/api/squads',
         type: 'POST',
         contentType: 'application/json',
         data: JSON.stringify({
-            type: squadType,
-            members: members
+            squadType: squadType,
+            memberIds: members
         }),
         success: function (response) {
             alert('스쿼드가 성공적으로 생성되었습니다.');
@@ -299,5 +311,16 @@ function createSquad(squadType, members) {
         error: function (xhr, status, error) {
             alert('스쿼드 생성에 실패했습니다.');
         }
+    });
+}
+
+// 전체 선택 체크박스 상태 업데이트
+function updateSelectAllCheckbox() {
+    const totalCheckboxes = $('.member-checkbox:not(#selectAllMembers)').length;
+    const checkedCheckboxes = $('.member-checkbox:not(#selectAllMembers):checked').length;
+
+    $('#selectAllMembers').prop({
+        checked: totalCheckboxes === checkedCheckboxes,
+        indeterminate: checkedCheckboxes > 0 && checkedCheckboxes < totalCheckboxes
     });
 }

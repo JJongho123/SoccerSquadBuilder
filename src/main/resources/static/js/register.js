@@ -1,4 +1,3 @@
-
 $.ajax({
     url: "/api/validation/password-policies",
     method: "GET",
@@ -18,7 +17,7 @@ $.ajax({
 
 $('#registForm').on('submit', function (e) {
 
-    if($("#userIdError").hasClass("error-message")){
+    if ($("#userIdError").hasClass("error-message")) {
         alert("ID 중복확인!!!")
         return;
     }
@@ -42,13 +41,9 @@ $('#registForm').on('submit', function (e) {
         method: "POST",
         contentType: "application/json",
         data: JSON.stringify(params),
-        success: function (ajaxData) {
-            if(ajaxData.data === true){
-                alert("회원가입 성공");
-                window.location.href = '/login';
-            }
-            else
-                alert("회원가입 실패");
+        success: function () {
+            alert("회원가입 성공");
+            window.location.href = '/login';
         },
         error: function (error) {
             console.error(error.responseJSON);
@@ -61,7 +56,7 @@ let typingTimer;
 const doneTypingInterval = 500; // 0.5초
 
 // user_id 입력 필드에 이벤트 리스너 추가
-$('#user_id').on('input', function() {
+$('#user_id').on('input', function () {
     clearTimeout(typingTimer);
     const userId = $(this).val();
 
@@ -72,7 +67,7 @@ $('#user_id').on('input', function() {
     }
 
     // 사용자가 타이핑을 멈추면 중복 체크 실행
-    typingTimer = setTimeout(function() {
+    typingTimer = setTimeout(function () {
         checkDuplicateId(userId);
     }, doneTypingInterval);
 });
@@ -85,7 +80,7 @@ function checkDuplicateId(userId) {
         url: '/api/user/check-duplicate-id',
         method: 'POST',
         data: params,
-        success: function(ajaxData) {
+        success: function (ajaxData) {
             const errorDiv = $('#userIdError');
 
             if (ajaxData.data) {
@@ -100,7 +95,7 @@ function checkDuplicateId(userId) {
                     .addClass('valid-message');
             }
         },
-        error: function() {
+        error: function () {
             $('#userIdError').text('서버 오류가 발생했습니다.')
                 .removeClass('valid-message')
                 .addClass('error-message');

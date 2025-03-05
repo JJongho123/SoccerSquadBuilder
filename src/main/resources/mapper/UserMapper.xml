@@ -66,4 +66,18 @@
 
     </update>
 
+    <select id="findUsersByIds" parameterType="list" resultType="ssb.soccer.user.model.User">
+        SELECT name,
+               main_foot,
+               height,
+               stamina,
+               position,
+               age
+        FROM user
+                 WHERE id IN
+        <foreach collection="list" item="id" open="(" separator="," close=")">
+            #{id}
+        </foreach>
+    </select>
+
 </mapper>

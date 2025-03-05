@@ -35,6 +35,8 @@ dependencies {
     implementation 'org.springframework:spring-core:6.1.6'
     implementation 'org.springframework.boot:spring-boot-starter-data-redis'
     implementation 'org.springdoc:springdoc-openapi-starter-webmvc-ui:2.1.0'
+    implementation 'com.squareup.okhttp3:okhttp:4.11.0' // 최신 버전 사용
+    implementation 'org.json:json:20231013' // JSON 파싱을 위한 라이브러리 (필요하면 추가)
 }
 
 tasks.named('test') {

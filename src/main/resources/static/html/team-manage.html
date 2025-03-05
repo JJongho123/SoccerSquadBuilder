@@ -30,10 +30,10 @@
         <div class="squad-creation-section">
             <select id="squadType" class="squad-select">
                 <option value="">스쿼드 유형 선택</option>
-                <option value="5">5:5</option>
-                <option value="6">6:6</option>
-                <option value="9">9:9</option>
-                <option value="11">11:11</option>
+                <option value="5:5">5:5</option>
+                <option value="6:6">6:6</option>
+                <option value="9:9">9:9</option>
+                <option value="11:11">11:11</option>
             </select>
             <button id="createSquadBtn" class="create-squad-btn" disabled>스쿼드 생성하기</button>
         </div>
@@ -41,7 +41,13 @@
 
     <!-- 팀원 리스트 섹션 -->
     <div class="member-list-section">
-        <h3>팀원 목록</h3>
+        <div class="member-list-header">
+            <h3>팀원 목록</h3>
+            <div class="checkbox-wrapper">
+                <input type="checkbox" id="selectAllMembers" class="member-checkbox">
+                <label for="selectAllMembers">전체 선택</label>
+            </div>
+        </div>
         <div class="member-list" id="memberList">
             <!-- 팀원 목록은 JavaScript로 동적 생성됩니다 -->
         </div>
