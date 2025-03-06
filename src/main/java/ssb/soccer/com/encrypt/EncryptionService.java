@@ -4,12 +4,12 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.util.HashMap;
+import java.util.Map;
 
-@RequiredArgsConstructor
 @Service
 public class EncryptionService {
 
-    private final EncryptHandler handler;
+    EncryptHandler handler = new EncryptHandler();
 
     /**
      *  사용자의 비밀번호를 암호화하여 해시된 비밀번호와 솔트를 생성하는 함수.
@@ -18,9 +18,9 @@ public class EncryptionService {
      *  return 해시된 비밀번호와 솔트가 포함된 HashMap
      *
      * */
-    public HashMap<String, String> generateHashPassWordAndSalt(String password) {
+    public Map<String, String> generateHashPassWordAndSalt(String password) {
 
-        HashMap<String, String> result = new HashMap<>();
+        Map<String, String> result = new HashMap<>();
 
         String salt = handler.generateSalt();
         String hashPassword = handler.hashPassword(password, salt);

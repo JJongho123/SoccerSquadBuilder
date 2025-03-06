@@ -2,12 +2,14 @@ package ssb.soccer.passwdPolicy.service;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+import ssb.soccer.passwdPolicy.dto.PasswordPolicyResponseDTO;
 import ssb.soccer.passwdPolicy.mapper.PasswdPolicyMapper;
 import ssb.soccer.passwdPolicy.model.PasswdPolicy;
 
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.regex.Pattern;
 
 @Service
@@ -16,7 +18,7 @@ public class PasswdVaildationService {
 
     private final PasswdPolicyMapper passwdPolciy;
     private Pattern compiledPattern;
-    private HashMap<String, Object> resultMap = null;
+    private PasswordPolicyResponseDTO passwordPolicyResponseDTO = null;
 
     /**
      * 비밀번호 정책 초기화 메서드
@@ -30,16 +32,16 @@ public class PasswdVaildationService {
      *         - `policies`: 활성화된 비밀번호 정책 설명 목록
      *         - `regexPattern`: 모든 정책을 결합한 정규식 패턴
      */
-    public HashMap<String, Object> initPasswdPolicyDatas() {
+    public PasswordPolicyResponseDTO initPasswdPolicyDatas() {
 
         // 초기화된 데이터가 있을 경우, 재처리 없이 캐시된 데이터를 반환
-        if(resultMap != null){
-            return resultMap;
+        if(passwordPolicyResponseDTO != null){
+            return passwordPolicyResponseDTO;
         }
 
         StringBuilder generateregexPattern = new StringBuilder("^");
 
-        resultMap = new HashMap<>();
+        passwordPolicyResponseDTO = new PasswordPolicyResponseDTO();
         List<PasswdPolicy> data = passwdPolciy.findAllDatas();
         List<String> policies = new ArrayList<>();
 
@@ -57,9 +59,9 @@ public class PasswdVaildationService {
 
         compiledPattern = Pattern.compile(regexPattern);
 
-        resultMap.put("policies", policies);
-        resultMap.put("regexPattern", regexPattern);
-        return resultMap;
+        passwordPolicyResponseDTO.setRegexPattern(regexPattern);
+        passwordPolicyResponseDTO.setPolicies(policies);
+        return passwordPolicyResponseDTO;
     }
 
     public boolean isPolicySatisfaction(String password) {

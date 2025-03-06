@@ -1,16 +1,16 @@
-package ssb.soccer.team.model;
+package ssb.soccer.team.dto;
 
-import lombok.Builder;
 import lombok.Getter;
 import lombok.Setter;
 
 @Getter
 @Setter
-@Builder
-public class Team {
+public class TeamDetailDto {
     private Integer id;
     private String teamName;
-    private int teamMemberMaxCount;
+    private Integer teamMemberMaxCount;
     private String teamLevel;
     private String teamActivityArea;
+    private String userId;
+    private String name;
 }

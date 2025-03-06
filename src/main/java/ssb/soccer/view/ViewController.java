@@ -25,6 +25,21 @@ public class ViewController {
         return new ModelAndView("forward:/html/register.html");
     }
 
+    @GetMapping("/team-manage")
+    public ModelAndView showTeamPage() {
+        return new ModelAndView("forward:/html/team-manage.html");
+    }
+
+
+
+
+
+
+
+
+
+
+
     @GetMapping("/error400")
     public ModelAndView show400ErrorPage() {
         return new ModelAndView("forward:/error/error400.html");

@@ -1,15 +1,20 @@
 package ssb.soccer.user.mapper;
 
-import ssb.soccer.user.model.LoginDto;
+import ssb.soccer.user.dto.UserWithTeamDTO;
 import ssb.soccer.user.model.User;
 
 import java.util.List;
 
 public interface UserMapper {
+
     List<User> findAllUsers();
     boolean createUser(User user);
-    User findByIdAndPassword(LoginDto loginDto);
+    User findByUserId(String userId);
+    UserWithTeamDTO findUserWithTeam(String userId);
+    List<User> findUserList(int teamId);
+    User findById(int id);
 
-    User findById(String userId);
+    void updateUser(User user);
 
+    List<User> findUsersByIds(List<Integer> ids);
 }

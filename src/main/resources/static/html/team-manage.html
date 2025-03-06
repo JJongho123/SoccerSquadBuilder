@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <link rel="stylesheet" href="../css/team-manage.css" />
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+</head>
+<body>
+
+<script type="module" src="../js/team-manage.js"></script>
+
+<div class="my-team-container">
+    <!-- 팀 정보 섹션 -->
+    <div class="team-info-section">
+        <div class="team-basic-info">
+            <div class="team-header">
+                <h2 id="team-name" class="team-name"></h2>
+                <button class="edit-team-btn">팀 정보 수정</button>
+            </div>
+            <div class="team-stats">
+                <p><strong>최대 인원:</strong> <span id="totalMembers"></span>명</p>
+                <p><strong>현재 인원:</strong> <span id="currentMembers"></span>명</p>
+                <p><strong>활동 지역:</strong> <span id="location"></span></p>
+                <p><strong>팀 실력:</strong> <span id="teamLevel"></span></p>
+                <p><strong>팀장:</strong> <span id="leaderName"></span></p>
+            </div>
+        </div>
+
+        <!-- 스쿼드 생성 섹션 -->
+        <div class="squad-creation-section">
+            <select id="squadType" class="squad-select">
+                <option value="">스쿼드 유형 선택</option>
+                <option value="5:5">5:5</option>
+                <option value="6:6">6:6</option>
+                <option value="9:9">9:9</option>
+                <option value="11:11">11:11</option>
+            </select>
+            <button id="createSquadBtn" class="create-squad-btn" disabled>스쿼드 생성하기</button>
+        </div>
+    </div>
+
+    <!-- 팀원 리스트 섹션 -->
+    <div class="member-list-section">
+        <div class="member-list-header">
+            <h3>팀원 목록</h3>
+            <div class="checkbox-wrapper">
+                <input type="checkbox" id="selectAllMembers" class="member-checkbox">
+                <label for="selectAllMembers">전체 선택</label>
+            </div>
+        </div>
+        <div class="member-list" id="memberList">
+            <!-- 팀원 목록은 JavaScript로 동적 생성됩니다 -->
+        </div>
+        <div class="loading-spinner" style="display: none;">로딩중...</div>
+    </div>
+</div>
+
+<!-- 팀 수정 팝업 -->
+<div id="teamEditPopup" class="popup-overlay">
+    <div class="popup-content">
+        <h2>팀 정보 수정</h2>
+        <form id="teamEditForm">
+            <div class="form-group">
+                <label for="editTeamName">팀명</label>
+                <input type="text" id="editTeamName" name="teamName" required>
+            </div>
+            <div class="form-group">
+                <label for="editMaxMembers">최대 인원</label>
+                <input type="number" id="editMaxMembers" name="maxMembers" min="1" required>
+            </div>
+            <div class="form-group">
+                <label for="editTeamLevel">팀 실력</label>
+                <select id="editTeamLevel" name="teamLevel" required>
+                    <option value="beginner">입문</option>
+                    <option value="intermediate">중급</option>
+                    <option value="advanced">상급</option>
+                </select>
+            </div>
+            <div class="form-group">
+                <label for="editLocation">활동 지역</label>
+                <input type="text" id="editLocation" name="location" required>
+            </div>
+            <div class="button-group">
+                <button id="team-update" type="submit" class="submit-btn">수정</button>
+                <button id="team-popup-btn" type="button" class="close-popup-btn">취소</button>
+            </div>
+        </form>
+    </div>
+</div>
+
+<!-- 팀원 수정 팝업 -->
+<div id="memberEditPopup" class="popup-overlay">
+    <div class="popup-content">
+        <h2>팀원 정보 수정</h2>
+        <form id="memberEditForm">
+            <input type="hidden" id="editMemberId">
+            <div class="form-group">
+                <label for="editMemberPosition">주포지션</label>
+                <select id="editMemberPosition" name="position" required>
+                    <option value="FW">공격수</option>
+                    <option value="MF">미드필더</option>
+                    <option value="DF">수비수</option>
+                    <option value="GK">골키퍼</option>
+                </select>
+            </div>
+            <div class="form-group">
+                <label for="editMemberStamina">체력</label>
+                <input type="number" id="editMemberStamina" name="age" min="1" max="100" required>
+            </div>
+            <div class="form-group">
+                <label for="editMemberAge">나이</label>
+                <input type="number" id="editMemberAge" name="age" min="1" max="100" required>
+            </div>
+            <div class="form-group">
+                <label for="editMemberMainFoot">주발</label>
+                <select id="editMemberMainFoot" name="mainFoot" required>
+                    <option value="RIGHT">오른발</option>
+                    <option value="LEFT">왼발</option>
+                    <option value="BOTH">양발</option>
+                </select>
+            </div>
+            <div class="form-group">
+                <label for="editMemberHeight">키 (cm)</label>
+                <input type="number" id="editMemberHeight" name="height" min="100" max="250" required>
+            </div>
+            <div class="button-group">
+                <button id="member-update-submit" type="submit" class="submit-btn">수정</button>
+                <button id="member-update-cancel" type="button" class="cancel-btn">취소</button>
+            </div>
+        </form>
+    </div>
+</div>
+
+
+</body>
+</html>

@@ -7,7 +7,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 import org.springframework.web.servlet.resource.NoResourceFoundException;
-import ssb.soccer.com.api.dto.ApiResponse;
+import ssb.soccer.com.api.dto.CommonApiResponse;
 
 import java.nio.file.AccessDeniedException;
 import java.util.NoSuchElementException;
@@ -29,7 +29,7 @@ public class ExceptionHandlingController {
      *
      */
     @ExceptionHandler(Exception.class)
-    public ResponseEntity<ApiResponse<?>> exceptionError(HttpServletRequest req, Exception ex) {
+    public ResponseEntity<CommonApiResponse<?>> exceptionError(HttpServletRequest req, Exception ex) {
         log.error("Request: {} | Exception: {}", req.getRequestURL(), ex);
 
 
@@ -43,7 +43,7 @@ public class ExceptionHandlingController {
 
         return ResponseEntity
                 .status(status)
-                .body(ApiResponse.errorResponse(exceptionDto, "EXCEPTION 발생"));
+                .body(CommonApiResponse.errorResponse(exceptionDto, "EXCEPTION 발생"));
     }
 
 
@@ -59,7 +59,7 @@ public class ExceptionHandlingController {
      *
      */
     @ExceptionHandler(NoResourceFoundException.class)
-    public ResponseEntity<ApiResponse<?>> noResourceFoundExceptionError(HttpServletRequest req, NoResourceFoundException ex) {
+    public ResponseEntity<CommonApiResponse<?>> noResourceFoundExceptionError(HttpServletRequest req, NoResourceFoundException ex) {
         log.error("Request: {} | NoResourceFoundException: {}", req.getRequestURL(), ex);
 
         ApiExceptionDto exceptionDto = ApiExceptionDto.builder()
@@ -69,7 +69,7 @@ public class ExceptionHandlingController {
 
         return ResponseEntity
                 .status(ex.getBody().getStatus())
-                .body(ApiResponse.errorResponse(exceptionDto, "NoResourceFoundException 발생"));
+                .body(CommonApiResponse.errorResponse(exceptionDto, "NoResourceFoundException 발생"));
     }
 
     /**
@@ -84,7 +84,7 @@ public class ExceptionHandlingController {
      *
      */
     @ExceptionHandler(CustomApiException.class)
-    public ResponseEntity<ApiResponse<?>> customExceptionHandler(HttpServletRequest req, final CustomApiException ex) {
+    public ResponseEntity<CommonApiResponse<?>> customExceptionHandler(HttpServletRequest req, final CustomApiException ex) {
 
         log.error("Request: " + req.getRequestURL() + "| CustomApiException: " + ex);
 
@@ -95,7 +95,7 @@ public class ExceptionHandlingController {
 
         return ResponseEntity
                 .status(ex.getError().getStatus())
-                .body(ApiResponse.errorResponse(exceptionDto, ex.getError().getMessage()));
+                .body(CommonApiResponse.errorResponse(exceptionDto, ex.getError().getMessage()));
     }
 
     private HttpStatus getHttpStatus(Exception ex) {

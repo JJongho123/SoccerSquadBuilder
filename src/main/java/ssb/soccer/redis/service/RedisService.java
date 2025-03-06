@@ -1,11 +1,18 @@
 package ssb.soccer.redis.service;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import org.springframework.data.redis.core.HashOperations;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.data.redis.core.ValueOperations;
 import org.springframework.stereotype.Service;
+import ssb.soccer.com.constant.CommonConstant;
+import ssb.soccer.com.exception.CustomApiException;
+import ssb.soccer.com.exception.ExceptionEnum;
+import ssb.soccer.user.dto.UserWithTeamDTO;
 
 import java.time.Duration;
+import java.util.HashMap;
 import java.util.Map;
 import java.util.concurrent.TimeUnit;
 
@@ -13,10 +20,12 @@ import java.util.concurrent.TimeUnit;
 public class RedisService {
     private final RedisTemplate<String, Object> redisTemplate;
     private final HashOperations<String, String, Object> hashOperations;
+    private final ObjectMapper objectMapper;
 
-    public RedisService(RedisTemplate<String, Object> redisTemplate) {
+    public RedisService(RedisTemplate<String, Object> redisTemplate, ObjectMapper objectMapper) {
         this.redisTemplate = redisTemplate;
         this.hashOperations = redisTemplate.opsForHash();
+        this.objectMapper = objectMapper;
     }
 
     /**
@@ -113,6 +122,27 @@ public class RedisService {
     }
 
     /**
+     * Redis Hash 타입 데이터 조회 (mapping 클래스 추가)
+     *
+     * @param	key (type = String)
+     * @param	hashKey (type = String)
+     * @param	clazz (type = Class<T>)
+     *
+     */
+    public <T> T getHashOpsAsObject(String key, String hashKey, Class<T> clazz) {
+        String jsonData = this.getHashOps(key, hashKey);
+        if (jsonData == null) {
+            return null;
+        }
+
+        try {
+            return objectMapper.readValue(jsonData, clazz);
+        } catch (JsonProcessingException e) {
+            throw new CustomApiException(ExceptionEnum.REDIS_DATA_CONVERT_FAILED);
+        }
+    }
+
+    /**
      * Redis에서 특정 키의 데이터를 삭제
      *
      * @param key Redis의 키
@@ -151,5 +181,27 @@ public class RedisService {
      */
     public boolean existsHashKey(String key, String hashKey) {
         return Boolean.TRUE.equals(hashOperations.hasKey(key, hashKey));
+    }
+
+    /**
+     * 사용자 정보를 Redis에 저장하는 공통 메서드.
+     * - 세션 ID를 기반으로 데이터를 캐싱
+     * - 비밀번호 및 Salt 정보 제거 후 저장
+     *
+     * @param sessionId 사용자 세션 ID
+     * @param user 사용자 정보 객체
+     * @throws JsonProcessingException JSON 변환 오류 발생 시 예외 발생
+     */
+    public void storeUserInRedis(String sessionId, UserWithTeamDTO user) throws JsonProcessingException {
+        ObjectMapper objectMapper = new ObjectMapper();
+        HashMap<String, Object> data = new HashMap<>();
+
+        // 비밀번호 및 Salt 정보 제거
+        user.setSalt(null);
+        user.setPasswd(null);
+
+        // JSON 직렬화 후 Redis 저장
+        data.put(sessionId, objectMapper.writeValueAsString(user));
+        this.setHashOps(CommonConstant.USER_KEY, data, Duration.ofSeconds(CommonConstant.EXPIRY_DURATION_SECONDS));
     }
 }
