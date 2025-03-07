@@ -21,13 +21,13 @@ $(document).ready(async function () {
 function initializeEventListeners() {
 
     // 전체 선택 체크박스 이벤트
-    $('#selectAllMembers').on('change', function() {
+    $('#selectAllMembers').on('change', function () {
         const isChecked = $(this).prop('checked');
         $('.member-checkbox').prop('checked', isChecked);
     });
 
     // 개별 체크박스 변경 시 전체 선택 체크박스 상태 업데이트
-    $(document).on('change', '.member-checkbox', function() {
+    $(document).on('change', '.member-checkbox', function () {
         updateSelectAllCheckbox();
     });
 
@@ -41,7 +41,7 @@ function initializeEventListeners() {
         const squadType = $('#squadType').val();
         const selectedMembers = getSelectedMembers();
         // if (validateSquadMembers(squadType, selectedMembers)) {
-            createSquad(squadType, selectedMembers);
+        createSquad(squadType, selectedMembers);
         // }
     });
 
@@ -231,7 +231,7 @@ function updateMemberInfo() {
         age: $('#editMemberAge').val(),
         mainFoot: $('#editMemberMainFoot').val(),
         height: $('#editMemberHeight').val(),
-        id : memberId
+        id: memberId
     };
 
     $.ajax({
@@ -298,7 +298,7 @@ function validateSquadMembers(squadType, selectedMembers) {
 
 function createSquad(squadType, members) {
     $.ajax({
-        url: '/api/squads',
+        url: '/api/squad',
         type: 'POST',
         contentType: 'application/json',
         data: JSON.stringify({
@@ -306,21 +306,70 @@ function createSquad(squadType, members) {
             memberIds: members
         }),
         success: function (response) {
-            alert('스쿼드가 성공적으로 생성되었습니다.');
+            console.log('Response:', response);
+            const responseHtml = `
+                <div class="squad-analysis-container">
+                    <div class="squad-success-message">
+                        <i class="fas fa-check-circle"></i>
+                        <span>스쿼드가 성공적으로 생성되었습니다!</span>
+                    </div>
+                    <div class="gpt-analysis-box">
+                        <div class="gpt-analysis-header">
+                            <i class="fas fa-robot"></i>
+                            <span>AI 분석 결과</span>
+                        </div>
+                        <div class="gpt-analysis-content">
+                            ${response.data ? response.data.replace(/\\n/g, '<br>') : '분석 결과를 불러오는 중...'}
+                        </div>
+                    </div>
+                </div>
+            `;
+
+            // 모달 내용 업데이트 및 표시
+            $('#modalContent').html(responseHtml);
+            $('#gptModal').addClass('show');
         },
         error: function (xhr, status, error) {
-            alert('스쿼드 생성에 실패했습니다.');
+            console.error('Error:', xhr, status, error);
+            $('#modalContent').html(`<div class="error-message">오류가 발생했습니다: ${error}</div>`);
+            $('#gptModal').addClass('show');
         }
     });
-}
+
+    if ($('#gptModal').length === 0) {
+        $('body').append(`
+        <div id="gptModal" class="modal-overlay">
+            <div class="modal-content">
+                <div class="modal-close-btn">
+                    <i class="fas fa-times"></i>
+                </div>
+                <div id="modalContent"></div>
+            </div>
+        </div>
+    `);
+
+        // 모달 닫기 이벤트 등록
+        $('.modal-close-btn').click(function () {
+            $('#gptModal').removeClass('show');
+        });
+
+        // 모달 외부 클릭 시 닫기
+        $('#gptModal').click(function (e) {
+            if (e.target === this) {
+                $(this).removeClass('show');
+            }
+        });
+    }
+
 
 // 전체 선택 체크박스 상태 업데이트
-function updateSelectAllCheckbox() {
-    const totalCheckboxes = $('.member-checkbox:not(#selectAllMembers)').length;
-    const checkedCheckboxes = $('.member-checkbox:not(#selectAllMembers):checked').length;
+    function updateSelectAllCheckbox() {
+        const totalCheckboxes = $('.member-checkbox:not(#selectAllMembers)').length;
+        const checkedCheckboxes = $('.member-checkbox:not(#selectAllMembers):checked').length;
 
-    $('#selectAllMembers').prop({
-        checked: totalCheckboxes === checkedCheckboxes,
-        indeterminate: checkedCheckboxes > 0 && checkedCheckboxes < totalCheckboxes
-    });
+        $('#selectAllMembers').prop({
+            checked: totalCheckboxes === checkedCheckboxes,
+            indeterminate: checkedCheckboxes > 0 && checkedCheckboxes < totalCheckboxes
+        });
+    }
 }

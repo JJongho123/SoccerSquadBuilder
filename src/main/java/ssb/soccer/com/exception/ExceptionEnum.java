@@ -29,7 +29,9 @@ public enum ExceptionEnum {
     TEAM_CREATION_FAILED(HttpStatus.INTERNAL_SERVER_ERROR, "CE0006", "팀 생성 중 오류 발생"),
     TEAM_MEMBERSHIP_CREATION_FAILED(HttpStatus.INTERNAL_SERVER_ERROR, "CE0007", "팀 멤버십 생성 중 오류 발생"),
 
-    REDIS_DATA_CONVERT_FAILED(HttpStatus.INTERNAL_SERVER_ERROR, "CE0008", "Redis 데이터 변환 실패");
+    REDIS_DATA_CONVERT_FAILED(HttpStatus.INTERNAL_SERVER_ERROR, "CE0008", "Redis 데이터 변환 실패"),
+
+    GPT_RESPONSE_FAILED(HttpStatus.INTERNAL_SERVER_ERROR, "CE0009", "GPT Response 실패!");
 
     private final HttpStatus status;
     private final String code;

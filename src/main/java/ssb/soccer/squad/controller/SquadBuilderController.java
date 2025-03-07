@@ -13,21 +13,24 @@ import ssb.soccer.user.model.User;
 import ssb.soccer.user.service.UserService;
 
 import java.io.IOException;
-import java.util.List;
+import java.util.*;
 
 @RestController
 @RequiredArgsConstructor
-@RequestMapping("/api/squads")
+@RequestMapping("/api/squad")
 public class SquadBuilderController {
 
     private final UserService userService;
 
     @PostMapping
-    public ResponseEntity<CommonApiResponse<?>> generateSquad(@RequestBody SquadRequestDto requestDto) throws IOException {
+    public ResponseEntity<CommonApiResponse<String>> generateSquad(@RequestBody SquadRequestDto requestDto) throws IOException {
         GptApiClient gptApiClient = new GptApiClient();
         List<User> userList = userService.getUsersByIds(requestDto.getMemberIds());
 
-        System.out.println(gptApiClient.sendMessage(requestDto.getSquadType(), userList));
-        return null;
+        String gptResponseText = gptApiClient.sendMessage(requestDto.getSquadType(), userList);
+
+        System.out.println(gptResponseText);
+        return ResponseEntity.ok(CommonApiResponse.successResponse(gptResponseText));
+
     }
 }
