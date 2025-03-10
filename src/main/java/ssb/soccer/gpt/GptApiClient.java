@@ -5,6 +5,8 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import okhttp3.*;
 import org.json.JSONArray;
 import org.json.JSONObject;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.stereotype.Service;
 import ssb.soccer.com.constant.CommonConstant;
 import ssb.soccer.com.exception.CustomApiException;
 import ssb.soccer.com.exception.ExceptionEnum;
@@ -12,9 +14,13 @@ import ssb.soccer.user.model.User;
 
 import java.util.*;
 
+@Service
 public class GptApiClient {
 
     private final OkHttpClient client = new OkHttpClient();
+
+    @Value("${gpt.api.key}")
+    private String apiKey;
 
     public String sendMessage(String squadType, List<User> userList) {
 
@@ -44,7 +50,7 @@ public class GptApiClient {
 
         Request request = new Request.Builder()
                 .url(CommonConstant.API_URL)
-                .header("Authorization", "Bearer " + CommonConstant.API_KEY)
+                .header("Authorization", "Bearer " + apiKey)
                 .header("Content-Type", "application/json")
                 .post(RequestBody.create(requestBody.toString(), MediaType.get("application/json")))
                 .build();
