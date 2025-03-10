@@ -21,10 +21,11 @@ import java.util.*;
 public class SquadBuilderController {
 
     private final UserService userService;
+    private final GptApiClient gptApiClient;
 
     @PostMapping
     public ResponseEntity<CommonApiResponse<String>> generateSquad(@RequestBody SquadRequestDto requestDto) throws IOException {
-        GptApiClient gptApiClient = new GptApiClient();
+
         List<User> userList = userService.getUsersByIds(requestDto.getMemberIds());
 
         String gptResponseText = gptApiClient.sendMessage(requestDto.getSquadType(), userList);
