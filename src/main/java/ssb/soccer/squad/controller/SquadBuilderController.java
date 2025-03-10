@@ -27,10 +27,7 @@ public class SquadBuilderController {
     public ResponseEntity<CommonApiResponse<String>> generateSquad(@RequestBody SquadRequestDto requestDto) throws IOException {
 
         List<User> userList = userService.getUsersByIds(requestDto.getMemberIds());
-
         String gptResponseText = gptApiClient.sendMessage(requestDto.getSquadType(), userList);
-
-        System.out.println(gptResponseText);
         return ResponseEntity.ok(CommonApiResponse.successResponse(gptResponseText));
 
     }

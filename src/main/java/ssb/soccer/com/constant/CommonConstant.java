@@ -2,6 +2,8 @@ package ssb.soccer.com.constant;
 
 public class CommonConstant {
 
+    public final static String SHA_256 = "SHA-256";
+
     // session, cookie 만료 시간 (초)
     public final static int EXPIRY_DURATION_SECONDS = 3600;
 

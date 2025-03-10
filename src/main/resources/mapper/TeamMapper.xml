@@ -8,17 +8,26 @@
     </insert>
 
     <select id="getTeamList" resultType="TeamDetailDto">
-        select
+        SELECT
             t.id,
             t.team_name,
             t.team_member_max_count,
             t.team_level,
             t.team_activity_area,
-            u.user_id
-        from team t
-        left join team_membership tm on t.id = tm.team_id
-        left join user u on tm.user_fk = u.id
-        where tm.role = '팀장';
+            u.user_id,
+            team_member_counts.team_member_count
+        FROM team t
+                 LEFT JOIN (
+
+            SELECT
+                team_id,
+                COUNT(*) AS team_member_count
+            FROM team_membership
+            GROUP BY team_id
+        ) AS team_member_counts ON t.id = team_member_counts.team_id
+                 LEFT JOIN team_membership tm ON t.id = tm.team_id
+                 LEFT JOIN user u ON tm.user_fk = u.id
+        WHERE tm.role = '팀장';
     </select>
 
     <select id="getTeamDetail" resultType="TeamDetailDto" parameterType="Integer">
