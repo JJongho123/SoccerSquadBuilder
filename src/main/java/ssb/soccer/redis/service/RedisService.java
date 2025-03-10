@@ -2,7 +2,6 @@ package ssb.soccer.redis.service;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import lombok.RequiredArgsConstructor;
 import org.springframework.data.redis.core.HashOperations;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.data.redis.core.ValueOperations;
@@ -18,12 +17,16 @@ import java.util.Map;
 import java.util.concurrent.TimeUnit;
 
 @Service
-@RequiredArgsConstructor
 public class RedisService {
-
     private final RedisTemplate<String, Object> redisTemplate;
     private final HashOperations<String, String, Object> hashOperations;
     private final ObjectMapper objectMapper;
+
+    public RedisService(RedisTemplate<String, Object> redisTemplate, ObjectMapper objectMapper) {
+        this.redisTemplate = redisTemplate;
+        this.hashOperations = redisTemplate.opsForHash();
+        this.objectMapper = objectMapper;
+    }
 
     /**
      * Redis 데이터 저장

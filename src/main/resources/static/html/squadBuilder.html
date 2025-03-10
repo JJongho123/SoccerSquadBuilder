@@ -1,97 +1,101 @@
 <!DOCTYPE html>
 <html lang="ko">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Squad Builder</title>
-  <link rel="stylesheet" href="../css/squadBuilder.css" />
-  <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Squad Builder</title>
+    <link rel="stylesheet" href="../css/squadBuilder.css"/>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 </head>
 <body>
+
 <!-- 네비게이션 바 -->
 <nav class="main-nav">
-  <div class="nav-left">
-    <h1 class="logo">Squad Builder</h1>
-  </div>
-  <div class="nav-right">
-    <button class="create-team-btn">팀 생성</button>
-    <div class="user-menu">
-      <a href="/team-manage">내 팀 관리</a>
-      <a href="/profile">프로필</a>
-      <a style="cursor: pointer" id="logout">로그아웃</a>
+    <div class="nav-left">
+        <h1 class="logo">
+            <a href="/squadBuilder">Squad Builder</a>
+        </h1>
     </div>
-  </div>
+    <div class="nav-right">
+        <button class="create-team-btn">팀 생성</button>
+        <div class="user-menu">
+            <a href="/team-manage">내 팀 관리</a>
+            <a href="/profile">프로필</a>
+            <a style="cursor: pointer" id="logout">로그아웃</a>
+        </div>
+    </div>
 </nav>
 
 <!-- 메인 컨텐츠 영역 -->
 <main>
-  <div class="team-management">
-    <div class="team-header">
-      <h2>팀 목록</h2>
-      <!--<button class="create-team-btn">새 팀 만들기 +</button>-->
-    </div>
-
-    <div class="team-list">
-      <!-- 팀 카드 예시 -->
-      <div class="team-card">
-        <div class="team-info">
-          <h3>팀 이름</h3>
-          <p>포메이션: 4-3-3</p>
-          <p>생성일: 2024.03.21</p>
+    <div class="team-management">
+        <div class="team-header">
+            <h2>팀 목록</h2>
+            <!--<button class="create-team-btn">새 팀 만들기 +</button>-->
         </div>
-        <div class="team-actions">
-          <button class="edit-btn">수정</button>
-          <button class="delete-btn">삭제</button>
-        </div>
-      </div>
 
-      <!-- 새 팀 추가 카드 -->
-      <div class="add-team-card">
-        <button class="add-team-btn">
-          <i class="plus-icon"></i>
-          <span>새 팀 만들기</span>
-        </button>
-      </div>
+        <div class="team-list">
+            <!-- 팀 카드 예시 -->
+            <div class="team-card">
+                <div class="team-info">
+                    <h3>팀 이름</h3>
+                    <p>포메이션: 4-3-3</p>
+                    <p>생성일: 2024.03.21</p>
+                </div>
+                <div class="team-actions">
+                    <button class="edit-btn">수정</button>
+                    <button class="delete-btn">삭제</button>
+                </div>
+            </div>
+
+            <!-- 새 팀 추가 카드 -->
+            <div class="add-team-card">
+                <button class="add-team-btn">
+                    <i class="plus-icon"></i>
+                    <span>새 팀 만들기</span>
+                </button>
+            </div>
+        </div>
     </div>
-  </div>
 </main>
 
 <!-- 레이어 팝업 -->
 <div id="teamPopup" class="popup-overlay">
-  <div class="popup-content">
-    <h2>새 팀 생성</h2>
-    <form id="teamCreateForm">
-      <div class="form-group">
-        <label for="teamName">팀명</label>
-        <input type="text" id="teamName" name="teamName" required>
-      </div>
+    <div class="popup-content">
+        <h2>새 팀 생성</h2>
+        <form id="teamCreateForm">
+            <div class="form-group">
+                <label for="teamName">팀명</label>
+                <input type="text" id="teamName" name="teamName" required>
+            </div>
 
-      <div class="form-group">
-        <label for="teamMemberMaxCount">팀 최대 인원</label>
-        <input type="number" id="teamMemberMaxCount" name="teamMemberMaxCount" min="1" max="100" required>
-      </div>
+            <div class="form-group">
+                <label for="teamMemberMaxCount">팀 최대 인원</label>
+                <input type="number" id="teamMemberMaxCount" name="teamMemberMaxCount" min="1" max="100" required>
+            </div>
 
-      <div class="form-group">
-        <label for="teamLevel">팀 실력</label>
-        <select id="teamLevel" name="teamLevel" required>
-          <option value="">선택해주세요</option>
-          <option value="beginner">입문</option>
-          <option value="intermediate">중급</option>
-          <option value="advanced">상급</option>
-        </select>
-      </div>
+            <div class="form-group">
+                <label for="teamLevel">팀 실력</label>
+                <select id="teamLevel" name="teamLevel" required>
+                    <option value="">선택해주세요</option>
+                    <option value="beginner">입문</option>
+                    <option value="intermediate">중급</option>
+                    <option value="advanced">상급</option>
+                </select>
+            </div>
 
-      <div class="form-group">
-        <label for="teamActivityArea">활동 지역</label>
-        <input type="text" id="teamActivityArea" name="teamActivityArea" required>
-      </div>
+            <div class="form-group">
+                <label for="teamActivityArea">활동 지역</label>
+                <input type="text" id="teamActivityArea" name="teamActivityArea" required>
+            </div>
 
-      <div class="button-group">
-        <button type="submit" id="createTeamBtn">생성하기</button>
-        <button type="button">취소</button>
-      </div>
-    </form>
-  </div>
+            <div class="button-group">
+                <button type="submit" id="createTeamBtn">생성하기</button>
+                <button type="button">취소</button>
+            </div>
+        </form>
+    </div>
 </div>
 
 <script type="module" src="../js/squadBuilder.js"></script>
