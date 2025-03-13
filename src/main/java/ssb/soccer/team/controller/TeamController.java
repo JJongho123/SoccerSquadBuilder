@@ -50,7 +50,7 @@ public class TeamController {
     @ApiResponses({
             @ApiResponse(responseCode = "200", description = "성공")
     })
-    @GetMapping(value="{teamId}")
+    @GetMapping(value="/{teamId}")
     public ResponseEntity<CommonApiResponse<TeamListDto>> getTeamDetail(@PathVariable int teamId){
         return ResponseEntity.ok(CommonApiResponse.successResponse(teamService.getTeamDetail(teamId)));
     }

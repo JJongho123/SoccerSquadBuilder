@@ -143,7 +143,7 @@ function loadTeams() {
                         <h3>${team.teamName}</h3>
                         <p>활동지역: ${team.teamActivityArea}</p>
                         <p>팀 실력: ${team.teamLevel}</p>
-                        <p>인원: ${team.teamMemberMaxCount}</p>
+                        <p>인원: ${team.teamMemberCount}/${team.teamMemberMaxCount}</p>
                         <p>팀장: ${team.userId}</p>
                         <button data-team-id="${team.id}" class="join-team-btn">가입</button>
                     </div>

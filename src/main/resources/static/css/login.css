@@ -60,3 +60,18 @@ body {
 .login-btn:hover {
     background-color: #246b43;
 }
+
+.register-btn {
+    background-color: #dc3545;
+    color: white;
+    padding: 12px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 16px;
+    transition: background-color 0.3s;
+}
+
+.register-btn:hover {
+    background-color: #8B0000;
+}

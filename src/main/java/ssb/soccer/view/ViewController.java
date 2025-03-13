@@ -26,32 +26,13 @@ public class ViewController {
     }
 
     @GetMapping("/team-manage")
-    public ModelAndView showTeamPage() {
+    public ModelAndView showTeamManagePage() {
         return new ModelAndView("forward:/html/team-manage.html");
     }
 
-
-
-
-
-
-
-
-
-
-
-    @GetMapping("/error400")
-    public ModelAndView show400ErrorPage() {
-        return new ModelAndView("forward:/error/error400.html");
+    @GetMapping("/team-history")
+    public ModelAndView showTeamHistoryPage() {
+        return new ModelAndView("forward:/html/team-history.html");
     }
 
-    @GetMapping("/error404")
-    public ModelAndView show404ErrorPage() {
-        return new ModelAndView("forward:/error/error404.html");
-    }
-
-    @GetMapping("/error500")
-    public ModelAndView show500ErrorPage() {
-        return new ModelAndView("forward:/error/error500.html");
-    }
 }

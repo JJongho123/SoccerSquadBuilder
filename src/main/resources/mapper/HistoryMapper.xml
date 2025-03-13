@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="ssb.soccer.history.mapper.HistoryMapper">
+
+    <insert id="createHistory" parameterType="HistoryRequestDto">
+        INSERT INTO history (gpt_response_text, team_id, title, squad_type)
+        VALUES (#{gptResponseText}, #{teamId}, #{title}, #{squadType})
+
+    </insert>
+
+    <select id="selectHistoryList" parameterType="int" resultType="History">
+        SELECT * FROM history
+        WHERE team_id = #{teamId}
+    </select>
+
+</mapper>

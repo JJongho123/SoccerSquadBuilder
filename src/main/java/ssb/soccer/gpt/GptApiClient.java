@@ -22,6 +22,9 @@ public class GptApiClient {
     @Value("${gpt.api.key}")
     private String apiKey;
 
+    public GptApiClient() {
+    }
+
     public String sendMessage(String squadType, List<User> userList) {
 
         String text = null;
@@ -67,7 +70,7 @@ public class GptApiClient {
                 text = message.get("content").toString();
             }
         } catch (Exception e) {
-            throw new CustomApiException(ExceptionEnum.GPT_RESPONSE_FAILED, e);
+            throw new CustomApiException(ExceptionEnum.GPT_RESPONSE_FAILED, e.getMessage());
         }
         return text;
 
