@@ -26,8 +26,13 @@ public class ViewController {
     }
 
     @GetMapping("/team-manage")
-    public ModelAndView showTeamPage() {
+    public ModelAndView showTeamManagePage() {
         return new ModelAndView("forward:/html/team-manage.html");
+    }
+
+    @GetMapping("/team-history")
+    public ModelAndView showTeamHistoryPage() {
+        return new ModelAndView("forward:/html/team-history.html");
     }
 
 }

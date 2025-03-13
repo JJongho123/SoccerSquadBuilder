@@ -322,12 +322,43 @@ function createSquad(squadType, members) {
                             ${response.data ? response.data.replace(/\\n/g, '<br>') : '분석 결과를 불러오는 중...'}
                         </div>
                     </div>
+                    <input type="text" id="squadTitle" class="squad-title-input" placeholder="스쿼드 제목을 입력하세요" maxlength="50">
+                    <button class='create-team-btn' id='createHistoryBtn'>스쿼드 저장</button>
                 </div>
             `;
 
             // 모달 내용 업데이트 및 표시
             $('#modalContent').html(responseHtml);
             $('#gptModal').addClass('show');
+
+            $("#createHistoryBtn").on("click", function () {
+                const params = {
+                    gptResponseText: $(".gpt-analysis-content").text(),
+                    teamId: teamId,
+                    title: $("#squadTitle").val(),
+                    squadType: $('#squadType').val()
+                }
+                $.ajax({
+                    url: '/api/history',
+                    type: 'POST',
+                    contentType: 'application/json',
+                    data: JSON.stringify(params),
+                    success: function (response) {
+                        if(response.data){
+                            alert("스쿼드 저장성공")
+                        }else {
+                            alert("스쿼드 저장실패")
+                        }
+
+                        $('.modal-close-btn').trigger("click")
+                    },
+                    error: function (xhr, status, error) {
+                        alert("스쿼드 저장실패")
+                    }
+
+                });
+
+            })
         },
         error: function (xhr, status, error) {
             console.error('Error:', xhr, status, error);
@@ -361,15 +392,15 @@ function createSquad(squadType, members) {
         });
     }
 
+}
 
 // 전체 선택 체크박스 상태 업데이트
-    function updateSelectAllCheckbox() {
-        const totalCheckboxes = $('.member-checkbox:not(#selectAllMembers)').length;
-        const checkedCheckboxes = $('.member-checkbox:not(#selectAllMembers):checked').length;
+function updateSelectAllCheckbox() {
+    const totalCheckboxes = $('.member-checkbox:not(#selectAllMembers)').length;
+    const checkedCheckboxes = $('.member-checkbox:not(#selectAllMembers):checked').length;
 
-        $('#selectAllMembers').prop({
-            checked: totalCheckboxes === checkedCheckboxes,
-            indeterminate: checkedCheckboxes > 0 && checkedCheckboxes < totalCheckboxes
-        });
-    }
+    $('#selectAllMembers').prop({
+        checked: totalCheckboxes === checkedCheckboxes,
+        indeterminate: checkedCheckboxes > 0 && checkedCheckboxes < totalCheckboxes
+    });
 }

@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>이전 팀 로그 - Squad Builder</title>
+
+    <!-- 공통 리소스 -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@400;500;700&display=swap" rel="stylesheet">
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+
+    <link rel="stylesheet" href="../css/squadBuilder.css" />
+    <link rel="stylesheet" href="../css/team-history.css" />
+
+</head>
+<body>
+
+<script type="module" src="../js/team-history.js"></script>
+
+<div class="team-history-container">
+    <div class="page-header">
+        <h1>이전 팀 로그</h1>
+        <p class="page-description">내가 만든 모든 스쿼드의 기록을 확인할 수 있습니다.</p>
+    </div>
+
+    <div class="search-filter-section">
+        <div class="filter-options">
+            <select id="formationFilter" class="filter-select">
+                <option value="">스쿼드 유형</option>
+                <option value="5:5">5:5</option>
+                <option value="6:6">6:6</option>
+                <option value="9:9">9:9</option>
+                <option value="11:11">11:11</option>
+            </select>
+        </div>
+    </div>
+
+    <div class="teams-section">
+        <div class="teams-header">
+            <div class="teams-count">
+                총 <span id="teamCount">0</span>개의 스쿼드
+            </div>
+            <div class="sort-options">
+                <!--<button class="sort-btn active" data-sort="date">
+                    <i class="fas fa-clock"></i> 최신순
+                </button>
+                <button class="sort-btn" data-sort="name">
+                    <i class="fas fa-font"></i> 이름순
+                </button>-->
+            </div>
+        </div>
+
+        <div id="teamList" class="team-grid"></div>
+
+        <div id="loadingIndicator" class="loading" style="display: none;">
+            <div class="loading-spinner">
+                <i class="fas fa-futbol fa-spin"></i>
+            </div>
+            <span>스쿼드를 불러오는 중...</span>
+        </div>
+    </div>
+
+    <div id="noResults" class="no-results" style="display: none;">
+        <i class="fas fa-search"></i>
+        <p>검색 결과가 없습니다.</p>
+        <button id="clearSearch" class="clear-search-btn">검색 초기화</button>
+    </div>
+</div>
+</body>
+</html>
