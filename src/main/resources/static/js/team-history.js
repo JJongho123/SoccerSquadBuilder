@@ -173,7 +173,7 @@ function gptModal(gptResponseText){
                 <div class="squad-analysis-container">
                     <div class="squad-success-message">
                         <i class="fas fa-check-circle"></i>
-                        <span>스쿼드가 성공적으로 생성되었습니다!</span>
+                        <span>스쿼드 데이터</span>
                     </div>
                     <div class="gpt-analysis-box">
                         <div class="gpt-analysis-header">

@@ -79,23 +79,28 @@ public class GptApiClient {
     // GPT 요청 prompt 메시지
     private StringBuilder generatePrompt(String squadType, JSONArray playerArray){
 
+        Integer squadMemberSize = Integer.valueOf(squadType.split(":")[0]);
+
         StringBuilder prompt = new StringBuilder();
         prompt.append("다음 선수들을 균형 잡힌 팀으로 나눠줘. ")
                 .append("팀은 '1팀'과 '2팀'으로 나누고, ")
-                .append("경기 방식(예: 5:5)에 맞춰 각 팀의 선수가 동일하도록 조정하되, ")
-                .append("남는 선수는 벤치(후보)로 배치해줘.\n\n")
+                .append(String.format("경기 방식(%s)에 맞춰 각 팀의 선수를 **정확하게 배정**해야 해. ", squadType))
+                .append("**팀별 선수 수를 반드시 경기 방식에 맞게 동일하게 유지해야 해.**\n\n")
+
+                .append(String.format("현재 경기 방식은 %s 이므로, 각 팀의 선수를 %d명씩 배정해야 해. ", squadType, squadMemberSize))
+                .append("남는 선수는 후보 명단으로 배치해줘.\n\n")
 
                 .append("경기 방식: ").append(squadType).append("\n\n")
 
-                .append("경기 방식에 맞게 팀을 균형있게 나눠줘.\n\n")
+                .append("경기 방식에 맞게 팀을 균형 있게 나눠줘.\n\n")
 
                 .append("**팀 균형 조건:**\n")
-                .append("- 각 팀은 **FW(공격수), MF(미드필더), DF(수비수)가 균형 있게 포함**되어야 함\n")
-                .append("- 키(Height), 체력(Stamina), 나이(Age) 등 **각 팀의 평균 능력치가 비슷하도록 배치**\n")
-                .append("- 오른발잡이(R), 왼발잡이(L), 양발잡이(B)의 **비율도 팀 간 균형을 맞춰 배치**\n")
-                .append("- 특정 팀에 체력이 높은 선수만 몰리거나, 나이 많은 선수만 몰리지 않도록 조정\n")
-                .append("- 특정 팀에 FW(공격수)나 DF(수비수)가 너무 몰리지 않도록 조정\n")
-                .append("- 경기 방식에 따라 각 팀의 선수 수를 동일하게 맞추되, 남는 선수는 후보로 분류해줘.\n")
+                .append("- 각 팀은 **FW(공격수), MF(미드필더), DF(수비수)가 균형 있게 포함**되어야 함.\n")
+                .append("- 키(Height), 체력(Stamina), 나이(Age) 등 **각 팀의 평균 능력치가 비슷하도록 배치**.\n")
+                .append("- 오른발잡이(R), 왼발잡이(L), 양발잡이(B)의 **비율도 팀 간 균형을 맞춰 배치**.\n")
+                .append("- 특정 팀에 체력이 높은 선수만 몰리거나, 나이 많은 선수만 몰리지 않도록 조정.\n")
+                .append("- 특정 팀에 FW(공격수)나 DF(수비수)가 너무 몰리지 않도록 조정.\n")
+                .append("- **각 팀의 선수 수는 반드시 ").append(squadMemberSize).append("명씩 나눠져야해.**\n")
                 .append("- 후보 명단도 팀 균형을 고려하여 배치할 수 있도록 구성해줘.\n\n")
 
                 .append("**선수 목록:**\n").append(playerArray.toString()).append("\n\n")
@@ -115,5 +120,6 @@ public class GptApiClient {
                 .append("1. 선수이름 (포지션: XX)\n");
 
         return prompt;
+
     }
 }
