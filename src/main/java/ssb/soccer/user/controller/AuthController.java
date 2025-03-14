@@ -32,9 +32,9 @@ public class AuthController {
             @ApiResponse(responseCode = "200", description = "성공")
     })
     @PostMapping("/login")
-    public ResponseEntity<CommonApiResponse<Boolean>> login(@RequestBody LoginRequestDto loginDto, HttpServletResponse response) throws JsonProcessingException {
+    public ResponseEntity<CommonApiResponse<Boolean>> login(@RequestBody LoginRequestDto loginDto, HttpServletRequest request, HttpServletResponse response) throws JsonProcessingException {
 
-        Cookie sessionCookie = authService.login(loginDto);
+        Cookie sessionCookie = authService.login(loginDto, request);
         boolean isSuccess = (sessionCookie != null);
 
         if (isSuccess) {

@@ -20,6 +20,7 @@ import java.time.Duration;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Optional;
 
 /**
  * 사용자 관련 비즈니스 로직을 처리하는 서비스 클래스.
@@ -93,22 +94,42 @@ public class UserService {
 
     /**
      * 현재 세션을 기반으로 사용자 정보를 조회한다. (Look-aside 캐싱 적용)
-     * - Redis에서 사용자 정보를 먼저 조회(Cache Hit).
-     * - 캐시에 없으면(Cache Miss), DB에서 조회한 후 Redis에 저장.
+     *
+     * 캐시 조회 및 데이터 로딩 순서
+     *     Redis에서 사용자 정보를 조회 (Cache Hit 시 바로 반환).
+     *     캐시에 없으면 (Cache Miss), DB에서 조회 후 Redis에 저장.
      *
      * @param request HTTP 요청 객체 (쿠키에서 세션 ID 추출)
-     * @return 현재 로그인된 사용자 정보 (세션 기반)
+     * @param userId  사용자의 고유 ID (세션 ID가 없을 경우 대체 값으로 사용)
+     * @return 현재 로그인된 사용자 정보 (세션 기반). 존재하지 않으면 null 반환.
      * @throws JsonProcessingException JSON 변환 오류 발생 시 예외 발생
      */
-    public UserWithTeamDTO getUserInfo(HttpServletRequest request) throws JsonProcessingException {
-        String sessionId = CookieUtil.getCookieSessionId(request);
+    public UserWithTeamDTO getUserInfo(HttpServletRequest request, String userId) throws JsonProcessingException {
+
+        String sessionId = Optional.ofNullable(CookieUtil.getCookieSessionId(request)).orElse(userId);
+
+        // Redis에서 사용자 정보 조회
         UserWithTeamDTO user = redisService.getHashOpsAsObject(CommonConstant.USER_KEY, sessionId, UserWithTeamDTO.class);
-        if  (user == null) {
-            user = userMapper.findUserWithTeam(sessionId);
+
+        // Redis에 없으면 DB에서 가져오고 Redis에 저장
+        return (user != null) ? user : fetchUserFromDBAndCache(sessionId);
+    }
+
+    /**
+     * 사용자 정보를 DB에서 조회한 후 Redis에 캐싱한다.
+     *
+     * @param sessionId 조회할 사용자 정보의 키 값 (세션 ID 또는 사용자 ID)
+     * @return 조회된 사용자 정보. 존재하지 않으면 null 반환.
+     * @throws JsonProcessingException JSON 변환 오류 발생 시 예외 발생
+     */
+    private UserWithTeamDTO fetchUserFromDBAndCache(String sessionId) throws JsonProcessingException {
+        UserWithTeamDTO user = userMapper.findUserWithTeam(sessionId);
+        if (user != null) {
             redisService.storeUserInRedis(sessionId, user);
         }
         return user;
     }
+
 
     /**
      * 사용자 ID를 이용하여 사용자를 조회한다.

@@ -9,4 +9,6 @@ public interface HistoryMapper {
     void createHistory(HistoryRequestDto historyRequestDto);
 
     List<History> selectHistoryList(int teamId);
+
+    History selectHistoryDetail(int historyId);
 }

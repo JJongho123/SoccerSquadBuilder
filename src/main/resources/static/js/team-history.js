@@ -25,12 +25,12 @@ function fetchTeamHistory(reset = false) {
     $('#loadingIndicator').show();
 
     $.ajax({
-        url: `/api/history/${teamId}`,
+        url: `/api/history/list/${teamId}`,
         method: 'GET',
         success: function(response) {
             $('#loadingIndicator').hide();
 
-            if (response.teams.length === 0) {
+            if (response.data.length === 0) {
                 hasMore = false;
                 if (page === 1) {
                     if (searchTerm || filters.formation || filters.date) {
@@ -146,8 +146,76 @@ $(document).ready(async function () {
 
     // 팀 아이템 클릭 이벤트
     $(document).on('click', '.team-item', function () {
-        const teamId = $(this).data('team-id');
-        showTeamDetail(teamId);
+        const historyId = $(this).data('team-id');
+        showTeamDetail(historyId);
     });
 });
+
+
+function showTeamDetail(historyId) {
+    $.ajax({
+        url: `/api/history/${historyId}`,
+        method: 'GET',
+        success: function(response) {
+            console.log(response.data)
+            gptModal(response.data.gptResponseText)
+        },
+        error: function(error) {
+            console.error('Error fetching team history:', error);
+            $('#loadingIndicator').hide();
+            loading = false;
+        }
+    });
+}
+
+function gptModal(gptResponseText){
+    const responseHtml = `
+                <div class="squad-analysis-container">
+                    <div class="squad-success-message">
+                        <i class="fas fa-check-circle"></i>
+                        <span>스쿼드가 성공적으로 생성되었습니다!</span>
+                    </div>
+                    <div class="gpt-analysis-box">
+                        <div class="gpt-analysis-header">
+                            <i class="fas fa-robot"></i>
+                            <span>AI 분석 결과</span>
+                        </div>
+                        <div class="gpt-analysis-content">
+                            ${gptResponseText? gptResponseText.replace(/\\n/g, '<br>') : '분석 결과를 불러오는 중...'}
+                        </div>
+                    </div>
+                </div>
+            `;
+
+    if ($('#gptModal').length === 0) {
+        $('body').append(`
+        <div id="gptModal" class="modal-overlay">
+            <div class="modal-content">
+                <div class="modal-close-btn">
+                    <i class="fas fa-times"></i>
+                </div>
+                <div id="modalContent"></div>
+            </div>
+        </div>
+    `);
+
+    // 모달 내용 업데이트 및 표시
+    $('#modalContent').html(responseHtml);
+    $('#gptModal').addClass('show');
+
+
+
+        // 모달 닫기 이벤트 등록
+        $('.modal-close-btn').click(function () {
+            $('#gptModal').remove();
+        });
+
+        // 모달 외부 클릭 시 닫기
+        $('#gptModal').click(function (e) {
+            if (e.target === this) {
+                $(this).remove();
+            }
+        });
+    }
+}
 

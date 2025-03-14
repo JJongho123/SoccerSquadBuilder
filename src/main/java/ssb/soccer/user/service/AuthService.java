@@ -3,6 +3,7 @@ package ssb.soccer.user.service;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import jakarta.servlet.http.Cookie;
+import jakarta.servlet.http.HttpServletRequest;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import ssb.soccer.com.constant.CommonConstant;
@@ -39,19 +40,15 @@ public class AuthService {
      * @throws JsonProcessingException JSON 변환 중 오류 발생 시 예외 발생
      * @throws CustomApiException 사용자가 존재하지 않거나 인증 실패 시 예외 발생
      */
-    public Cookie login(LoginRequestDto loginDto) throws JsonProcessingException {
+    public Cookie login(LoginRequestDto loginDto, HttpServletRequest request) throws JsonProcessingException {
 
         String userId = loginDto.getUserId();
         String inputPwd = loginDto.getPasswd();
 
-        UserWithTeamDTO user = userService.findUserWithTeam(userId);
+        UserWithTeamDTO user = userService.getUserInfo(request, userId);
         if (user != null) {
             boolean isAuthenticated = encryptionService.verifyPassword(inputPwd, user.getPasswd(), user.getSalt());
             if (isAuthenticated) {
-
-                // Redis에 사용자 정보 저장
-                redisService.storeUserInRedis(userId, user);
-
                 // 로그인 성공 시 세션 쿠키 생성
                 return CookieUtil.createSessionCookie(userId);
             }

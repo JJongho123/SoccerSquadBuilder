@@ -196,9 +196,8 @@ public class RedisService {
         ObjectMapper objectMapper = new ObjectMapper();
         HashMap<String, Object> data = new HashMap<>();
 
-        // 비밀번호 및 Salt 정보 제거
-        user.setSalt(null);
-        user.setPasswd(null);
+        // 비밀번호 정보 제거
+//        user.setPasswd(null);
 
         // JSON 직렬화 후 Redis 저장
         data.put(sessionId, objectMapper.writeValueAsString(user));

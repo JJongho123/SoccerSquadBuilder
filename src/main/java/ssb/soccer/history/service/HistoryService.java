@@ -5,7 +5,6 @@ import org.springframework.stereotype.Service;
 import ssb.soccer.history.dto.HistoryRequestDto;
 import ssb.soccer.history.mapper.HistoryMapper;
 import ssb.soccer.history.model.History;
-import ssb.soccer.passwdPolicy.mapper.PasswdPolicyMapper;
 
 import java.util.Date;
 import java.util.List;
@@ -29,5 +28,9 @@ public class HistoryService {
 
     public List<History> selectHistoryList(int teamId) {
         return historyMapper.selectHistoryList(teamId);
+    }
+
+    public History selectHistoryDetail(int historyId) {
+        return historyMapper.selectHistoryDetail(historyId);
     }
 }

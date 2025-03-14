@@ -3,14 +3,18 @@
 <mapper namespace="ssb.soccer.history.mapper.HistoryMapper">
 
     <insert id="createHistory" parameterType="HistoryRequestDto">
-        INSERT INTO history (gpt_response_text, team_id, title, squad_type)
-        VALUES (#{gptResponseText}, #{teamId}, #{title}, #{squadType})
-
+        INSERT INTO history (gpt_response_text, team_id, title, squad_type, created_at)
+        VALUES (#{gptResponseText}, #{teamId}, #{title}, #{squadType}, #{createdAt})
     </insert>
 
     <select id="selectHistoryList" parameterType="int" resultType="History">
         SELECT * FROM history
         WHERE team_id = #{teamId}
+    </select>
+
+    <select id="selectHistoryDetail" parameterType="int" resultType="History">
+        SELECT * FROM history
+        WHERE id = #{historyId}
     </select>
 
 </mapper>

@@ -22,9 +22,14 @@ public class HistoryController {
         return ResponseEntity.ok(CommonApiResponse.successResponse(historyService.createHistory(historyRequestDto)));
     }
 
-    @GetMapping("/{teamId}")  // URL에서 teamId 받기
+    @GetMapping("/list/{teamId}")  // URL에서 teamId 받기
     public ResponseEntity<CommonApiResponse<List<History>>> selectHistoryList(@PathVariable int teamId) {
         return ResponseEntity.ok(CommonApiResponse.successResponse(historyService.selectHistoryList(teamId)));
+    }
+
+    @GetMapping("/{historyId}")
+    public ResponseEntity<CommonApiResponse<History>> selectHistoryDetail(@PathVariable int historyId) {
+        return ResponseEntity.ok(CommonApiResponse.successResponse(historyService.selectHistoryDetail(historyId)));
     }
 
 }

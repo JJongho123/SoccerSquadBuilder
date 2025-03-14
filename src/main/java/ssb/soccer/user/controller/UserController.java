@@ -61,7 +61,7 @@ public class UserController {
     })
     @GetMapping("/info")
     public ResponseEntity<CommonApiResponse<UserWithTeamDTO>> getUserInfo(HttpServletRequest request) throws JsonProcessingException {
-        UserWithTeamDTO responseDto = userService.getUserInfo(request);
+        UserWithTeamDTO responseDto = userService.getUserInfo(request, null);
         return ResponseEntity.ok(CommonApiResponse.successResponse(responseDto));
     }
 

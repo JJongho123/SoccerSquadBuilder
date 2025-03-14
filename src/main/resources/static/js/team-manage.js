@@ -333,7 +333,7 @@ function createSquad(squadType, members) {
 
             $("#createHistoryBtn").on("click", function () {
                 const params = {
-                    gptResponseText: $(".gpt-analysis-content").text(),
+                    gptResponseText: response.data,
                     teamId: teamId,
                     title: $("#squadTitle").val(),
                     squadType: $('#squadType').val()
