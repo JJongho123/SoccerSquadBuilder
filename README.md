@@ -1,5 +1,3 @@
-# Soccer Squad Builder
-Soccer Squad Builder는 아마추어 축구팀을 구성하는 데 도움을 주는 서비스입니다. 플레이어의 능력치와 포지션을 고려하여 팀을 자동으로 균형 있게 구성합니다.
 
 ⚽ Soccer Squad Builder
 
